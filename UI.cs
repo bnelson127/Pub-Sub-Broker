@@ -2,9 +2,9 @@ using System;
 
 namespace Paycom_Seminar_2020
 {
-    class UI
+    static class UI
     {
-        public int getMenuResponse(String[] options)
+        public static int getMenuResponse(String[] options)
         {
             Console.WriteLine("Please enter the number of the selection you would like to make.");
             int response = getOptionsResponse(options);
@@ -14,7 +14,7 @@ namespace Paycom_Seminar_2020
             
         }
 
-        public int getMenuResponseWithBackOption(String[] options)
+        public static int getMenuResponseWithBackOption(String[] options)
         {
             String[] newOptions = new String[options.Length+1];
             for (int i = 0; i<options.Length; i++)
@@ -25,7 +25,7 @@ namespace Paycom_Seminar_2020
             return getMenuResponse(newOptions);
         }
 
-        public String askQuestionFreeResponse(String question)
+        public static String askQuestionFreeResponse(String question)
         {
             String response = null;
             Console.WriteLine(question);
@@ -34,14 +34,14 @@ namespace Paycom_Seminar_2020
             return response;
         }
 
-        public int askQuestionMultipleChoice(String question, String[] choices)
+        public static int askQuestionMultipleChoice(String question, String[] choices)
         {
-            Console.Write(question);
+            Console.WriteLine(question);
             int response = getOptionsResponse(choices);
             return response;
         }
 
-        private int getOptionsResponse(String[] options)
+        private static int getOptionsResponse(String[] options)
         {
             for (int i = 0; i<options.Length; i++)
             {

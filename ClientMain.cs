@@ -7,10 +7,9 @@ namespace Paycom_Seminar_2020
     {
         static void Main(string[] args)
         {
-            UI ui = new UI();
             String[] options = {"Publisher", "Subscriber"};
-            String username = ui.askQuestionFreeResponse("What is your username?");
-            int pubOrSub = ui.askQuestionMultipleChoice( "Are you a publisher or subscriber?", options);
+            String username = UI.askQuestionFreeResponse("What is your username?");
+            int pubOrSub = UI.askQuestionMultipleChoice( "Are you a publisher or subscriber?", options);
         }
     }
 }
