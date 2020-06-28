@@ -4,6 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>Paycom_Seminar_2020</RootNamespace>
+	<StartupObject>Paycom_Seminar_2020.ClientMain</StartupObject>
   </PropertyGroup>
 
 </Project>
