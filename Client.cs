@@ -2,8 +2,13 @@ using System;
 
 namespace Paycom_Seminar_2020
 {
-    class Subscriber
+    class Client
     {
+        private String _username { get; }
+        public Client(String username)
+        {
+            _username = username;
+        }
         public String[] requestAvailableTopics()
         {
             return null;
@@ -22,6 +27,21 @@ namespace Paycom_Seminar_2020
         public void unsubscribeFromTopic()
         {
 
+        }
+
+        public void createTopic()
+        {
+
+        }
+
+        public void deleteTopic()
+        {
+
+        }
+
+        public void sendMessage()
+        {
+            
         }
     }
 

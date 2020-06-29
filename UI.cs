@@ -66,7 +66,7 @@ namespace Paycom_Seminar_2020
                 }
                 catch (Exception e)
                 {
-                    Console.Write("Oops, that's not an option! ");
+                    Console.WriteLine("Oops, that's not an option! Try again!");
                 }
             }
             
