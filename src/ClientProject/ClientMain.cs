@@ -7,11 +7,11 @@ namespace Paycom_Seminar_2020
     {
         static void Main(string[] args)
         {
-            String[] options = {"Publisher", "Subscriber"};
             String username = UI.askQuestionFreeResponse("What is your username?");
-            int pubOrSub = UI.askQuestionMultipleChoice( "Do you want to publish or subscribe?", options);
 
             Client client = new Client(username);
+            String[] options = new String[] {"View Subscrptions", "Topic Settings", "Subscription Settings", "Quit"};
+            UI.getMenuResponse(options);
         }
     }
 }

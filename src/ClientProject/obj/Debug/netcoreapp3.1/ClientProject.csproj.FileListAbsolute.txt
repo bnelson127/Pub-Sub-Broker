@@ -1,0 +1,13 @@
+C:\Users\Brent Nelson\Documents\GitHub\Paycom-Seminar-2020\src\ClientProject\bin\Debug\netcoreapp3.1\ClientProject.exe
+C:\Users\Brent Nelson\Documents\GitHub\Paycom-Seminar-2020\src\ClientProject\bin\Debug\netcoreapp3.1\ClientProject.deps.json
+C:\Users\Brent Nelson\Documents\GitHub\Paycom-Seminar-2020\src\ClientProject\bin\Debug\netcoreapp3.1\ClientProject.runtimeconfig.json
+C:\Users\Brent Nelson\Documents\GitHub\Paycom-Seminar-2020\src\ClientProject\bin\Debug\netcoreapp3.1\ClientProject.runtimeconfig.dev.json
+C:\Users\Brent Nelson\Documents\GitHub\Paycom-Seminar-2020\src\ClientProject\bin\Debug\netcoreapp3.1\ClientProject.dll
+C:\Users\Brent Nelson\Documents\GitHub\Paycom-Seminar-2020\src\ClientProject\bin\Debug\netcoreapp3.1\ClientProject.pdb
+C:\Users\Brent Nelson\Documents\GitHub\Paycom-Seminar-2020\src\ClientProject\obj\Debug\netcoreapp3.1\ClientProject.csprojAssemblyReference.cache
+C:\Users\Brent Nelson\Documents\GitHub\Paycom-Seminar-2020\src\ClientProject\obj\Debug\netcoreapp3.1\ClientProject.AssemblyInfoInputs.cache
+C:\Users\Brent Nelson\Documents\GitHub\Paycom-Seminar-2020\src\ClientProject\obj\Debug\netcoreapp3.1\ClientProject.AssemblyInfo.cs
+C:\Users\Brent Nelson\Documents\GitHub\Paycom-Seminar-2020\src\ClientProject\obj\Debug\netcoreapp3.1\ClientProject.csproj.CoreCompileInputs.cache
+C:\Users\Brent Nelson\Documents\GitHub\Paycom-Seminar-2020\src\ClientProject\obj\Debug\netcoreapp3.1\ClientProject.dll
+C:\Users\Brent Nelson\Documents\GitHub\Paycom-Seminar-2020\src\ClientProject\obj\Debug\netcoreapp3.1\ClientProject.pdb
+C:\Users\Brent Nelson\Documents\GitHub\Paycom-Seminar-2020\src\ClientProject\obj\Debug\netcoreapp3.1\ClientProject.genruntimeconfig.cache
