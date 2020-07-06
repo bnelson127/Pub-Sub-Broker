@@ -49,13 +49,14 @@ namespace Paycom_Seminar_2020
             
         }
 
-        private void sendServerMessage(String message)
+        public void sendServerMessage(String message)
         {
             try
             {
                 int portNum = 9999;
                 string hostName = "localhost";
                 var client = new TcpClient(hostName, portNum);
+
 
                 NetworkStream ns = client.GetStream();
 
