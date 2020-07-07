@@ -24,6 +24,7 @@ namespace Paycom_Seminar_2020
             
             Thread listenThread = new Thread( ()=>listenForMessages(client,tcpClient) );
             listenThread.Start();
+            client.sendServerMessage("Hello", tcpClient);
             while (true)
             {
                 //Console.WriteLine("BYE");
@@ -40,13 +41,6 @@ namespace Paycom_Seminar_2020
                 Console.WriteLine("HI");
                 NetworkStream networkStream = connection.GetStream();
                 
-                var writer = new StreamWriter(networkStream);
-
-                String msg = "Hello, server.";
-
-                byte[] bytes = Encoding.UTF8.GetBytes(msg);
-                networkStream.Write(bytes, 0, bytes.Length);
-
                 networkStream.Read(input, 0, 1024);
                 String dataFromClient = System.Text.Encoding.ASCII.GetString(input);
                 Console.WriteLine(" >> " + "From server-"+ dataFromClient);

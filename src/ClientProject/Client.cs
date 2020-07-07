@@ -49,29 +49,20 @@ namespace Paycom_Seminar_2020
             
         }
 
-        public void sendServerMessage(String message)
+        public void sendServerMessage(String message, TcpClient serverConnection)
         {
             try
             {
-                int portNum = 9999;
-                string hostName = "localhost";
-                var client = new TcpClient(hostName, portNum);
-
-
-                NetworkStream ns = client.GetStream();
+                NetworkStream ns = serverConnection.GetStream();
 
                 var writer = new StreamWriter(ns);
 
-                String msg = "Hello, server.";
-
-                byte[] bytes = Encoding.UTF8.GetBytes(msg);
+                byte[] bytes = Encoding.UTF8.GetBytes(message);
                 ns.Write(bytes, 0, bytes.Length);
-
-                client.Close();
             }
             catch(Exception e)
             {
-
+                Console.WriteLine(e.ToString());
             }
         }
     }

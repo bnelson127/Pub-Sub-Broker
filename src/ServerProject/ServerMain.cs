@@ -69,8 +69,8 @@ namespace ConsoleApplication1
                 byte[] msg = System.Text.Encoding.ASCII.GetBytes(data);
 
                 // Send back a response.
-                //stream.Write(msg, 0, msg.Length);
-                //Console.WriteLine(String.Format("Sent: {0}", data));
+                stream.Write(msg, 0, msg.Length);
+                Console.WriteLine(String.Format("Sent: {0}", data));
 
                 i = stream.Read(bytes, 0, bytes.Length);
             }
