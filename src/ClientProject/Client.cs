@@ -12,7 +12,6 @@ namespace Paycom_Seminar_2020
         private String[] _subscriptionNames;
         private String[] _topicNames;
         private TcpClient _tcpClient;
-        private ClientMessageEncoder clientMsgCodes = new ClientMessageEncoder();
         public Client(TcpClient tcpClient)
         {
             _tcpClient = tcpClient;
@@ -20,9 +19,10 @@ namespace Paycom_Seminar_2020
 
         public void start()
         {
-            String nameString = sendServerMessage(clientMsgCodes.REQUEST_USERNAMES);
+            String nameString = sendServerMessage(ClientMessageEncoder.REQUEST_USERNAMES);
             String[] names = parseString(nameString);
             _username = UI.getUsername(names);
+            sendServerMessage(ClientMessageEncoder.LOG_IN+_username);
             
         }
         public String[] requestAvailableTopics()
@@ -75,7 +75,7 @@ namespace Paycom_Seminar_2020
                 byte[] bytesMsgFromServer = new byte[65536];
                 ns.Read(bytesMsgFromServer, 0, 65536);
                 String stringMsgFromServer = System.Text.Encoding.ASCII.GetString(bytesMsgFromServer);
-                serverResponse = stringMsgFromServer.Trim();
+                serverResponse = stringMsgFromServer.Trim((char) 0);
                 Console.WriteLine(" >> " + "From server-"+ serverResponse);
             }
             catch(Exception e)
@@ -102,6 +102,10 @@ namespace Paycom_Seminar_2020
                 {
                     word += combinedString.Substring(i, 1);
                 }
+            }
+            if (!word.Equals(""))
+            {
+                separatedString.Add(word);
             }
             return Array.ConvertAll(separatedString.ToArray(), x => x.ToString());
             

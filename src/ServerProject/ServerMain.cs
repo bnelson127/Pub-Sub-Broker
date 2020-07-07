@@ -67,6 +67,7 @@ namespace Paycom_Seminar_2020
 
                     // Process the data sent by the client.
                     data = Broker.getResponse(data);
+                    Console.WriteLine(data);
 
                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(data);
 

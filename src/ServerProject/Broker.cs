@@ -1,3 +1,5 @@
+using System;
+
 namespace Paycom_Seminar_2020
 {
    
@@ -5,12 +7,17 @@ namespace Paycom_Seminar_2020
     {
         public static string getResponse(string message)
         {
-            string response = null;
+            string response = "dummy";
+            string indicator = message.Substring(0,2);
+            message = message.Substring(2);
 
-            ClientMessageDecoder clientMsgCodes = new ClientMessageDecoder();
-            if (message.Substring(0,1).Equals(clientMsgCodes.REQUEST_USERNAMES))
+            if (indicator.Equals(ClientMessageDecoder.REQUEST_USERNAMES))
             {
                 response = getUsernames();
+            }
+            else if (indicator.Equals(ClientMessageDecoder.LOG_IN))
+            {
+                Console.WriteLine(message);
             }
 
             return response;

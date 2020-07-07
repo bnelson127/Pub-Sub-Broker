@@ -20,9 +20,6 @@ namespace Paycom_Seminar_2020
             //Thread listenThread = new Thread( ()=>listenForMessages(client, tcpClient) );
             //listenThread.Start();
             client.start();
-            
-            
-
         }
 
         public static void listenForMessages(Client client, TcpClient connection)

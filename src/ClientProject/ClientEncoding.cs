@@ -1,9 +1,10 @@
 namespace Paycom_Seminar_2020
 {
    
-    class ClientMessageEncoder
+    static class ClientMessageEncoder
     {
-        public string REQUEST_USERNAMES {get;} = "0";
+        public static string REQUEST_USERNAMES {get;} = "00";
+        public static string LOG_IN {get;} = "01";
     }
 
 }

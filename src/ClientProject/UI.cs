@@ -53,13 +53,29 @@ namespace Paycom_Seminar_2020
             }
 
             int userAnswer = UI.askQuestionMultipleChoice("Please choose a profile or create a new one:", options);
-            if(userAnswer == 0)
+            if(userAnswer == 1)
             {
-
+                String question = "Please enter your desired username:";
+                bool successful = false;
+                while (!successful)
+                {
+                    
+                    String name = askQuestionFreeResponse(question);
+                    if (name.Contains("\\") || name.Contains(";"))
+                    {
+                        Console.Write("A username cannot have a '\\' or a ';' in it. ");
+                        question = "Please try again:";
+                    }
+                    else
+                    {
+                        username = name;
+                        successful = true;
+                    }
+                }
             }
             else
             {
-                username = options[userAnswer];
+                username = options[userAnswer-1];
             }
 
             return username;
