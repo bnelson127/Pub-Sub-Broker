@@ -41,6 +41,30 @@ namespace Paycom_Seminar_2020
             return response;
         }
 
+        public static String getUsername(String[] names)
+        {
+            String username = null;
+
+            String[] options = new String[names.Length+1];
+            options[0] = "Create New Profile";
+            for (int i = 0; i<names.Length; i++)
+            {
+                options[i+1] = names[i];
+            }
+
+            int userAnswer = UI.askQuestionMultipleChoice("Please choose a profile or create a new one:", options);
+            if(userAnswer == 0)
+            {
+
+            }
+            else
+            {
+                username = options[userAnswer];
+            }
+
+            return username;
+        }
+
         private static int getOptionsResponse(String[] options)
         {
             for (int i = 0; i<options.Length; i++)

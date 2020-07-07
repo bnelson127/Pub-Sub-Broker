@@ -4,7 +4,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
-namespace ConsoleApplication1
+namespace Paycom_Seminar_2020
 {
     class Program
     {
@@ -59,20 +59,29 @@ namespace ConsoleApplication1
 
             while (i != 0)
             {
-                // Translate data bytes to a ASCII string.
-                data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
-                Console.WriteLine(String.Format("Received: {0}", data));
+                try
+                {
+                    // Translate data bytes to a ASCII string.
+                    data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
+                    Console.WriteLine(String.Format("Received: {0}", data));
 
-                // Process the data sent by the client.
-                data = data.ToUpper();
+                    // Process the data sent by the client.
+                    data = Broker.getResponse(data);
 
-                byte[] msg = System.Text.Encoding.ASCII.GetBytes(data);
+                    byte[] msg = System.Text.Encoding.ASCII.GetBytes(data);
 
-                // Send back a response.
-                stream.Write(msg, 0, msg.Length);
-                Console.WriteLine(String.Format("Sent: {0}", data));
+                    // Send back a response.
+                    stream.Write(msg, 0, msg.Length);
+                    Console.WriteLine(String.Format("Sent: {0}", data));
 
-                i = stream.Read(bytes, 0, bytes.Length);
+                    i = stream.Read(bytes, 0, bytes.Length);
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                    i = 0;
+                }
+                
             }
 
             // Shutdown and end connection

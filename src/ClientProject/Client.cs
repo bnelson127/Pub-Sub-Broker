@@ -2,17 +2,28 @@ using System;
 using System.Net.Sockets;
 using System.Text;
 using System.IO;
+using System.Collections;
 
 namespace Paycom_Seminar_2020
 {
     class Client
     {
-        private String _username { get; }
-        private String[] _subscriptionNames{ get; }
-        private String[] _topicNames{ get; }
-        public Client(String username)
+        private String _username;
+        private String[] _subscriptionNames;
+        private String[] _topicNames;
+        private TcpClient _tcpClient;
+        private ClientMessageEncoder clientMsgCodes = new ClientMessageEncoder();
+        public Client(TcpClient tcpClient)
         {
-            _username = username;
+            _tcpClient = tcpClient;
+        }
+
+        public void start()
+        {
+            String nameString = sendServerMessage(clientMsgCodes.REQUEST_USERNAMES);
+            String[] names = parseString(nameString);
+            _username = UI.getUsername(names);
+            
         }
         public String[] requestAvailableTopics()
         {
@@ -49,21 +60,51 @@ namespace Paycom_Seminar_2020
             
         }
 
-        public void sendServerMessage(String message, TcpClient serverConnection)
+        public String sendServerMessage(String message)
         {
+            String serverResponse = "error";
             try
             {
-                NetworkStream ns = serverConnection.GetStream();
+                NetworkStream ns = _tcpClient.GetStream();
 
                 var writer = new StreamWriter(ns);
 
                 byte[] bytes = Encoding.UTF8.GetBytes(message);
                 ns.Write(bytes, 0, bytes.Length);
+
+                byte[] bytesMsgFromServer = new byte[65536];
+                ns.Read(bytesMsgFromServer, 0, 65536);
+                String stringMsgFromServer = System.Text.Encoding.ASCII.GetString(bytesMsgFromServer);
+                serverResponse = stringMsgFromServer.Trim();
+                Console.WriteLine(" >> " + "From server-"+ serverResponse);
             }
             catch(Exception e)
             {
                 Console.WriteLine(e.ToString());
             }
+            
+            return serverResponse;
+        }
+
+        private String[] parseString(String  combinedString)
+        {
+            ArrayList separatedString = new ArrayList();
+            String delimiter = ";";
+            String word = "";
+            for (int i = 0; i<combinedString.Length; i++)
+            {
+                if (combinedString.Substring(i, 1).Equals(delimiter) && !word.Equals(""))
+                {
+                    separatedString.Add(word);
+                    word = "";
+                }
+                else
+                {
+                    word += combinedString.Substring(i, 1);
+                }
+            }
+            return Array.ConvertAll(separatedString.ToArray(), x => x.ToString());
+            
         }
     }
 
