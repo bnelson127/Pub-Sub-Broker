@@ -7,7 +7,8 @@ namespace Paycom_Seminar_2020
    
     class Broker
     {
-        private String _profilesFilePath = "files/profiles.xml";
+        private ProfilesReaderWriter profReadWrite = new ProfilesReaderWriter();
+        private Profile _userProfile = null;
         public string getResponse(string message)
         {
             string response = "dummy";
@@ -17,13 +18,13 @@ namespace Paycom_Seminar_2020
 
             if (indicator.Equals(ClientMessageDecoder.REQUEST_USERNAMES))
             {
-                String[] usernamesArray = getUsernames();
+                String[] usernamesArray = profReadWrite.getUsernames();
                 response = prepareStringArray(usernamesArray);
 
             }
             else if (indicator.Equals(ClientMessageDecoder.LOG_IN))
             {
-                String[] existingUsernames = getUsernames();
+                String[] existingUsernames = profReadWrite.getUsernames();
                 if (Array.Find(existingUsernames, element => element.Equals(message))!=null)
                 {
                     response = ServerMessageEncoder.NO_ACTION_REQUIRED+"Successfully logged in.";
@@ -42,53 +43,15 @@ namespace Paycom_Seminar_2020
             return response;
         }
 
-        private String[] getUsernames()
-        {
-            ArrayList usernamesList = new ArrayList();
-
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.Load(_profilesFilePath);
-            XmlNodeList userNodes = xmlDoc.SelectNodes("//profiles/profile");
-            foreach(XmlNode userNode in userNodes)
-            {
-                String username = userNode.Attributes["username"].Value;
-                usernamesList.Add(username);
-                Console.WriteLine(username);
-            }
-
-            String[] usernamesArray = Array.ConvertAll(usernamesList.ToArray(), x => x.ToString());
-            
-            return usernamesArray;
-        }
-
         private String createProfile(String username)
         {
             String responseMessage = "";
 
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.Load(_profilesFilePath);
-
-            String[] existingUsernames = getUsernames();
+            String[] existingUsernames = profReadWrite.getUsernames();
             //makes absolutely sure that the username has not already been taken.
             if (Array.Find(existingUsernames, element => element.Equals(username))==null)
             {
-                XmlNode rootNode = xmlDoc.SelectSingleNode("profiles");
-
-                XmlNode profileNode = xmlDoc.CreateElement("profile");
-
-                XmlAttribute profileName = xmlDoc.CreateAttribute("username");
-                profileName.Value = username;
-                profileNode.Attributes.Append(profileName);
-
-                XmlElement subscriptions = xmlDoc.CreateElement("subscriptions");
-                profileNode.AppendChild(subscriptions);
-
-                XmlElement topics = xmlDoc.CreateElement("topics");
-                profileNode.AppendChild(topics);
-
-                rootNode.AppendChild(profileNode);
-
-                xmlDoc.Save(_profilesFilePath);
+                _userProfile = profReadWrite.createNewProfile(username);
                 responseMessage = ServerMessageEncoder.NO_ACTION_REQUIRED+"Profile successfully created.";
             }
             else

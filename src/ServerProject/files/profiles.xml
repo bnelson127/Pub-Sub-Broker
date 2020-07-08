@@ -11,4 +11,8 @@
     <subscriptions />
     <topics />
   </profile>
+  <profile username="Sally">
+    <subscriptions />
+    <topics />
+  </profile>
 </profiles>
