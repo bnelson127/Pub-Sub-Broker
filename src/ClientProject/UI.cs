@@ -1,4 +1,5 @@
 using System;
+using System.Xml;
 
 namespace Paycom_Seminar_2020
 {
@@ -41,9 +42,9 @@ namespace Paycom_Seminar_2020
             return response;
         }
 
-        public static String getUsername(String[] names)
+        public static String selectProfile(String[] names)
         {
-            String username = null;
+            String serverMessage = "";
 
             String[] options = new String[names.Length+1];
             options[0] = "Create New Profile";
@@ -55,30 +56,39 @@ namespace Paycom_Seminar_2020
             int userAnswer = UI.askQuestionMultipleChoice("Please choose a profile or create a new one:", options);
             if(userAnswer == 1)
             {
-                String question = "Please enter your desired username:";
-                bool successful = false;
-                while (!successful)
-                {
-                    
-                    String name = askQuestionFreeResponse(question);
-                    if (name.Contains("\\") || name.Contains(";"))
-                    {
-                        Console.Write("A username cannot have a '\\' or a ';' in it. ");
-                        question = "Please try again:";
-                    }
-                    else
-                    {
-                        username = name;
-                        successful = true;
-                    }
-                }
+                serverMessage = askForNewUsername(names);
             }
             else
             {
-                username = options[userAnswer-1];
+                serverMessage += ClientMessageEncoder.LOG_IN;
+                serverMessage += options[userAnswer-1];
             }
 
-            return username;
+            return serverMessage;
+        }
+
+        public static String askForNewUsername(String[] names)
+        {
+            String serverMessage = ClientMessageEncoder.CREATE_PROFILE;
+            
+            String question = "Please enter your desired username:";
+            bool successful = false;
+            while (!successful)
+            {
+                String name = askQuestionFreeResponse(question);
+                if (name.Contains("\\") || name.Contains(";"))
+                {
+                    Console.Write("A username cannot have a '\\' or a ';' in it. ");
+                    question = "Please try again:";
+                }
+                else
+                {
+                    serverMessage += name;
+                    successful = true;
+                }
+            }
+
+            return serverMessage;
         }
 
         private static int getOptionsResponse(String[] options)

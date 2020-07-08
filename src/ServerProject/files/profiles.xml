@@ -1,0 +1,14 @@
+<profiles>
+  <profile username="Charlie">
+    <subscriptions />
+    <topics />
+  </profile>
+  <profile username="Sam">
+    <subscriptions />
+    <topics />
+  </profile>
+  <profile username="Bob">
+    <subscriptions />
+    <topics />
+  </profile>
+</profiles>

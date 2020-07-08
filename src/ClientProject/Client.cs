@@ -21,8 +21,30 @@ namespace Paycom_Seminar_2020
         {
             String nameString = sendServerMessage(ClientMessageEncoder.REQUEST_USERNAMES);
             String[] names = parseString(nameString);
-            _username = UI.getUsername(names);
-            sendServerMessage(ClientMessageEncoder.LOG_IN+_username);
+            String serverMessage = UI.selectProfile(names);
+            
+            bool successful = false;
+            while (!successful)
+            {
+                String serverResponse = sendServerMessage(serverMessage);
+                if (serverResponse.Substring(0,2).Equals(ServerMessageDecoder.NAME_TAKEN))
+                {
+                    Console.Write("That username is already taken. ");
+                    serverMessage = UI.askForNewUsername(names);
+                    _username = serverMessage.Substring(2);
+                }
+                else if (serverResponse.Substring(0,2).Equals(ServerMessageDecoder.PROFILE_DELETED))
+                {
+                    Console.WriteLine("That profile has been delted while you were deciding on a profile.");
+                    start();
+                    successful = true;
+                }
+                else if (serverResponse.Substring(0,2).Equals(ServerMessageDecoder.NO_ACTION_REQUIRED))
+                {
+                    successful = true;
+                }
+            }
+            
             
         }
         public String[] requestAvailableTopics()

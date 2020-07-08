@@ -51,7 +51,7 @@ namespace Paycom_Seminar_2020
             Console.WriteLine("newThread");
             // Get a stream object for reading and writing
             NetworkStream stream = client.GetStream();
-
+            Broker broker = new Broker();
             int i;
 
             // Loop to receive all the data sent by the client.
@@ -66,7 +66,7 @@ namespace Paycom_Seminar_2020
                     Console.WriteLine(String.Format("Received: {0}", data));
 
                     // Process the data sent by the client.
-                    data = Broker.getResponse(data);
+                    data = broker.getResponse(data);
                     Console.WriteLine(data);
 
                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(data);
