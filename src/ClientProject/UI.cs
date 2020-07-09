@@ -1,11 +1,79 @@
 using System;
-using System.Xml;
+using System.Net.Sockets;
 
 namespace Paycom_Seminar_2020
 {
-    static class UI
+    class UI
     {
-        public static int getMenuResponse(String[] options)
+        private Client _client = null;
+        private TcpClient _tcpClient = null;
+
+        public UI(TcpClient tcpClient)
+        {
+            _client = new Client(tcpClient);
+            _tcpClient = tcpClient;
+        }
+        public void start()
+        {
+            String[] names = _client.requestUsernames();
+            String serverMessage = selectProfile(names);
+            
+            bool successful = false;
+            while (!successful)
+            {
+                String serverResponse = _client.sendServerMessage(serverMessage);
+                if (serverResponse.Substring(0,2).Equals(ServerMessageDecoder.NAME_TAKEN))
+                {
+                    Console.Write("That username is already taken. ");
+                    serverMessage = askForNewName("user");
+                    _client.setUsername(serverMessage.Substring(2));
+                }
+                else if (serverResponse.Substring(0,2).Equals(ServerMessageDecoder.PROFILE_DELETED))
+                {
+                    Console.WriteLine("That profile has been delted while you were deciding on a profile.");
+                    start();
+                    successful = true;
+                }
+                else if (serverResponse.Substring(0,2).Equals(ServerMessageDecoder.NO_ACTION_REQUIRED))
+                {
+                    successful = true;
+                }
+            }
+            showMainMenu();
+        }
+
+        public void showMainMenu()
+        {
+            String[]  options = {"View Subscription Messages [0 new messages]", "Manage Subscriptions", "Manage Topics", "Refresh Menu", "Quit"};
+            int userChoice = getMenuResponse(options);
+            if (userChoice == 3)
+            {
+                manageTopics();
+            }
+            else if (userChoice == 5)
+            {
+                _tcpClient.Close();
+            }
+            else
+            {
+                showMainMenu();
+            }
+        }
+
+        public void manageTopics()
+        {
+            String[] options = {"Create Topic", "Manage Topic"};
+            int userResponse = getMenuResponseWithBackOption(options);
+            if(userResponse == options.Length+1)
+            {
+                showMainMenu();
+            }
+            else if (userResponse == 1)
+            {
+                createNewTopic();
+            }
+        }
+        public int getMenuResponse(String[] options)
         {
             Console.WriteLine("Please enter the number of the selection you would like to make.");
             int response = getOptionsResponse(options);
@@ -15,7 +83,7 @@ namespace Paycom_Seminar_2020
             
         }
 
-        public static int getMenuResponseWithBackOption(String[] options)
+        public int getMenuResponseWithBackOption(String[] options)
         {
             String[] newOptions = new String[options.Length+1];
             for (int i = 0; i<options.Length; i++)
@@ -26,7 +94,7 @@ namespace Paycom_Seminar_2020
             return getMenuResponse(newOptions);
         }
 
-        public static String askQuestionFreeResponse(String question)
+        public String askQuestionFreeResponse(String question)
         {
             String response = null;
             Console.WriteLine(question);
@@ -35,14 +103,14 @@ namespace Paycom_Seminar_2020
             return response;
         }
 
-        public static int askQuestionMultipleChoice(String question, String[] choices)
+        public int askQuestionMultipleChoice(String question, String[] choices)
         {
             Console.WriteLine(question);
             int response = getOptionsResponse(choices);
             return response;
         }
 
-        public static String selectProfile(String[] names)
+        public String selectProfile(String[] names)
         {
             String serverMessage = "";
 
@@ -53,10 +121,10 @@ namespace Paycom_Seminar_2020
                 options[i+1] = names[i];
             }
 
-            int userAnswer = UI.askQuestionMultipleChoice("Please choose a profile or create a new one:", options);
+            int userAnswer = askQuestionMultipleChoice("Please choose a profile or create a new one:", options);
             if(userAnswer == 1)
             {
-                serverMessage = askForNewUsername(names);
+                serverMessage = ClientMessageEncoder.CREATE_PROFILE+askForNewName("user");
             }
             else
             {
@@ -67,18 +135,18 @@ namespace Paycom_Seminar_2020
             return serverMessage;
         }
 
-        public static String askForNewUsername(String[] names)
+        public String askForNewName(String nameType)
         {
-            String serverMessage = ClientMessageEncoder.CREATE_PROFILE;
-            
-            String question = "Please enter your desired username:";
+            String serverMessage = "";
+
+            String question = $"Please enter your desired {nameType}name:";
             bool successful = false;
             while (!successful)
             {
                 String name = askQuestionFreeResponse(question);
                 if (name.Contains("\\") || name.Contains(";"))
                 {
-                    Console.Write("A username cannot have a '\\' or a ';' in it. ");
+                    Console.Write($"A {nameType} name cannot have a '\\' or a ';' in it. ");
                     question = "Please try again:";
                 }
                 else
@@ -91,7 +159,38 @@ namespace Paycom_Seminar_2020
             return serverMessage;
         }
 
-        private static int getOptionsResponse(String[] options)
+        public void createNewTopic()
+        {
+            bool successful = false;
+            while (!successful)
+            {
+                Console.Write("If you change your mind, type the word 'cancel' to abort. ");
+                String topicName = askForNewName("topic ");
+                if (topicName.Equals("cancel"))
+                {
+                    successful = true;
+                }
+                else
+                {
+                    String serverMessage = ClientMessageEncoder.CREATE_TOPIC+topicName;
+                    String serverResponse = _client.sendServerMessage(serverMessage);
+                    if (serverResponse.Substring(0,2).Equals(ServerMessageDecoder.NAME_TAKEN))
+                    {
+                        Console.Write("That name is already taken. ");
+                    }
+                    else
+                    {
+                        successful = true;
+                    }
+                }
+                
+            }
+            manageTopics();
+            
+
+        }
+
+        private int getOptionsResponse(String[] options)
         {
             for (int i = 0; i<options.Length; i++)
             {

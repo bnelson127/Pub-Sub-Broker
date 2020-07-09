@@ -1,0 +1,10 @@
+<topics>
+  <topic name="Star Wars">
+    <settings welcomMessage="Welcome to the topic!" defaultMessages=";" autoSend="false" />
+    <sentMessages />
+  </topic>
+  <topic name="Bob's Topic">
+    <settings welcomMessage="Welcome to the topic!" defaultMessages=";" autoSend="false" />
+    <sentMessages />
+  </topic>
+</topics>

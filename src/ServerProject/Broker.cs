@@ -8,6 +8,7 @@ namespace Paycom_Seminar_2020
     class Broker
     {
         private ProfilesReaderWriter profReadWrite = new ProfilesReaderWriter();
+        private TopicReaderWriter topReadWrite = new TopicReaderWriter();
         private Profile _userProfile = null;
         public string getResponse(string message)
         {
@@ -27,6 +28,7 @@ namespace Paycom_Seminar_2020
                 String[] existingUsernames = profReadWrite.getUsernames();
                 if (Array.Find(existingUsernames, element => element.Equals(message))!=null)
                 {
+                    _userProfile = profReadWrite.loadProfile(message);
                     response = ServerMessageEncoder.NO_ACTION_REQUIRED+"Successfully logged in.";
                 }
                 else
@@ -38,6 +40,10 @@ namespace Paycom_Seminar_2020
             else if (indicator.Equals(ClientMessageDecoder.CREATE_PROFILE))
             {
                 response = createProfile(message);
+            }
+            else if (indicator.Equals(ClientMessageDecoder.CREATE_TOPIC))
+            {
+                response = createTopic(message);
             }
 
             return response;
@@ -61,6 +67,25 @@ namespace Paycom_Seminar_2020
 
             return responseMessage;
 
+        }
+
+        private String createTopic(String name)
+        {
+            String responseMessage = "";
+
+            String[] existingTopicNames = topReadWrite.getTopicNames();
+            //makes absolutely sure that the username has not already been taken.
+            if (Array.Find(existingTopicNames, element => element.Equals(name))==null)
+            {
+                topReadWrite.createNewTopic(name);
+                responseMessage = ServerMessageEncoder.NO_ACTION_REQUIRED+"Topic successfully created.";
+            }
+            else
+            {
+                responseMessage = ServerMessageEncoder.NAME_TAKEN+"Sorry, that topic name was taken while you were deciding.";
+            }
+
+            return responseMessage;
         }
 
         private String prepareStringArray(String[] array)

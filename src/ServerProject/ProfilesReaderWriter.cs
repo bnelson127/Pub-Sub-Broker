@@ -69,7 +69,8 @@ namespace Paycom_Seminar_2020
                     profileNode = userNode;
                 }
             }
-            
+            XmlNode subscriptionsNode = profileNode.SelectSingleNode("//subscriptions");
+            XmlNode topicsNode = profileNode.SelectSingleNode("//topics");
 
             Profile profile = new Profile(profileNode.Attributes["username"].Value, new String[0], new String[0]);
             return profile;

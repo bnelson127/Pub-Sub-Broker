@@ -16,10 +16,10 @@ namespace Paycom_Seminar_2020
             string hostName = "localhost";
             TcpClient tcpClient = new TcpClient(hostName, portNum);
             
-            Client client = new Client(tcpClient);
+            UI ui = new UI(tcpClient);
             //Thread listenThread = new Thread( ()=>listenForMessages(client, tcpClient) );
             //listenThread.Start();
-            client.start();
+            ui.start();
         }
 
         public static void listenForMessages(Client client, TcpClient connection)
