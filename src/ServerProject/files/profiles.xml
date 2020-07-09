@@ -1,7 +1,9 @@
 <profiles>
   <profile username="Charlie">
     <subscriptions />
-    <topics />
+    <topics>
+      <topic name="The Woods" />
+    </topics>
   </profile>
   <profile username="Sam">
     <subscriptions />
@@ -12,14 +14,6 @@
     <topics />
   </profile>
   <profile username="Sally">
-    <subscriptions />
-    <topics />
-  </profile>
-  <profile username="Joesy">
-    <subscriptions />
-    <topics />
-  </profile>
-  <profile username="Caleb">
     <subscriptions />
     <topics />
   </profile>

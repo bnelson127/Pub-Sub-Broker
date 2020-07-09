@@ -75,6 +75,33 @@ namespace Paycom_Seminar_2020
             Profile profile = new Profile(profileNode.Attributes["username"].Value, new String[0], new String[0]);
             return profile;
         }
+
+        public void addTopic(String username, String topicName)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(_profilesFilePath);
+
+            XmlNode profileNode = null;
+            XmlNodeList userNodes = xmlDoc.SelectNodes("//profiles/profile");
+            foreach(XmlNode userNode in userNodes)
+            {
+                if (userNode.Attributes["username"].Value.Equals(username))
+                {
+                    profileNode = userNode;
+                }
+            }
+            XmlNode topicsNode = profileNode.SelectSingleNode("//topics");
+
+            XmlElement topic = xmlDoc.CreateElement("topic");
+            XmlAttribute newTopicName = xmlDoc.CreateAttribute("name");
+            newTopicName.Value = topicName;
+            topic.Attributes.Append(newTopicName);
+
+            topicsNode.AppendChild(topic);
+
+            xmlDoc.Save(_profilesFilePath);
+
+        }
     }
 
 }

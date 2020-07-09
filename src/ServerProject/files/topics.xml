@@ -7,4 +7,12 @@
     <settings welcomMessage="Welcome to the topic!" defaultMessages=";" autoSend="false" />
     <sentMessages />
   </topic>
+  <topic name="Cabins">
+    <settings welcomMessage="Welcome to the topic!" defaultMessages=";" autoSend="false" />
+    <sentMessages />
+  </topic>
+  <topic name="The Woods">
+    <settings welcomMessage="Welcome to the topic!" defaultMessages=";" autoSend="false" />
+    <sentMessages />
+  </topic>
 </topics>

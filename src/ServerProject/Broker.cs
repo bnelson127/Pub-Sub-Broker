@@ -79,6 +79,7 @@ namespace Paycom_Seminar_2020
             {
                 topReadWrite.createNewTopic(name);
                 responseMessage = ServerMessageEncoder.NO_ACTION_REQUIRED+"Topic successfully created.";
+                _userProfile.addTopic(name);
             }
             else
             {
