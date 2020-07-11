@@ -5,7 +5,7 @@ using System.Xml;
 namespace Paycom_Seminar_2020
 {
    
-    class ProfilesReaderWriter
+    class ProfilesReaderWriter : XMLReaderWriter
     {
         private String _profilesFilePath = "files/profiles.xml";
 
@@ -18,7 +18,7 @@ namespace Paycom_Seminar_2020
             XmlNodeList userNodes = xmlDoc.SelectNodes("//profiles/profile");
             foreach(XmlNode userNode in userNodes)
             {
-                String username = userNode.Attributes["username"].Value;
+                String username = userNode.Attributes["name"].Value;
                 usernamesList.Add(username);
                 Console.WriteLine(username);
             }
@@ -36,7 +36,7 @@ namespace Paycom_Seminar_2020
 
             XmlNode profileNode = xmlDoc.CreateElement("profile");
 
-            XmlAttribute profileName = xmlDoc.CreateAttribute("username");
+            XmlAttribute profileName = xmlDoc.CreateAttribute("name");
             profileName.Value = username;
             profileNode.Attributes.Append(profileName);
 
@@ -60,12 +60,12 @@ namespace Paycom_Seminar_2020
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load(_profilesFilePath);
 
-            XmlNode profileNode = getProfileNode(xmlDoc, username);
+            XmlNode profileNode = getTopNode("profile", xmlDoc, username);
 
             XmlNode subscriptionsNode = profileNode.SelectSingleNode("//subscriptions");
             XmlNode topicsNode = profileNode.SelectSingleNode("//topics");
 
-            Profile profile = new Profile(profileNode.Attributes["username"].Value, new String[0], new String[0]);
+            Profile profile = new Profile(profileNode.Attributes["name"].Value, new String[0], new String[0]);
             return profile;
         }
 
@@ -75,22 +75,8 @@ namespace Paycom_Seminar_2020
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load(_profilesFilePath);
 
-           XmlNode profileNode = getProfileNode(xmlDoc, username);
-            
-            XmlNode topicsNode = null;
-            XmlNodeList subNodes = profileNode.ChildNodes;
-            foreach(XmlNode child in subNodes)
-            {
-                if (child.Name.Equals("topics"))
-                {
-                    topicsNode = child;
-                    
-                }
-                Console.WriteLine("USERNAME "+child.Name);
-            }
-            
-            //topicsNode = profileNode.SelectSingleNode("//topics");
-            
+            XmlNode profileNode = getTopNode("profile", xmlDoc, username);
+            XmlNode topicsNode = getSubNode(profileNode, xmlDoc, "topics");
 
             XmlElement topic = xmlDoc.CreateElement("topic");
             XmlAttribute newTopicName = xmlDoc.CreateAttribute("name");
@@ -109,12 +95,18 @@ namespace Paycom_Seminar_2020
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load(_profilesFilePath);
             
-            XmlNode subscriptionsNode = getSubscriptionsNode(xmlDoc, username);
+            XmlNode profileNode = getTopNode("profile", xmlDoc, username);
+            XmlNode subscriptionsNode = getSubNode(profileNode, xmlDoc, "subscriptions");
 
             XmlElement subscription = xmlDoc.CreateElement("subscription");
+
             XmlAttribute newSubscriptionName = xmlDoc.CreateAttribute("name");
             newSubscriptionName.Value = topicName;
             subscription.Attributes.Append(newSubscriptionName);
+
+            XmlAttribute timeStamp = xmlDoc.CreateAttribute("timeJoined");
+            timeStamp.Value = DateTime.Now.Ticks.ToString();
+            subscription.Attributes.Append(timeStamp);
 
             subscriptionsNode.AppendChild(subscription);
 
@@ -127,7 +119,8 @@ namespace Paycom_Seminar_2020
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load(_profilesFilePath);
 
-            XmlNode subscriptionsNode = getSubscriptionsNode(xmlDoc, username);
+            XmlNode profileNode = getTopNode("profile", xmlDoc, username);
+            XmlNode subscriptionsNode = getSubNode(profileNode, xmlDoc, "subscriptions");
             ArrayList subNamesList = new ArrayList();
             XmlNodeList subscriptionNodes = subscriptionsNode.ChildNodes;
             foreach(XmlNode subscription in subscriptionNodes)
@@ -141,39 +134,23 @@ namespace Paycom_Seminar_2020
             
         }
 
-        private XmlNode getProfileNode(XmlDocument xmlDoc, String username)
+        public String[] getTopics(String username)
         {
+            XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load(_profilesFilePath);
 
-            XmlNode profileNode = null;
-            XmlNodeList userNodes = xmlDoc.SelectNodes("//profiles/profile");
-            foreach(XmlNode userNode in userNodes)
+            XmlNode profileNode = getTopNode("profile", xmlDoc, username);
+            XmlNode topicsNode = getSubNode(profileNode, xmlDoc, "topics");
+            ArrayList topNamesList = new ArrayList();
+            XmlNodeList topicNodes = topicsNode.ChildNodes;
+            foreach(XmlNode subscription in topicNodes)
             {
-                if (userNode.Attributes["username"].Value.Equals(username))
-                {
-                    profileNode = userNode;
-                }
+                String subName = subscription.Attributes["name"].Value;
+                topNamesList.Add(subName);
+                Console.WriteLine(subName);
             }
 
-            return profileNode;
-        }
-
-        private XmlNode getSubscriptionsNode(XmlDocument xmlDoc, String username)
-        {
-
-            XmlNode profileNode = getProfileNode(xmlDoc, username);
-            
-            XmlNode subscriptionsNode = null;
-            XmlNodeList subNodes = profileNode.ChildNodes;
-            foreach(XmlNode child in subNodes)
-            {
-                if (child.Name.Equals("subscriptions"))
-                {
-                    subscriptionsNode = child;
-                }
-            }
-
-            return subscriptionsNode;
+            return Array.ConvertAll(topNamesList.ToArray(), x => x.ToString());;
         }
     }
 

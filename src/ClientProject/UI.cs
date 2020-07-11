@@ -10,9 +10,10 @@ namespace Paycom_Seminar_2020
         private Menu _mainMenu = new Menu("Main Menu", new String[] {"View Subscription Messages", "Manage Subscriptions", "Manage Topics", "Refresh Menu", "Quit"}, false);
         private Menu _manageTopics = new Menu("Manage Topics", new String[] {"Create Topic", "Manage Topic"}, true);
         private Menu _manageSubscriptions = new Menu("Manage Subscriptions", new String[] {"Subscribe to Topic", "Unsubscribe from Topic"}, true);
-        public UI(TcpClient tcpClient)
+        private Menu _manageSingleTopic = new Menu("Topic Management", new String[] {"Publish Message", "Message History", "Topic Settings", "Delete Topic"}, true);
+        public UI(TcpClient tcpClient, Client client)
         {
-            _client = new Client(tcpClient);
+            _client = client;
             _tcpClient = tcpClient;
         }
         public void start()
@@ -94,6 +95,14 @@ namespace Paycom_Seminar_2020
             {
                 createNewTopic();
             }
+            else if (userChoice.Equals("Manage Topic"))
+            {
+                String[] topicOptions = _client.requestMyTopicNames();
+                int userResponse = askQuestionMultipleChoice("Which topic would you like to manage?", topicOptions);
+                String topicSelected = topicOptions[userResponse-1];
+                makeStatement($"You have selelcted to manage the topic '{topicSelected}'");
+                manageSingleTopic(topicSelected);
+            }
         }
 
         public void manageSubscriptions()
@@ -113,6 +122,27 @@ namespace Paycom_Seminar_2020
             }
         }
 
+        public void manageSingleTopic(String topicName)
+        {
+            String userChoice = _manageSingleTopic.displayMenu();
+            if (userChoice.Equals("Back"))
+            {
+                manageTopics();
+            }
+            else if (userChoice.Equals("Publish Message"))
+            {
+                publishMessage(topicName);
+            }
+        }
+
+        public void publishMessage(String topicName)
+        {
+            String message = askQuestionFreeResponse("What would you like to publish to your subscribers?");
+            _client.publishMessage(topicName, message);
+            makeStatement("The message has been sent.");
+            manageSingleTopic(topicName);
+
+        }
         public String selectProfile(String[] names)
         {
             String serverMessage = "";

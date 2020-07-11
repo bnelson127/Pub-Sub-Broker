@@ -34,14 +34,22 @@ namespace Paycom_Seminar_2020
         public String[] requestNotYetSubscribedTopicNames()
         {
             String stringNames = sendServerMessage(ClientMessageEncoder.REQUEST_NOT_SUBSCRIBED_TOPIC_NAMES);
-            Console.WriteLine("I MADE IT");
             String[] arrayNames = parseString(stringNames);
             return arrayNames;
         }
 
-        public String[] requestAvailableTopics()
+        public String[] requestMyTopicNames()
         {
-            return null;
+            String stringNames = sendServerMessage(ClientMessageEncoder.REQUEST_USERS_TOPIC_NAMES);
+            String[] arrayNames = parseString(stringNames);
+            return arrayNames;
+        }
+
+        public String[]  requestSubscriptionNames()
+        {
+            String stringNames = sendServerMessage(ClientMessageEncoder.REQUEST_SUBSCRIPTION_NAMES);
+            String[] arrayNames = parseString(stringNames);
+            return arrayNames;
         }
 
         public void subscribeToTopic(String topicName)
@@ -59,19 +67,9 @@ namespace Paycom_Seminar_2020
 
         }
 
-        public void createTopic()
+        public void publishMessage(String topicName, String message)
         {
-
-        }
-
-        public void deleteTopic()
-        {
-
-        }
-
-        public void sendMessage()
-        {
-            
+            String serverResponse = sendServerMessage($"{ClientMessageEncoder.PUBLISH_MESSAGE}{topicName};{message};");
         }
 
         public String sendServerMessage(String message)
@@ -103,6 +101,11 @@ namespace Paycom_Seminar_2020
         public void setUsername(String username)
         {
             _username = username;
+        }
+
+        public String getUsername()
+        {
+            return _username;
         }
 
         private String[] parseString(String  combinedString)

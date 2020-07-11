@@ -2,16 +2,18 @@ using System;
 using System.Threading;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
+using System.Collections;
 
 namespace Paycom_Seminar_2020
 {
     class Program
     {
+        
         static void Main(string[] args)
         {
            try
             {
+                ArrayList connections = new ArrayList();
                 // set the TcpListener on port 13000
                 int port = 9999;
                 TcpListener server = new TcpListener(IPAddress.Any, port);
@@ -28,7 +30,7 @@ namespace Paycom_Seminar_2020
                     // You could also use server.AcceptSocket() here.
                     TcpClient client = server.AcceptTcpClient();
                     Console.WriteLine("Connected!");
-                    Thread listenThread = new Thread( ()=>handleClient(client) );
+                    Thread listenThread = new Thread( ()=>handleClient(client, connections) );
                     listenThread.Start();
 
                     
@@ -43,7 +45,7 @@ namespace Paycom_Seminar_2020
             Console.Read();
         }
 
-        public static void handleClient(TcpClient client)
+        public static void handleClient(TcpClient client, ArrayList connections)
         {
             // Buffer for reading data
             byte[] bytes = new byte[1024];
@@ -51,7 +53,7 @@ namespace Paycom_Seminar_2020
             Console.WriteLine("newThread");
             // Get a stream object for reading and writing
             NetworkStream stream = client.GetStream();
-            Broker broker = new Broker();
+            Broker broker = new Broker(connections);
             int i;
 
             // Loop to receive all the data sent by the client.
@@ -66,8 +68,16 @@ namespace Paycom_Seminar_2020
                     Console.WriteLine(String.Format("Received: {0}", data));
 
                     // Process the data sent by the client.
-                    data = broker.getResponse(data);
-                    Console.WriteLine(data);
+                    if (data.Substring(0,2).Equals(ClientMessageDecoder.MESSAGE_LISTENER_CONNECTION))
+                    {
+                        connections.Add(client.GetStream());
+                    }
+                    else
+                    {
+                        data = broker.getResponse(data);
+                        Console.WriteLine(data);
+                    }
+                    
 
                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(data);
 
@@ -79,7 +89,7 @@ namespace Paycom_Seminar_2020
                 }
                 catch(Exception e)
                 {
-                    Console.WriteLine(e.ToString());
+                    Console.WriteLine(e.ToString()+DateTime.Now.ToString());
                     i = 0;
                 }
                 

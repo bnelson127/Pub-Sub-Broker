@@ -5,7 +5,7 @@ using System.Collections;
 namespace Paycom_Seminar_2020
 {
    
-    class TopicReaderWriter
+    class TopicReaderWriter : XMLReaderWriter 
     {
         private String _topicsFilePath = "files/topics.xml";
         public String[] getTopicNames()
@@ -65,6 +65,32 @@ namespace Paycom_Seminar_2020
             Topic topic = new Topic(welcomeMessage.Value, false, "");
 
             return topic;
+        }
+
+        public void publishMessage(String topicName, String message)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(_topicsFilePath);
+
+            XmlNode topicNode = getTopNode("topic", xmlDoc, topicName);
+            XmlNode sentMessagesNode = getSubNode(topicNode, xmlDoc, "sentMessages");
+
+            XmlElement sentMessage = xmlDoc.CreateElement("sentMessage");
+
+            XmlAttribute content = xmlDoc.CreateAttribute("content");
+            content.Value = message;
+            sentMessage.Attributes.Append(content);
+
+            XmlAttribute timeStamp = xmlDoc.CreateAttribute("timestamp");
+            timeStamp.Value = DateTime.Now.Ticks.ToString();
+            sentMessage.Attributes.Append(timeStamp);
+            
+
+            sentMessagesNode.AppendChild(sentMessage);
+
+            xmlDoc.Save(_topicsFilePath);
+
+
         }
     }
 

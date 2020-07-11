@@ -1,29 +1,34 @@
 <profiles>
-  <profile username="Publisher1">
+  <profile name="Publisher1">
+    <subscriptions />
+    <topics>
+      <topic name="Ewoks" />
+      <topic name="Desks" />
+    </topics>
+  </profile>
+  <profile name="Publisher2">
     <subscriptions />
     <topics>
     </topics>
   </profile>
-  <profile username="Publisher2">
+  <profile name="Publisher3">
     <subscriptions />
     <topics>
     </topics>
   </profile>
-  <profile username="Publisher3">
-    <subscriptions />
-    <topics>
-    </topics>
-  </profile>
-  <profile username="Subscriber1">
+  <profile name="Subscriber1">
     <subscriptions>
-      <subscription name="Star Wars" />
+      <subscription name="Ewoks" timeJoined="637300844350456682" />
     </subscriptions>
     <topics>
       <topic name="Star Wars" />
     </topics>
   </profile>
-  <profile username="Subscriber2">
-    <subscriptions />
+  <profile name="Subscriber2">
+    <subscriptions>
+      <subscription name="Star Wars" timeJoined="637300724827395437" />
+      <subscription name="Ewoks" timeJoined="637300725065520439" />
+    </subscriptions>
     <topics>
     </topics>
   </profile>

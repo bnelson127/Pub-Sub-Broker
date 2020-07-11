@@ -10,6 +10,11 @@ namespace Paycom_Seminar_2020
         public static string REQUEST_TOPIC_NAMES {get;} = "04";
         public static string ADD_SUBSCRIPTION {get;} = "05";
         public static string REQUEST_NOT_SUBSCRIBED_TOPIC_NAMES {get;} = "06";
+        public static string REQUEST_USERS_TOPIC_NAMES {get;} = "07";
+        public static string PUBLISH_MESSAGE {get;} = "08";
+        public static string MESSAGE_LISTENER_CONNECTION {get;} = "09";
+        public static string REQUEST_SUBSCRIPTION_NAMES {get;} = "10";
+        
     }
 
 }

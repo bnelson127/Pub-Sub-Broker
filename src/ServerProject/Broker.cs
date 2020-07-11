@@ -1,6 +1,6 @@
 using System;
-using System.Xml;
 using System.Collections;
+using System.Net.Sockets;
 
 namespace Paycom_Seminar_2020
 {
@@ -10,6 +10,12 @@ namespace Paycom_Seminar_2020
         private ProfilesReaderWriter profReadWrite = new ProfilesReaderWriter();
         private TopicReaderWriter topReadWrite = new TopicReaderWriter();
         private Profile _userProfile = null;
+        private ArrayList _clientConnections = null;
+        
+        public Broker(ArrayList clientConnections)
+        {
+            _clientConnections = clientConnections;
+        }
         public string getResponse(string message)
         {
             string response = "You probably forgot to restart the server, dummy.";
@@ -48,6 +54,8 @@ namespace Paycom_Seminar_2020
             else if (indicator.Equals(ClientMessageDecoder.REQUEST_TOPIC_NAMES))
             {
                 String[] topicNames = topReadWrite.getTopicNames();
+
+                //semicolon is tacked onto the end to ensure an empty string is not sent
                 response = prepareStringArray(topicNames)+";";
             }
             else if (indicator.Equals(ClientMessageDecoder.ADD_SUBSCRIPTION))
@@ -69,7 +77,42 @@ namespace Paycom_Seminar_2020
                 }
 
                 String[] stringFiltered = Array.ConvertAll(filteredList.ToArray(), x => x.ToString());
+
+                //semicolon is tacked onto the end to ensure an empty string is not sent
                 response = prepareStringArray(stringFiltered)+";";
+            }
+            else if (indicator.Equals(ClientMessageDecoder.REQUEST_USERS_TOPIC_NAMES))
+            {
+                String[] arrayNames = profReadWrite.getTopics(_userProfile.getUsername());
+                String  stringNames = prepareStringArray(arrayNames);
+                response = stringNames;
+            }
+            else if (indicator.Equals(ClientMessageDecoder.PUBLISH_MESSAGE))
+            {
+                String[] names = parseString(message);
+                topReadWrite.publishMessage(names[0], names[1]);
+                for (int i = 0; i<_clientConnections.Count; i++)
+                {
+                    try
+                    {
+                        NetworkStream currentClient = (NetworkStream) _clientConnections[i];
+                        byte[] msg = System.Text.Encoding.ASCII.GetBytes(ServerMessageEncoder.MESSAGE_NOTIFICATION+names[0]);
+                        currentClient.Write(msg, 0, msg.Length);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.ToString());
+                    }
+                    
+                }
+            }
+            else if (indicator.Equals(ClientMessageDecoder.REQUEST_SUBSCRIPTION_NAMES))
+            {
+                ArrayList subscriptions = profReadWrite.getSubscriptions(_userProfile.getUsername());
+                String[] arraySubscriptions = Array.ConvertAll(subscriptions.ToArray(), x => x.ToString());
+                String stringSubscriptions = prepareStringArray(arraySubscriptions);
+                response = stringSubscriptions+";";
+                Console.WriteLine("I'm here");
             }
 
             return response;
@@ -123,6 +166,31 @@ namespace Paycom_Seminar_2020
                 finished+=array[i]+";";
             }
             return finished;
+        }
+
+        private String[] parseString(String  combinedString)
+        {
+            ArrayList separatedString = new ArrayList();
+            String delimiter = ";";
+            String word = "";
+            for (int i = 0; i<combinedString.Length; i++)
+            {
+                if (combinedString.Substring(i, 1).Equals(delimiter) && !word.Equals(""))
+                {
+                    separatedString.Add(word);
+                    word = "";
+                }
+                else
+                {
+                    word += combinedString.Substring(i, 1);
+                }
+            }
+            if (!word.Equals("") && !word.Equals(delimiter))
+            {
+                separatedString.Add(word);
+            }
+            return Array.ConvertAll(separatedString.ToArray(), x => x.ToString());
+            
         }
     }
 

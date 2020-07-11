@@ -63,6 +63,7 @@ namespace Paycom_Seminar_2020
 
         private void printTitle()
         {
+            Console.WriteLine("");
             printDecorativeLines();
             Console.Write(" ");
             Console.Write(_name.ToUpper());
