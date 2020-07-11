@@ -1,20 +1,30 @@
 <profiles>
-  <profile username="Charlie">
+  <profile username="Publisher1">
     <subscriptions />
     <topics>
-      <topic name="The Woods" />
     </topics>
   </profile>
-  <profile username="Sam">
+  <profile username="Publisher2">
     <subscriptions />
-    <topics />
+    <topics>
+    </topics>
   </profile>
-  <profile username="Bob">
+  <profile username="Publisher3">
     <subscriptions />
-    <topics />
+    <topics>
+    </topics>
   </profile>
-  <profile username="Sally">
+  <profile username="Subscriber1">
+    <subscriptions>
+      <subscription name="Star Wars" />
+    </subscriptions>
+    <topics>
+      <topic name="Star Wars" />
+    </topics>
+  </profile>
+  <profile username="Subscriber2">
     <subscriptions />
-    <topics />
+    <topics>
+    </topics>
   </profile>
 </profiles>

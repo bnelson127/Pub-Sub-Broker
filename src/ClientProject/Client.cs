@@ -23,6 +23,22 @@ namespace Paycom_Seminar_2020
             String[] names = parseString(nameString);
             return names;
         }
+
+        public String[] requestAllTopicNames()
+        {
+            String stringNames = sendServerMessage(ClientMessageEncoder.REQUEST_TOPIC_NAMES);
+            String[] arrayNames = parseString(stringNames);
+            return arrayNames;
+        }
+
+        public String[] requestNotYetSubscribedTopicNames()
+        {
+            String stringNames = sendServerMessage(ClientMessageEncoder.REQUEST_NOT_SUBSCRIBED_TOPIC_NAMES);
+            Console.WriteLine("I MADE IT");
+            String[] arrayNames = parseString(stringNames);
+            return arrayNames;
+        }
+
         public String[] requestAvailableTopics()
         {
             return null;
@@ -30,7 +46,7 @@ namespace Paycom_Seminar_2020
 
         public void subscribeToTopic(String topicName)
         {
-
+            sendServerMessage(ClientMessageEncoder.ADD_SUBSCRIPTION+topicName);
         }
 
         public void viewCurrentSubscriptions()
@@ -106,7 +122,7 @@ namespace Paycom_Seminar_2020
                     word += combinedString.Substring(i, 1);
                 }
             }
-            if (!word.Equals(""))
+            if (!word.Equals("") && !word.Equals(delimiter))
             {
                 separatedString.Add(word);
             }

@@ -60,15 +60,8 @@ namespace Paycom_Seminar_2020
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load(_profilesFilePath);
 
-            XmlNode profileNode = null;
-            XmlNodeList userNodes = xmlDoc.SelectNodes("//profiles/profile");
-            foreach(XmlNode userNode in userNodes)
-            {
-                if (userNode.Attributes["username"].Value.Equals(username))
-                {
-                    profileNode = userNode;
-                }
-            }
+            XmlNode profileNode = getProfileNode(xmlDoc, username);
+
             XmlNode subscriptionsNode = profileNode.SelectSingleNode("//subscriptions");
             XmlNode topicsNode = profileNode.SelectSingleNode("//topics");
 
@@ -78,7 +71,78 @@ namespace Paycom_Seminar_2020
 
         public void addTopic(String username, String topicName)
         {
+            
             XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(_profilesFilePath);
+
+           XmlNode profileNode = getProfileNode(xmlDoc, username);
+            
+            XmlNode topicsNode = null;
+            XmlNodeList subNodes = profileNode.ChildNodes;
+            foreach(XmlNode child in subNodes)
+            {
+                if (child.Name.Equals("topics"))
+                {
+                    topicsNode = child;
+                    
+                }
+                Console.WriteLine("USERNAME "+child.Name);
+            }
+            
+            //topicsNode = profileNode.SelectSingleNode("//topics");
+            
+
+            XmlElement topic = xmlDoc.CreateElement("topic");
+            XmlAttribute newTopicName = xmlDoc.CreateAttribute("name");
+            newTopicName.Value = topicName;
+            topic.Attributes.Append(newTopicName);
+
+            topicsNode.AppendChild(topic);
+
+            xmlDoc.Save(_profilesFilePath);
+
+        }
+
+        public void addSubscription(String username, String topicName)
+        {
+            
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(_profilesFilePath);
+            
+            XmlNode subscriptionsNode = getSubscriptionsNode(xmlDoc, username);
+
+            XmlElement subscription = xmlDoc.CreateElement("subscription");
+            XmlAttribute newSubscriptionName = xmlDoc.CreateAttribute("name");
+            newSubscriptionName.Value = topicName;
+            subscription.Attributes.Append(newSubscriptionName);
+
+            subscriptionsNode.AppendChild(subscription);
+
+            xmlDoc.Save(_profilesFilePath);
+
+        }
+
+        public ArrayList getSubscriptions(String username)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(_profilesFilePath);
+
+            XmlNode subscriptionsNode = getSubscriptionsNode(xmlDoc, username);
+            ArrayList subNamesList = new ArrayList();
+            XmlNodeList subscriptionNodes = subscriptionsNode.ChildNodes;
+            foreach(XmlNode subscription in subscriptionNodes)
+            {
+                String subName = subscription.Attributes["name"].Value;
+                subNamesList.Add(subName);
+                Console.WriteLine(subName);
+            }
+
+            return subNamesList;
+            
+        }
+
+        private XmlNode getProfileNode(XmlDocument xmlDoc, String username)
+        {
             xmlDoc.Load(_profilesFilePath);
 
             XmlNode profileNode = null;
@@ -90,17 +154,26 @@ namespace Paycom_Seminar_2020
                     profileNode = userNode;
                 }
             }
-            XmlNode topicsNode = profileNode.SelectSingleNode("//topics");
 
-            XmlElement topic = xmlDoc.CreateElement("topic");
-            XmlAttribute newTopicName = xmlDoc.CreateAttribute("name");
-            newTopicName.Value = topicName;
-            topic.Attributes.Append(newTopicName);
+            return profileNode;
+        }
 
-            topicsNode.AppendChild(topic);
+        private XmlNode getSubscriptionsNode(XmlDocument xmlDoc, String username)
+        {
 
-            xmlDoc.Save(_profilesFilePath);
+            XmlNode profileNode = getProfileNode(xmlDoc, username);
+            
+            XmlNode subscriptionsNode = null;
+            XmlNodeList subNodes = profileNode.ChildNodes;
+            foreach(XmlNode child in subNodes)
+            {
+                if (child.Name.Equals("subscriptions"))
+                {
+                    subscriptionsNode = child;
+                }
+            }
 
+            return subscriptionsNode;
         }
     }
 

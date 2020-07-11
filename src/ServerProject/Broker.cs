@@ -12,7 +12,7 @@ namespace Paycom_Seminar_2020
         private Profile _userProfile = null;
         public string getResponse(string message)
         {
-            string response = "dummy";
+            string response = "You probably forgot to restart the server, dummy.";
             string indicator = message.Substring(0,2);
             message = message.Substring(2);
             message = message.Trim((char) 0);
@@ -45,6 +45,32 @@ namespace Paycom_Seminar_2020
             {
                 response = createTopic(message);
             }
+            else if (indicator.Equals(ClientMessageDecoder.REQUEST_TOPIC_NAMES))
+            {
+                String[] topicNames = topReadWrite.getTopicNames();
+                response = prepareStringArray(topicNames)+";";
+            }
+            else if (indicator.Equals(ClientMessageDecoder.ADD_SUBSCRIPTION))
+            {
+                profReadWrite.addSubscription(_userProfile.getUsername(), message);
+                response = ServerMessageEncoder.NO_ACTION_REQUIRED;
+            }
+            else if (indicator.Equals(ClientMessageDecoder.REQUEST_NOT_SUBSCRIBED_TOPIC_NAMES))
+            {
+                String[] topicNames = topReadWrite.getTopicNames();
+                ArrayList subNames = profReadWrite.getSubscriptions(_userProfile.getUsername());
+                ArrayList filteredList = new ArrayList();
+                for (int i = 0; i<topicNames.Length; i++)
+                {
+                    if (!subNames.Contains(topicNames[i]))
+                    {
+                        filteredList.Add(topicNames[i]);
+                    }
+                }
+
+                String[] stringFiltered = Array.ConvertAll(filteredList.ToArray(), x => x.ToString());
+                response = prepareStringArray(stringFiltered)+";";
+            }
 
             return response;
         }
@@ -74,7 +100,7 @@ namespace Paycom_Seminar_2020
             String responseMessage = "";
 
             String[] existingTopicNames = topReadWrite.getTopicNames();
-            //makes absolutely sure that the username has not already been taken.
+            //makes absolutely sure that the topicname has not already been taken.
             if (Array.Find(existingTopicNames, element => element.Equals(name))==null)
             {
                 topReadWrite.createNewTopic(name);
