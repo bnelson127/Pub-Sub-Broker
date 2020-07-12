@@ -108,6 +108,10 @@ namespace Paycom_Seminar_2020
             timeStamp.Value = DateTime.Now.Ticks.ToString();
             subscription.Attributes.Append(timeStamp);
 
+            XmlAttribute lastChecked = xmlDoc.CreateAttribute("lastChecked");
+            lastChecked.Value = DateTime.Now.Ticks.ToString();
+            subscription.Attributes.Append(lastChecked);
+
             subscriptionsNode.AppendChild(subscription);
 
             xmlDoc.Save(_profilesFilePath);
@@ -165,6 +169,35 @@ namespace Paycom_Seminar_2020
             long subscriptionDate = Convert.ToInt64(subscriptionNode.Attributes["timeJoined"].Value);
             return subscriptionDate;
 
+        }
+
+        public void updateLastChecked(String username, String topicName)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(_profilesFilePath);
+
+            XmlNode profileNode = getTopNode("profile", xmlDoc, username);
+            XmlNode subscriptionsNode = getSubNode(profileNode, xmlDoc, "subscriptions");
+            XmlNode subscriptionNode = getSubNode(subscriptionsNode, xmlDoc, "subscription", topicName);
+
+            subscriptionNode.Attributes["lastChecked"].Value = DateTime.Now.Ticks.ToString();
+
+            xmlDoc.Save(_profilesFilePath);
+        }
+
+        public long getLastChecked(String username, String topicName)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(_profilesFilePath);
+
+            XmlNode profileNode = getTopNode("profile", xmlDoc, username);
+            XmlNode subscriptionsNode = getSubNode(profileNode, xmlDoc, "subscriptions");
+            XmlNode subscriptionNode = getSubNode(subscriptionsNode, xmlDoc, "subscription", topicName);
+
+            String stringLastChecked = subscriptionNode.Attributes["lastChecked"].Value;
+            long longLastChecked = Convert.ToInt64(stringLastChecked);
+
+            return longLastChecked;
         }
     }
 

@@ -1,10 +1,10 @@
 <topics>
   <topic name="Star Wars">
-    <settings welcomMessage="Welcome to the topic!" defaultMessages=";" autoSend="false" />
+    <settings welcomMessage="Welcome to the topic!" defaultMessages="This topic is the best!;" autoSend="false" />
     <sentMessages />
   </topic>
   <topic name="Ewoks">
-    <settings welcomMessage="Welcome to the topic!" defaultMessages=";" autoSend="false" />
+    <settings welcomMessage="Welcome to the topic!" defaultMessages="This topic is the best!;" autoSend="false" />
     <sentMessages>
       <sentMessage content="Furry, Furry, Furry!" timestamp="637300751436454180" />
       <sentMessage content="Cute!" timestamp="637300790825539747" />
@@ -13,12 +13,14 @@
       <sentMessage content="Little Bears are cute" timestamp="637300810679174063" />
       <sentMessage content="Endor" timestamp="637300815965512528" />
       <sentMessage content="C3PO is a god!" timestamp="637300818984130432" />
+      <sentMessage content="Better than porgs!" timestamp="637301382465969179" />
     </sentMessages>
   </topic>
   <topic name="Desks">
-    <settings welcomMessage="Welcome to the topic!" defaultMessages=";" autoSend="false" />
+    <settings welcomMessage="Welcome to the topic!" defaultMessages="This topic is the best!;" autoSend="false" />
     <sentMessages>
       <sentMessage content="Sitting is fun!" timestamp="637300926193949370" />
+      <sentMessage content="Does your desk have storage?" timestamp="637301488662368252" />
     </sentMessages>
   </topic>
 </topics>

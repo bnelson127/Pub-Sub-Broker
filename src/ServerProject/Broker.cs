@@ -117,7 +117,23 @@ namespace Paycom_Seminar_2020
             {
                 long joinTime = profReadWrite.getSubscriptionDate(_userProfile.getUsername(), message);
                 String[] messages = topReadWrite.getTopicMessages(message, joinTime);
+                profReadWrite.updateLastChecked(_userProfile.getUsername(), message);
                 response = prepareStringArray(messages);
+            }
+            else if (indicator.Equals(ClientMessageDecoder.REQUEST_NEW_MESSAGE_COUNT))
+            {
+                long[] times = topReadWrite.getMessageTimeStamps(message);
+                long lastChecked = profReadWrite.getLastChecked(_userProfile.getUsername(), message);
+                int newMessageCount = 0;
+
+                foreach(long time in times)
+                {
+                    if (time>lastChecked)
+                    {
+                        newMessageCount++;
+                    }
+                }
+                response = newMessageCount.ToString();
             }
 
             return response;

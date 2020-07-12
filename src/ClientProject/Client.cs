@@ -59,6 +59,13 @@ namespace Paycom_Seminar_2020
             return arrayMessages;
         }
 
+        public int requestNewMessageCount(String topicName)
+        {
+            String stringCount = sendServerMessage(ClientMessageEncoder.REQUEST_NEW_MESSAGE_COUNT+topicName);
+            int intCount = Convert.ToInt32(stringCount);
+            return intCount;
+        }
+
         public void subscribeToTopic(String topicName)
         {
             sendServerMessage(ClientMessageEncoder.ADD_SUBSCRIPTION+topicName);
@@ -85,7 +92,7 @@ namespace Paycom_Seminar_2020
                 ns.Read(bytesMsgFromServer, 0, 65536);
                 String stringMsgFromServer = System.Text.Encoding.ASCII.GetString(bytesMsgFromServer);
                 serverResponse = stringMsgFromServer.Trim((char) 0);
-                Console.WriteLine(" >> " + "From server-"+ serverResponse);
+                //Console.WriteLine(" >> " + "From server-"+ serverResponse);
             }
             catch(Exception e)
             {

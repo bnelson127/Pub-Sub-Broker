@@ -84,20 +84,47 @@ namespace Paycom_Seminar_2020
         public void viewSubscriptionMessages()
         {
             String[] mySubs = _client.requestSubscriptionNames();
+            int[] newMessageCounts = new int[mySubs.Length];
+            for (int i = 0; i<mySubs.Length; i++)
+            {
+                newMessageCounts[i] = _client.requestNewMessageCount(mySubs[i]);
+            }
+
+            String[] menuOptions = new String[mySubs.Length];
+            for (int i = 0; i<mySubs.Length; i++)
+            {
+                menuOptions[i] = $"[{newMessageCounts[i]} new] {mySubs[i]}";
+            }
+
             if (mySubs.Length == 0)
             {
                 makeStatement("It doesn't look like you're subscribed to any topics! Go to the Manage Subscriptions menu to subscribe to some!");
             }
             else
             {
-                int userChoice = askQuestionMultipleChoice("From what topic would you like to view messages?", mySubs);
+                int userChoice = askQuestionMultipleChoice("From what topic would you like to view messages?", menuOptions);
                 String topicName = mySubs[userChoice-1];
-                String[] messages = _client.requestSubscriptionMessages(topicName);
-                for (int i = messages.Length-1; i>=0; i-=2)
+
+                String title = "MESSAGES FROM "+topicName.ToUpper();
+                for (int i = 0; i<title.Length; i++)
                 {
-                    Console.Write(messages[i-1]+": ");
-                    Console.WriteLine(messages[i]);
+                    Console.Write("-");
                 }
+                Console.WriteLine("");
+                Console.WriteLine(title);
+                for (int i = 0; i<title.Length; i++)
+                {
+                    Console.Write("-");
+                }
+                Console.WriteLine("");
+
+                String[] messages = _client.requestSubscriptionMessages(topicName);
+                for (int i = 0; i<messages.Length; i+=2)
+                {
+                    Console.Write(messages[i]+": ");
+                    Console.WriteLine(messages[i+1]);
+                }
+                makeStatement("These are all the messages you have recieved since joining the topic.");
             }
         }
         public String selectProfile(String[] names)

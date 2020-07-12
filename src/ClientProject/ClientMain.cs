@@ -76,5 +76,13 @@ namespace Paycom_Seminar_2020
                 
             }
         }
+
+        public static void autoPublish()
+        {
+            while(true)
+            {
+                
+            }
+        }
     }
 }

@@ -100,6 +100,9 @@ namespace Paycom_Seminar_2020
             XmlNode sentMessagesNode = getSubNode(topicNode, xmlDoc, "sentMessages");
 
             ArrayList messages = new ArrayList();
+            DateTime dateJoined = new DateTime(joinTime);
+            messages.Add(dateJoined.ToShortDateString()+" "+dateJoined.ToShortTimeString());
+            messages.Add("You joined the topic.");
             foreach (XmlNode message in sentMessagesNode)
             {
                 long timestamp = Convert.ToInt64(message.Attributes["timestamp"].Value);
@@ -111,6 +114,24 @@ namespace Paycom_Seminar_2020
                 }
             }
             return Array.ConvertAll(messages.ToArray(), x => x.ToString());
+        }
+
+        public long[] getMessageTimeStamps(String topicName)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(_topicsFilePath);
+
+            XmlNode topicNode = getTopNode("topic", xmlDoc, topicName);
+            XmlNode sentMessagesNode = getSubNode(topicNode, xmlDoc, "sentMessages");
+
+            ArrayList timestamps = new ArrayList();
+            foreach (XmlNode message in sentMessagesNode)
+            {
+                long timestamp = Convert.ToInt64(message.Attributes["timestamp"].Value);
+                timestamps.Add(timestamp);
+            }
+
+            return Array.ConvertAll(timestamps.ToArray(), x => Convert.ToInt64(x));
         }
     }
 
