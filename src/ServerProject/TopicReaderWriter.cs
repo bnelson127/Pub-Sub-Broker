@@ -155,6 +155,57 @@ namespace Paycom_Seminar_2020
 
             return settingsNode.Attributes["defaultMessages"].Value;
         }
+
+        public String toggleAutoRun(String topicName)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(_topicsFilePath);
+
+            XmlNode topicNode = getTopNode("topic", xmlDoc, topicName);
+            XmlNode settingsNode = getSubNode(topicNode, xmlDoc, "settings");
+
+            String state = settingsNode.Attributes["autoSend"].Value;
+            if (state.Equals("false"))
+            {
+                settingsNode.Attributes["autoSend"].Value = "true";
+            }
+            else
+            {
+                settingsNode.Attributes["autoSend"].Value = "false";
+            }
+
+            xmlDoc.Save(_topicsFilePath);
+
+            return settingsNode.Attributes["autoSend"].Value;
+        }
+
+        public void addDefaultMessage(String topicName, String message)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(_topicsFilePath);
+
+            XmlNode topicNode = getTopNode("topic", xmlDoc, topicName);
+            XmlNode settingsNode = getSubNode(topicNode, xmlDoc, "settings");
+
+            String messages = settingsNode.Attributes["defaultMessages"].Value;
+            settingsNode.Attributes["defaultMessages"].Value = messages+message+";";
+
+            xmlDoc.Save(_topicsFilePath);
+
+        }
+        public void setDefaultMessages(String topicName, String messages)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(_topicsFilePath);
+
+            XmlNode topicNode = getTopNode("topic", xmlDoc, topicName);
+            XmlNode settingsNode = getSubNode(topicNode, xmlDoc, "settings");
+
+            settingsNode.Attributes["defaultMessages"].Value = messages;
+
+            xmlDoc.Save(_topicsFilePath);
+
+        }
     }
 
 }

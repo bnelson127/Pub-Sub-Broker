@@ -145,6 +145,38 @@ namespace Paycom_Seminar_2020
                 String status = topReadWrite.getDefaultMessages(message);
                 response = status;
             }
+            else if (indicator.Equals(ClientMessageDecoder.TOGGLE_AUTO_RUN))
+            {
+                String status = topReadWrite.toggleAutoRun(message);
+                response = status;
+            }
+            else if (indicator.Equals(ClientMessageDecoder.ADD_DEFAULT_MESSAGE))
+            {
+                String[] messages = parseString(message);
+                topReadWrite.addDefaultMessage(messages[0], messages[1]);
+            }
+            else if (indicator.Equals(ClientMessageDecoder.DELETE_DEFAULT_MESSAGE))
+            {
+                String[] parameters = parseString(message);
+                String stringMessages = topReadWrite.getDefaultMessages(parameters[0]);
+                String[] arrayMessages = parseString(stringMessages);
+                String newMessages = ";";
+                int messageCount = 0;
+                foreach (String msg in arrayMessages)
+                {
+                    if (!msg.Equals(parameters[1]))
+                    {
+                        newMessages+=msg+";";
+                        messageCount++;
+                    }
+                }
+                topReadWrite.setDefaultMessages(parameters[0], newMessages);
+                if (messageCount == 0 && topReadWrite.getAutoRun(parameters[0]).Equals("true"))
+                {
+                    topReadWrite.toggleAutoRun(parameters[0]);
+                }
+                response = messageCount.ToString();
+            }
 
             return response;
         }
@@ -206,10 +238,14 @@ namespace Paycom_Seminar_2020
             String word = "";
             for (int i = 0; i<combinedString.Length; i++)
             {
-                if (combinedString.Substring(i, 1).Equals(delimiter) && !word.Equals(""))
+                if (combinedString.Substring(i, 1).Equals(delimiter))
                 {
-                    separatedString.Add(word);
-                    word = "";
+                    if (!word.Equals(""))
+                    {
+                        separatedString.Add(word);
+                        word = "";
+                    }
+                    
                 }
                 else
                 {

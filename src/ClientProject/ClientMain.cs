@@ -103,7 +103,7 @@ namespace Paycom_Seminar_2020
                     foreach (String topic in autoTopics)
                     {
                         String[] defaultMessages = client.requestDefaultMessages(topic);
-                        client.publishMessage(topic, defaultMessages[rand.Next(0,defaultMessages.Length+1)]);
+                        client.publishMessage(topic, defaultMessages[rand.Next(0,defaultMessages.Length)]);
                         Console.WriteLine(defaultMessages.Length);
                     }
                 }

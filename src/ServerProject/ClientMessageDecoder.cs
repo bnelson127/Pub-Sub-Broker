@@ -18,6 +18,9 @@ namespace Paycom_Seminar_2020
         public static string REQUEST_NEW_MESSAGE_COUNT {get;} = "12";
         public static string REQUEST_AUTO_RUN_STATUS {get;} = "13";
         public static string REQUEST_DEFAULT_MESSAGES {get;} = "14";
+        public static string TOGGLE_AUTO_RUN {get;} = "15";
+        public static string ADD_DEFAULT_MESSAGE {get;} = "16";
+        public static string DELETE_DEFAULT_MESSAGE {get;} = "17";
     }
 
 }

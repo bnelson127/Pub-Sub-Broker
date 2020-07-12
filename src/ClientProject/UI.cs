@@ -184,6 +184,88 @@ namespace Paycom_Seminar_2020
 
         }
 
+        public void toggleAutoRun(String topicName)
+        {
+            String[] defaultMessages = _client.requestDefaultMessages(topicName);
+            if (defaultMessages.Length>0)
+            {
+                String state = _client.toggleAutoRun(topicName);
+                if (state.Equals("true"))
+                {
+                    makeStatement("This topic has started automatically publishing messages.");
+                }
+                else
+                {
+                    makeStatement("This topic no longer automatically publishes messages.");
+                }
+            }
+            else
+            {
+                makeStatement("Sorry, but it doesn't look like you have any default messages to automatically send. You can add some under the 'Manage Default Messages' menu.");
+            }
+        }
+
+        public void addDefaultMessage(String topicName)
+        {
+            String message = askQuestionFreeResponse($"What message would you like to add to '{topicName}'?");
+            _client.addDefaultMessage(topicName, message);
+            makeStatement("The message has been added.");
+        }
+
+        public void deleteDefaultMessage(String topicName)
+        {
+            String[] messages = _client.requestDefaultMessages(topicName);
+            if (messages.Length > 0)
+            {
+                int userChoice = askQuestionMultipleChoice("Which of these would you like to delete?", messages);
+                String messageToDelete = messages[userChoice-1];
+                int numMessagesLeft = _client.deleteDefaultMessage(topicName, messageToDelete);
+                if (numMessagesLeft == 0)
+                {
+                    makeStatement("The message has been deleted. There are no messages left, so auto run has been disabled.");
+                }
+                else
+                {
+                    makeStatement("The message has been deleted.");
+                }
+            }
+            else
+            {
+                makeStatement("It doesn't look like you have any default messages to delete!");
+            }
+        }
+
+        public void viewDefaultMessages(String topicName)
+        {
+            String[] messages = _client.requestDefaultMessages(topicName);
+            if (messages.Length > 0)
+            {
+                String title = $"DEFAULT MESSAGES FOR {topicName.ToUpper()}";
+                Console.WriteLine("");
+                for (int i = 0; i<title.Length; i++)
+                {
+                    Console.Write("-");
+                }
+                Console.WriteLine("");
+                Console.WriteLine(title);
+                for (int i = 0; i<title.Length; i++)
+                {
+                    Console.Write("-");
+                }
+                Console.WriteLine();
+
+                foreach (String message in messages)
+                {
+                    Console.WriteLine(message);
+                }
+
+                makeStatement($"These are all the messages that can be automatically sent for '{topicName}'.");
+            }
+            else
+            {
+                makeStatement("It doesn't look like you have any default messages for this topic!");
+            }
+        }
         public void subscribeToTopic()
         {
             String[] names = _client.requestNotYetSubscribedTopicNames();

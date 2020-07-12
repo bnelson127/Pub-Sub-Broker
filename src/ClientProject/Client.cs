@@ -83,6 +83,22 @@ namespace Paycom_Seminar_2020
             return arrayMessages;
         }
 
+        public String toggleAutoRun(String topicName)
+        {
+            String state = sendServerMessage(ClientMessageEncoder.TOGGLE_AUTO_RUN+topicName);
+            return state;
+        }
+
+        public void addDefaultMessage(String topicName, String message)
+        {
+            sendServerMessage(ClientMessageEncoder.ADD_DEFAULT_MESSAGE+topicName+";"+message);
+        }
+
+        public int deleteDefaultMessage(String topicName, String message)
+        {
+            int numMessagesLeft = Convert.ToInt32(sendServerMessage(ClientMessageEncoder.DELETE_DEFAULT_MESSAGE+topicName+";"+message));
+            return numMessagesLeft;
+        }
         public void subscribeToTopic(String topicName)
         {
             sendServerMessage(ClientMessageEncoder.ADD_SUBSCRIPTION+topicName);
@@ -142,10 +158,14 @@ namespace Paycom_Seminar_2020
             String word = "";
             for (int i = 0; i<combinedString.Length; i++)
             {
-                if (combinedString.Substring(i, 1).Equals(delimiter) && !word.Equals(""))
+                if (combinedString.Substring(i, 1).Equals(delimiter))
                 {
-                    separatedString.Add(word);
-                    word = "";
+                    if (!word.Equals(""))
+                    {
+                        separatedString.Add(word);
+                        word = "";
+                    }
+                    
                 }
                 else
                 {
