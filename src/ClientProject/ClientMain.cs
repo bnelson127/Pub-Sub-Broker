@@ -4,6 +4,7 @@ using System.Threading;
 using System.Net.Sockets;
 using System.Text;
 using System.IO;
+using System.Collections;
 
 namespace Paycom_Seminar_2020
 {
@@ -22,8 +23,12 @@ namespace Paycom_Seminar_2020
             UI ui = new UI(client);
 
             MenuSystem menuSystem = new MenuSystem(ui);
+
             Thread listenThread = new Thread( ()=>listenForNotifications(secondaryTcpClient, client) );
             listenThread.Start();
+
+            Thread autoSendThread = new Thread( ()=>autoPublish(client) );
+            autoSendThread.Start();
 
             menuSystem.start();
         }
@@ -77,10 +82,31 @@ namespace Paycom_Seminar_2020
             }
         }
 
-        public static void autoPublish()
+        public static void autoPublish(Client client)
         {
+            Random rand = new Random();
             while(true)
             {
+                Thread.Sleep(20*1000);
+                if (client.getUsername() != null)
+                {
+                    String[] topics = client.requestMyTopicNames();
+                    ArrayList autos = new ArrayList();
+                    foreach (String topic in topics)
+                    {
+                        if (client.requestAutoRunStatus(topic))
+                        {
+                            autos.Add(topic);
+                        }
+                    }
+                    String[] autoTopics = Array.ConvertAll(autos.ToArray(), x => x.ToString());
+                    foreach (String topic in autoTopics)
+                    {
+                        String[] defaultMessages = client.requestDefaultMessages(topic);
+                        client.publishMessage(topic, defaultMessages[rand.Next(0,defaultMessages.Length+1)]);
+                        Console.WriteLine(defaultMessages.Length);
+                    }
+                }
                 
             }
         }

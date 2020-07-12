@@ -4,7 +4,7 @@
     <sentMessages />
   </topic>
   <topic name="Ewoks">
-    <settings welcomMessage="Welcome to the topic!" defaultMessages="This topic is the best!;" autoSend="false" />
+    <settings welcomMessage="Welcome to the topic!" defaultMessages="Ewoks are the cutest things!;Nub Nub;Yay for a cameo in TROS!" autoSend="true" />
     <sentMessages>
       <sentMessage content="Furry, Furry, Furry!" timestamp="637300751436454180" />
       <sentMessage content="Cute!" timestamp="637300790825539747" />
@@ -14,6 +14,29 @@
       <sentMessage content="Endor" timestamp="637300815965512528" />
       <sentMessage content="C3PO is a god!" timestamp="637300818984130432" />
       <sentMessage content="Better than porgs!" timestamp="637301382465969179" />
+      <sentMessage content="Ewoks are the cutest things!" timestamp="637301586821746358" />
+      <sentMessage content="Ewoks are the cutest things!" timestamp="637301587023076596" />
+      <sentMessage content="Nub Nub" timestamp="637301596403063537" />
+      <sentMessage content="Ewoks are the cutest things!" timestamp="637301596605352928" />
+      <sentMessage content="Ewoks are the cutest things!" timestamp="637301596806895683" />
+      <sentMessage content="Ewoks are the cutest things!" timestamp="637301597008463110" />
+      <sentMessage content="Ewoks are the cutest things!" timestamp="637301597209047286" />
+      <sentMessage content="Nub Nub" timestamp="637301597410871831" />
+      <sentMessage content="Nub Nub" timestamp="637301597611982646" />
+      <sentMessage content="Nub Nub" timestamp="637301597812932564" />
+      <sentMessage content="Ewoks are the cutest things!" timestamp="637301598014418682" />
+      <sentMessage content="Nub Nub" timestamp="637301598215447544" />
+      <sentMessage content="Ewoks are the cutest things!" timestamp="637301599731561012" />
+      <sentMessage content="Yay for a cameo in TROS!" timestamp="637301600545277648" />
+      <sentMessage content="Yay for a cameo in TROS!" timestamp="637301600746207128" />
+      <sentMessage content="Yay for a cameo in TROS!" timestamp="637301600947174461" />
+      <sentMessage content="Yay for a cameo in TROS!" timestamp="637301601148454247" />
+      <sentMessage content="Ewoks are the cutest things!" timestamp="637301601350256288" />
+      <sentMessage content="Yay for a cameo in TROS!" timestamp="637301601550836229" />
+      <sentMessage content="Nub Nub" timestamp="637301601751464083" />
+      <sentMessage content="Nub Nub" timestamp="637301601952237128" />
+      <sentMessage content="Ewoks are the cutest things!" timestamp="637301602153277497" />
+      <sentMessage content="Ewoks are the cutest things!" timestamp="637301602354116102" />
     </sentMessages>
   </topic>
   <topic name="Desks">

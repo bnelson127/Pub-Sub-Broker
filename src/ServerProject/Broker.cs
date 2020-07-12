@@ -85,7 +85,7 @@ namespace Paycom_Seminar_2020
             {
                 String[] arrayNames = profReadWrite.getTopics(_userProfile.getUsername());
                 String  stringNames = prepareStringArray(arrayNames);
-                response = stringNames;
+                response = stringNames+";";
             }
             else if (indicator.Equals(ClientMessageDecoder.PUBLISH_MESSAGE))
             {
@@ -134,6 +134,16 @@ namespace Paycom_Seminar_2020
                     }
                 }
                 response = newMessageCount.ToString();
+            }
+            else if (indicator.Equals(ClientMessageDecoder.REQUEST_AUTO_RUN_STATUS))
+            {
+                String status = topReadWrite.getAutoRun(message);
+                response = status;
+            }
+            else if (indicator.Equals(ClientMessageDecoder.REQUEST_DEFAULT_MESSAGES))
+            {
+                String status = topReadWrite.getDefaultMessages(message);
+                response = status;
             }
 
             return response;

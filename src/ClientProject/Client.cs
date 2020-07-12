@@ -66,6 +66,23 @@ namespace Paycom_Seminar_2020
             return intCount;
         }
 
+        public bool requestAutoRunStatus(String topicName)
+        {
+            String stringStatus = sendServerMessage(ClientMessageEncoder.REQUEST_AUTO_RUN_STATUS+topicName);
+            if (stringStatus.Equals("true"))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public String[] requestDefaultMessages(String topicName)
+        {
+            String stringMessages = sendServerMessage(ClientMessageEncoder.REQUEST_DEFAULT_MESSAGES+topicName);
+            String[] arrayMessages = parseString(stringMessages);
+            return arrayMessages;
+        }
+
         public void subscribeToTopic(String topicName)
         {
             sendServerMessage(ClientMessageEncoder.ADD_SUBSCRIPTION+topicName);

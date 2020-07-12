@@ -27,7 +27,7 @@
   <profile name="Subscriber2">
     <subscriptions>
       <subscription name="Star Wars" timeJoined="637300724827395437" lastChecked="637301487574963192" />
-      <subscription name="Ewoks" timeJoined="637300725065520439" lastChecked="637301488866871029" />
+      <subscription name="Ewoks" timeJoined="637300725065520439" lastChecked="637301602413242203" />
       <subscription name="Desks" timeJoined="637301404746329927" lastChecked="637301489104083945" />
     </subscriptions>
     <topics>

@@ -133,6 +133,28 @@ namespace Paycom_Seminar_2020
 
             return Array.ConvertAll(timestamps.ToArray(), x => Convert.ToInt64(x));
         }
+
+        public String getAutoRun(String topicName)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(_topicsFilePath);
+
+            XmlNode topicNode = getTopNode("topic", xmlDoc, topicName);
+            XmlNode settingsNode = getSubNode(topicNode, xmlDoc, "settings");
+
+            return settingsNode.Attributes["autoSend"].Value;
+        }
+
+        public String getDefaultMessages(String topicName)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(_topicsFilePath);
+
+            XmlNode topicNode = getTopNode("topic", xmlDoc, topicName);
+            XmlNode settingsNode = getSubNode(topicNode, xmlDoc, "settings");
+
+            return settingsNode.Attributes["defaultMessages"].Value;
+        }
     }
 
 }
