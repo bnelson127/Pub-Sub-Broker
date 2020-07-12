@@ -17,6 +17,8 @@
   </topic>
   <topic name="Desks">
     <settings welcomMessage="Welcome to the topic!" defaultMessages=";" autoSend="false" />
-    <sentMessages />
+    <sentMessages>
+      <sentMessage content="Sitting is fun!" timestamp="637300926193949370" />
+    </sentMessages>
   </topic>
 </topics>

@@ -14,13 +14,18 @@ namespace Paycom_Seminar_2020
             
             int portNum = 9999;
             string hostName = "localhost";
-            TcpClient tcpClient = new TcpClient(hostName, portNum);
+
+            TcpClient primaryTcpClient = new TcpClient(hostName, portNum);
+            TcpClient secondaryTcpClient = new TcpClient(hostName, portNum);
             
-            Client client = new Client(tcpClient);
-            UI ui = new UI(tcpClient, client);
-            Thread listenThread = new Thread( ()=>listenForNotifications(new TcpClient(hostName, portNum), client) );
+            Client client = new Client(primaryTcpClient, secondaryTcpClient);
+            UI ui = new UI(client);
+
+            MenuSystem menuSystem = new MenuSystem(ui);
+            Thread listenThread = new Thread( ()=>listenForNotifications(secondaryTcpClient, client) );
             listenThread.Start();
-            ui.start();
+
+            menuSystem.start();
         }
 
         public static void listenForNotifications(TcpClient connection, Client client)
@@ -65,7 +70,6 @@ namespace Paycom_Seminar_2020
                 }
                 catch(Exception e)
                 {
-                    Console.WriteLine("Connection Lost...");
                     continueRunning = false;
                 }
                 

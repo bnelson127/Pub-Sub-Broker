@@ -4,7 +4,6 @@ namespace Paycom_Seminar_2020
 {
     class Menu
     {
-        private Menu _backMenu = null;
         private String[] _options = null;
         private String _name = null;
         public Menu(String name, String[] options, bool hasBackOption)

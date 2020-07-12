@@ -6,15 +6,9 @@ namespace Paycom_Seminar_2020
     class UI
     {
         private Client _client = null;
-        private TcpClient _tcpClient = null;
-        private Menu _mainMenu = new Menu("Main Menu", new String[] {"View Subscription Messages", "Manage Subscriptions", "Manage Topics", "Refresh Menu", "Quit"}, false);
-        private Menu _manageTopics = new Menu("Manage Topics", new String[] {"Create Topic", "Manage Topic"}, true);
-        private Menu _manageSubscriptions = new Menu("Manage Subscriptions", new String[] {"Subscribe to Topic", "Unsubscribe from Topic"}, true);
-        private Menu _manageSingleTopic = new Menu("Topic Management", new String[] {"Publish Message", "Message History", "Topic Settings", "Delete Topic"}, true);
-        public UI(TcpClient tcpClient, Client client)
+        public UI(Client client)
         {
             _client = client;
-            _tcpClient = tcpClient;
         }
         public void start()
         {
@@ -43,7 +37,6 @@ namespace Paycom_Seminar_2020
                     successful = true;
                 }
             }
-            showMainMenu();
         }
 
         public String checkUsername(String userChoice)
@@ -67,80 +60,24 @@ namespace Paycom_Seminar_2020
             return status;
         }
 
-        public void showMainMenu()
+        public void quit()
         {
-            String userChoice = _mainMenu.displayMenu();
-            if (userChoice.Equals("Manage Subscriptions"))
-            {
-                manageSubscriptions();
-            }
-            else if (userChoice.Equals("Manage Topics"))
-            {
-                manageTopics();
-            }
-            else if (userChoice.Equals("Quit"))
-            {
-                _tcpClient.Close();
-            }
+            _client.closeConnections();
         }
 
-        public void manageTopics()
+        public String getTopicToManage()
         {
-            String userChoice = _manageTopics.displayMenu();
-            if(userChoice.Equals("Back"))
-            {
-                showMainMenu();
-            }
-            else if (userChoice.Equals("Create Topic"))
-            {
-                createNewTopic();
-            }
-            else if (userChoice.Equals("Manage Topic"))
-            {
-                String[] topicOptions = _client.requestMyTopicNames();
-                int userResponse = askQuestionMultipleChoice("Which topic would you like to manage?", topicOptions);
-                String topicSelected = topicOptions[userResponse-1];
-                makeStatement($"You have selelcted to manage the topic '{topicSelected}'");
-                manageSingleTopic(topicSelected);
-            }
+            String[] topicOptions = _client.requestMyTopicNames();
+            int userResponse = askQuestionMultipleChoice("Which topic would you like to manage?", topicOptions);
+            String topicSelected = topicOptions[userResponse-1];
+            makeStatement($"You have selelcted to manage the topic '{topicSelected}'");
+            return topicSelected;
         }
-
-        public void manageSubscriptions()
-        {
-            String userChoice = _manageSubscriptions.displayMenu();
-            if (userChoice.Equals("Back"))
-            {
-                showMainMenu();
-            }
-            else if (userChoice.Equals("Subscribe to Topic"))
-            {
-                subscribeToTopic();
-            }
-            else if (userChoice.Equals("Unsubscribe from Topic"))
-            {
-
-            }
-        }
-
-        public void manageSingleTopic(String topicName)
-        {
-            String userChoice = _manageSingleTopic.displayMenu();
-            if (userChoice.Equals("Back"))
-            {
-                manageTopics();
-            }
-            else if (userChoice.Equals("Publish Message"))
-            {
-                publishMessage(topicName);
-            }
-        }
-
         public void publishMessage(String topicName)
         {
             String message = askQuestionFreeResponse("What would you like to publish to your subscribers?");
             _client.publishMessage(topicName, message);
             makeStatement("The message has been sent.");
-            manageSingleTopic(topicName);
 
         }
         public String selectProfile(String[] names)
@@ -196,7 +133,6 @@ namespace Paycom_Seminar_2020
                 
             }
             makeStatement($"You have succesfully created the topic called '{topicName}'.");
-            manageTopics();
             
 
         }
@@ -221,7 +157,6 @@ namespace Paycom_Seminar_2020
                 _client.subscribeToTopic(topic);
                 makeStatement($"Congratualtions! You have successfully subscribed to {topic}");
             }
-            manageSubscriptions();
         }
         private int askQuestionMultipleChoice(String question, String[] options)
         {

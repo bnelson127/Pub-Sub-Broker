@@ -9,12 +9,12 @@ namespace Paycom_Seminar_2020
     class Client
     {
         private String _username;
-        private String[] _subscriptionNames;
-        private String[] _topicNames;
-        private TcpClient _tcpClient;
-        public Client(TcpClient tcpClient)
+        private TcpClient _primaryTcpClient;
+        private TcpClient _secondaryTcpClient;
+        public Client(TcpClient primaryTcpClient, TcpClient secondaryTcpClient)
         {
-            _tcpClient = tcpClient;
+            _primaryTcpClient = primaryTcpClient;
+            _secondaryTcpClient = secondaryTcpClient;
         }
 
         public String[] requestUsernames()
@@ -77,7 +77,7 @@ namespace Paycom_Seminar_2020
             String serverResponse = "error";
             try
             {
-                NetworkStream ns = _tcpClient.GetStream();
+                NetworkStream ns = _primaryTcpClient.GetStream();
 
                 var writer = new StreamWriter(ns);
 
@@ -106,6 +106,12 @@ namespace Paycom_Seminar_2020
         public String getUsername()
         {
             return _username;
+        }
+
+        public void closeConnections()
+        {
+            _primaryTcpClient.Close();
+            _secondaryTcpClient.Close();
         }
 
         private String[] parseString(String  combinedString)
