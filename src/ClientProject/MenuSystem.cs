@@ -4,7 +4,7 @@ namespace Paycom_Seminar_2020
 {
     class MenuSystem
     {
-        private Menu _mainMenu = new Menu("Main Menu", new String[] {"View Subscription Messages", "Manage Subscriptions", "Manage Topics", "Refresh Menu", "Quit"}, false);
+        private Menu _mainMenu = new Menu("Main Menu", new String[] {"View Subscription Messages", "Manage Subscriptions", "Manage Topics", "Quit"}, false);
         private Menu _manageTopics = new Menu("Manage Topics", new String[] {"Create Topic", "Manage Topic"}, true);
         private Menu _manageSubscriptions = new Menu("Manage Subscriptions", new String[] {"Subscribe to Topic", "Unsubscribe from Topic"}, true);
         private Menu _manageSingleTopic = new Menu("Topic Management", new String[] {"Publish Message", "Message History", "Topic Settings", "Delete Topic"}, true);
@@ -23,7 +23,12 @@ namespace Paycom_Seminar_2020
         public void showMainMenu()
         {
             String userChoice = _mainMenu.displayMenu();
-            if (userChoice.Equals("Manage Subscriptions"))
+            if (userChoice.Equals("View Subscription Messages"))
+            {
+                ui.viewSubscriptionMessages();
+                showMainMenu();
+            }
+            else if (userChoice.Equals("Manage Subscriptions"))
             {
                 manageSubscriptions();
             }

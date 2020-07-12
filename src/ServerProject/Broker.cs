@@ -112,7 +112,12 @@ namespace Paycom_Seminar_2020
                 String[] arraySubscriptions = Array.ConvertAll(subscriptions.ToArray(), x => x.ToString());
                 String stringSubscriptions = prepareStringArray(arraySubscriptions);
                 response = stringSubscriptions+";";
-                Console.WriteLine("I'm here");
+            }
+            else if (indicator.Equals(ClientMessageDecoder.REQUEST_SUBSCRIPTION_MESSAGES))
+            {
+                long joinTime = profReadWrite.getSubscriptionDate(_userProfile.getUsername(), message);
+                String[] messages = topReadWrite.getTopicMessages(message, joinTime);
+                response = prepareStringArray(messages);
             }
 
             return response;

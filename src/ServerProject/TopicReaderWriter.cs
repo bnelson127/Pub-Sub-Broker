@@ -89,8 +89,28 @@ namespace Paycom_Seminar_2020
             sentMessagesNode.AppendChild(sentMessage);
 
             xmlDoc.Save(_topicsFilePath);
+        }
 
+        public String[] getTopicMessages(String topicName, long joinTime)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(_topicsFilePath);
 
+            XmlNode topicNode = getTopNode("topic", xmlDoc, topicName);
+            XmlNode sentMessagesNode = getSubNode(topicNode, xmlDoc, "sentMessages");
+
+            ArrayList messages = new ArrayList();
+            foreach (XmlNode message in sentMessagesNode)
+            {
+                long timestamp = Convert.ToInt64(message.Attributes["timestamp"].Value);
+                if (timestamp >= joinTime)
+                {
+                    DateTime date = new DateTime(timestamp);
+                    messages.Add(date.ToShortDateString()+" "+date.ToShortTimeString());
+                    messages.Add(message.Attributes["content"].Value);
+                }
+            }
+            return Array.ConvertAll(messages.ToArray(), x => x.ToString());
         }
     }
 

@@ -80,6 +80,26 @@ namespace Paycom_Seminar_2020
             makeStatement("The message has been sent.");
 
         }
+
+        public void viewSubscriptionMessages()
+        {
+            String[] mySubs = _client.requestSubscriptionNames();
+            if (mySubs.Length == 0)
+            {
+                makeStatement("It doesn't look like you're subscribed to any topics! Go to the Manage Subscriptions menu to subscribe to some!");
+            }
+            else
+            {
+                int userChoice = askQuestionMultipleChoice("From what topic would you like to view messages?", mySubs);
+                String topicName = mySubs[userChoice-1];
+                String[] messages = _client.requestSubscriptionMessages(topicName);
+                for (int i = messages.Length-1; i>=0; i-=2)
+                {
+                    Console.Write(messages[i-1]+": ");
+                    Console.WriteLine(messages[i]);
+                }
+            }
+        }
         public String selectProfile(String[] names)
         {
             String serverMessage = "";

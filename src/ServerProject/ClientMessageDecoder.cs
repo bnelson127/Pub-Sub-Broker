@@ -14,6 +14,7 @@ namespace Paycom_Seminar_2020
         public static string PUBLISH_MESSAGE {get;} = "08";
         public static string MESSAGE_LISTENER_CONNECTION {get;} = "09";
         public static string REQUEST_SUBSCRIPTION_NAMES {get;} = "10";
+        public static string REQUEST_SUBSCRIPTION_MESSAGES {get;} = "11";
     }
 
 }

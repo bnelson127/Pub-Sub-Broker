@@ -152,6 +152,20 @@ namespace Paycom_Seminar_2020
 
             return Array.ConvertAll(topNamesList.ToArray(), x => x.ToString());;
         }
+
+        public long getSubscriptionDate(String username, String topicName)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(_profilesFilePath);
+
+            XmlNode profileNode = getTopNode("profile", xmlDoc, username);
+            XmlNode subscriptionsNode = getSubNode(profileNode, xmlDoc, "subscriptions");
+            XmlNode subscriptionNode = getSubNode(subscriptionsNode, xmlDoc, "subscription", topicName);
+
+            long subscriptionDate = Convert.ToInt64(subscriptionNode.Attributes["timeJoined"].Value);
+            return subscriptionDate;
+
+        }
     }
 
 }

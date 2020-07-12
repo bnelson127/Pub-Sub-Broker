@@ -9,32 +9,47 @@ namespace Paycom_Seminar_2020
     {
         public XmlNode getTopNode(String nodeType, XmlDocument xmlDoc, String nodeName)
         {
-            XmlNode profileNode = null;
-            XmlNodeList userNodes = xmlDoc.SelectNodes($"//{nodeType}s/{nodeType}");
-            foreach(XmlNode userNode in userNodes)
+            XmlNode topNode = null;
+            XmlNodeList subNodes = xmlDoc.SelectNodes($"//{nodeType}s/{nodeType}");
+            foreach(XmlNode subNode in subNodes)
             {
-                if (userNode.Attributes["name"].Value.Equals(nodeName))
+                if (subNode.Attributes["name"].Value.Equals(nodeName))
                 {
-                    profileNode = userNode;
+                    topNode = subNode;
                 }
             }
 
-            return profileNode;
+            return topNode;
         }
 
-        public XmlNode getSubNode(XmlNode parent, XmlDocument xmlDoc, String nodeName)
+        public XmlNode getSubNode(XmlNode parent, XmlDocument xmlDoc, String nodeType)
         {
-            XmlNode topicsNode = null;
+            XmlNode subNode = null;
             XmlNodeList subNodes = parent.ChildNodes;
             foreach(XmlNode child in subNodes)
             {
-                if (child.Name.Equals(nodeName))
+                if (child.Name.Equals(nodeType))
                 {
-                    topicsNode = child;
+                    subNode = child;
                 }
             }
 
-            return topicsNode;
+            return subNode;
+        }
+
+        public XmlNode getSubNode(XmlNode parent, XmlDocument xmlDoc, String nodeType, String nodeName)
+        {
+            XmlNode subNode = null;
+            XmlNodeList subNodes = parent.ChildNodes;
+            foreach(XmlNode child in subNodes)
+            {
+                if (child.Attributes["name"].Value.Equals(nodeName))
+                {
+                    subNode = child;
+                }
+            }
+
+            return subNode;
         }
     }
 

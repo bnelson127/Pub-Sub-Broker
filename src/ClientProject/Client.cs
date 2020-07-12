@@ -52,19 +52,16 @@ namespace Paycom_Seminar_2020
             return arrayNames;
         }
 
+        public String[] requestSubscriptionMessages(String topicName)
+        {
+            String stringMessages = sendServerMessage(ClientMessageEncoder.REQUEST_SUBSCRIPTION_MESSAGES+topicName);
+            String[] arrayMessages = parseString(stringMessages);
+            return arrayMessages;
+        }
+
         public void subscribeToTopic(String topicName)
         {
             sendServerMessage(ClientMessageEncoder.ADD_SUBSCRIPTION+topicName);
-        }
-
-        public void viewCurrentSubscriptions()
-        {
-
-        }
-
-        public void unsubscribeFromTopic()
-        {
-
         }
 
         public void publishMessage(String topicName, String message)
