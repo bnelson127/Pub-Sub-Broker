@@ -112,6 +112,24 @@ namespace Paycom_Seminar_2020
             {
                 _userProfile.unsubscribe(message);
             }
+            else if (indicator.Equals(ClientMessageDecoder.REQUEST_WELCOME_MESSAGE))
+            {
+                response = topReadWrite.getWelcomeMessage(message);
+            }
+            else if (indicator.Equals(ClientMessageDecoder.SET_WELCOME_MESSAGE))
+            {
+                String[] messages = parseString(message);
+                String topicName = messages[0];
+                String welcomeMessage = messages[1];
+                topReadWrite.setWelcomeMessage(topicName, welcomeMessage);
+            }
+            else if (indicator.Equals(ClientMessageDecoder.REQUEST_TOPIC_HISTORY))
+            {
+                String[] messages = topReadWrite.getTopicMessages(message, 0);
+                messages[0] = message;
+                messages[1] = "Start of message history";
+                response = prepareStringArray(messages);
+            }
 
             return response;
         }

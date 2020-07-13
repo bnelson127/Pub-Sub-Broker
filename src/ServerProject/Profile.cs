@@ -91,6 +91,7 @@ namespace Paycom_Seminar_2020
         {
             long joinTime = _profReadWrite.getSubscriptionDate(_username, topicName);
             String[] messages = _topReadWrite.getTopicMessages(topicName, joinTime);
+            messages[1] = _topReadWrite.getWelcomeMessage(topicName);
             _profReadWrite.updateLastChecked(_username, topicName);
             String response = prepareStringArray(messages);
             return response;

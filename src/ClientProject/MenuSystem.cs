@@ -5,9 +5,9 @@ namespace Paycom_Seminar_2020
     class MenuSystem
     {
         private Menu _mainMenu = new Menu("Main Menu", new String[] {"View Subscription Messages", "Manage Subscriptions", "Manage Topics", "Quit"}, false);
-        private Menu _manageTopics = new Menu("Manage Topics", new String[] {"Create Topic", "Manage Topic"}, true);
-        private Menu _manageSubscriptions = new Menu("Manage Subscriptions", new String[] {"Subscribe to Topic", "Unsubscribe from Topic"}, true);
-        private Menu _manageSingleTopic = new Menu("Topic Management", new String[] {"Publish Message", "Message History", "Topic Settings", "Delete Topic"}, true);
+        private Menu _manageTopics = new Menu("Manage Topics", new String[] {"View My Topics", "Manage Topic", "Create Topic"}, true);
+        private Menu _manageSubscriptions = new Menu("Manage Subscriptions", new String[] {"View Subscriptions", "Subscribe to Topic", "Unsubscribe from Topic"}, true);
+        private Menu _manageSingleTopic = new Menu("Topic Management", new String[] {"Publish Message", "Message History", "Topic Settings"}, true);
         private Menu _topicSettings = new Menu("Topic Settings", new String[] {"Toggle Auto Run", "Manage Default Messages", "Change Welcome Message"}, true);
         private Menu _manageDefaultMessages = new Menu("Default Message Management", new String[] {"View Default Messages", "Add Default Message", "Delete Default Message"}, true);
        
@@ -51,6 +51,11 @@ namespace Paycom_Seminar_2020
             {
                 showMainMenu();
             }
+            else if (userChoice.Equals("View My Topics"))
+            {
+                ui.viewMyTopics();
+                manageTopics();
+            }
             else if (userChoice.Equals("Create Topic"))
             {
                 ui.createNewTopic();
@@ -78,6 +83,11 @@ namespace Paycom_Seminar_2020
             {
                 showMainMenu();
             }
+            else if (userChoice.Equals("View Subscriptions"))
+            {
+                ui.viewMySubscriptions();
+                manageSubscriptions();
+            }
             else if (userChoice.Equals("Subscribe to Topic"))
             {
                 ui.subscribeToTopic();
@@ -104,15 +114,12 @@ namespace Paycom_Seminar_2020
             }
             else if (userChoice.Equals("Message History"))
             {
+                ui.viewTopicHistory(topicName);
                 manageSingleTopic(topicName);
             }
             else if (userChoice.Equals("Topic Settings"))
             {
                 manageTopicSettings(topicName);
-            }
-            else if (userChoice.Equals("Delete Topic"))
-            {
-                manageSingleTopic(topicName);
             }
         }
 
@@ -134,6 +141,7 @@ namespace Paycom_Seminar_2020
             }
             else if (userChoice.Equals("Change Welcome Message"))
             {
+                ui.changeWelcomeMessage(topicName);
                 manageTopicSettings(topicName);
             }
         }

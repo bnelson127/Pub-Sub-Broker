@@ -72,7 +72,7 @@ namespace Paycom_Seminar_2020
             {
                 int userResponse = askQuestionMultipleChoice("Which topic would you like to manage?", topicOptions);
                 String topicSelected = topicOptions[userResponse-1];
-                makeStatement($"You have selelcted to manage the topic '{topicSelected}'");
+                makeStatement($"'{topicSelected}' is the topic that you have selelcted to manage.");
                 return topicSelected;
             }
             else
@@ -81,6 +81,38 @@ namespace Paycom_Seminar_2020
                 return null;
             }
             
+        }
+
+        public void viewTopicHistory(String topicName)
+        {
+            String[] messages = _client.requestTopicHistory(topicName);
+            if (messages.Length > 1)
+            {
+                String title = "MESSAGE HISTORY OF "+topicName.ToUpper();
+
+                String[] combinedMessages = new String[messages.Length/2];
+                for (int i = 0; i<messages.Length; i+=2)
+                {
+                    combinedMessages[i/2] = (messages[i]+": "+messages[i+1]);
+                }
+
+                String postStatement = "These are all the messages that have been sent on this topic.";
+
+                printListWithTitle(title, combinedMessages, postStatement);
+            }
+            else
+            {
+                makeStatement("It doesn't look like any messages have been sent on this topic. You should send some!");
+            }
+        }
+
+        public void changeWelcomeMessage(String topicName)
+        {
+            String currentWelcomeMessage = _client.requestWelcomeMessage(topicName);
+            String question = $"The current welcome message is '{currentWelcomeMessage}'. What would you like to change it to?";
+            String newWelcomeMessage = askQuestionFreeResponse(question);
+            _client.setWelcomeMessage(topicName, newWelcomeMessage);
+            makeStatement($"The welcome message for '{topicName}' has been changed.");
         }
         public void publishMessage(String topicName)
         {
@@ -115,25 +147,17 @@ namespace Paycom_Seminar_2020
                 String topicName = mySubs[userChoice-1];
 
                 String title = "MESSAGES FROM "+topicName.ToUpper();
-                for (int i = 0; i<title.Length; i++)
-                {
-                    Console.Write("-");
-                }
-                Console.WriteLine("");
-                Console.WriteLine(title);
-                for (int i = 0; i<title.Length; i++)
-                {
-                    Console.Write("-");
-                }
-                Console.WriteLine("");
 
                 String[] messages = _client.requestSubscriptionMessages(topicName);
+                String[] combinedMessages = new String[messages.Length/2];
                 for (int i = 0; i<messages.Length; i+=2)
                 {
-                    Console.Write(messages[i]+": ");
-                    Console.WriteLine(messages[i+1]);
+                    combinedMessages[i/2] = (messages[i]+": "+messages[i+1]);
                 }
-                makeStatement("These are all the messages you have recieved since joining the topic.");
+
+                String postStatement = "These are all the messages you have recieved since joining the topic.";
+
+                printListWithTitle(title, combinedMessages, postStatement);
             }
         }
         public String selectProfile(String[] names)
@@ -250,25 +274,8 @@ namespace Paycom_Seminar_2020
             if (messages.Length > 0)
             {
                 String title = $"DEFAULT MESSAGES FOR {topicName.ToUpper()}";
-                Console.WriteLine("");
-                for (int i = 0; i<title.Length; i++)
-                {
-                    Console.Write("-");
-                }
-                Console.WriteLine("");
-                Console.WriteLine(title);
-                for (int i = 0; i<title.Length; i++)
-                {
-                    Console.Write("-");
-                }
-                Console.WriteLine();
-
-                foreach (String message in messages)
-                {
-                    Console.WriteLine(message);
-                }
-
-                makeStatement($"These are all the messages that can be automatically sent for '{topicName}'.");
+                String postStatement = $"These are all the messages that can be automatically sent for '{topicName}'.";
+                printListWithTitle(title, messages, postStatement);
             }
             else
             {
@@ -293,7 +300,7 @@ namespace Paycom_Seminar_2020
                 String topic = names[topicInt-1];
                 Console.WriteLine(topic);
                 _client.subscribeToTopic(topic);
-                makeStatement($"Congratualtions! You have successfully subscribed to {topic}");
+                makeStatement($"From {topic}: "+_client.requestWelcomeMessage(topic));
             }
         }
 
@@ -317,6 +324,38 @@ namespace Paycom_Seminar_2020
                 _client.unsubscribeFromTopic(topicName);
                 makeStatement($"You have successfully unsubscribed from '{topicName}'");
             }
+        }
+
+        public void viewMySubscriptions()
+        {
+            String[] topics = _client.requestSubscriptionNames();
+            if (topics.Length>0)
+            {
+                String title = "MY SUBSCRIPTIONS";
+                String postStatement = "The are all the topics to which you are subscribed.";
+                printListWithTitle(title, topics, postStatement);
+            }
+            else
+            {
+                makeStatement("It doesn't look like you're subscribed to any topics. You should go subscribe to some!");
+            }
+            
+        }
+
+        public void viewMyTopics()
+        {
+            String[] topics = _client.requestMyTopicNames();
+            if (topics.Length>0)
+            {
+                String title = "MY TOPICS";
+                String postStatement = "These are all the topics that you own.";
+                printListWithTitle(title, topics, postStatement);
+            }
+            else
+            {
+                makeStatement("It doesn't look like you own any topics. You should create one!");
+            }
+            
         }
         private int askQuestionMultipleChoice(String question, String[] options)
         {
@@ -402,6 +441,29 @@ namespace Paycom_Seminar_2020
             Console.WriteLine(statement);
             Console.WriteLine("Press ENTER to continue...");
             Console.ReadLine();
+        }
+
+        public void printListWithTitle(String title, String[] list, String postStatement)
+        {
+            Console.WriteLine("");
+            for (int i = 0; i<title.Length; i++)
+            {
+                Console.Write("-");
+            }
+            Console.WriteLine("");
+            Console.WriteLine(title);
+            for (int i = 0; i<title.Length; i++)
+            {
+                Console.Write("-");
+            }
+            Console.WriteLine();
+
+            foreach (String item in list)
+            {
+                Console.WriteLine(item);
+            }
+
+            makeStatement(postStatement);
         }
     }
 

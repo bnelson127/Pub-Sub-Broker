@@ -52,7 +52,7 @@ namespace Paycom_Seminar_2020
 
                 XmlElement settings = xmlDoc.CreateElement("settings");
 
-                XmlAttribute welcomeMessage = xmlDoc.CreateAttribute("welcomMessage");
+                XmlAttribute welcomeMessage = xmlDoc.CreateAttribute("welcomeMessage");
                 welcomeMessage.Value = "Welcome to the topic!";
                 settings.Attributes.Append(welcomeMessage);
 
@@ -237,6 +237,38 @@ namespace Paycom_Seminar_2020
                 xmlDoc.Save(_topicsFilePath);
             }
 
+        }
+
+        public String getWelcomeMessage(String topicName)
+        {
+            lock (_topicLock)
+            {
+                XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.Load(_topicsFilePath);
+
+                XmlNode topicNode = getTopNode("topic", xmlDoc, topicName);
+                XmlNode settingsNode = getSubNode(topicNode, xmlDoc, "settings");
+
+                String welcomeMessage = settingsNode.Attributes["welcomeMessage"].Value;
+
+                return welcomeMessage;
+            }
+        }
+
+        public void setWelcomeMessage(String topicName, String welcomeMessage)
+        {
+            lock (_topicLock)
+            {
+                XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.Load(_topicsFilePath);
+
+                XmlNode topicNode = getTopNode("topic", xmlDoc, topicName);
+                XmlNode settingsNode = getSubNode(topicNode, xmlDoc, "settings");
+
+                settingsNode.Attributes["welcomeMessage"].Value = welcomeMessage;
+
+                xmlDoc.Save(_topicsFilePath);
+            }
         }
     }
 

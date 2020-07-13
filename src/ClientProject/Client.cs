@@ -109,6 +109,23 @@ namespace Paycom_Seminar_2020
             sendServerMessage(ClientMessageEncoder.REMOVE_SUBSCRIPTION+topicName);
         }
 
+        public String[] requestTopicHistory(String topicName)
+        {
+            String stringHistory = sendServerMessage(ClientMessageEncoder.REQUEST_TOPIC_HISTORY+topicName);
+            String[] arrayHistory = parseString(stringHistory);
+            return arrayHistory;
+        }
+        public String requestWelcomeMessage(String topicName)
+        {
+            String welcomeMessage = sendServerMessage(ClientMessageEncoder.REQUEST_WELCOME_MESSAGE+topicName);
+            return welcomeMessage;
+        }
+
+        public void setWelcomeMessage(String topicName, String welcomeMessage)
+        {
+            sendServerMessage(ClientMessageEncoder.SET_WELCOME_MESSAGE+topicName+";"+welcomeMessage);
+        }
+
         public void publishMessage(String topicName, String message)
         {
             String serverResponse = sendServerMessage($"{ClientMessageEncoder.PUBLISH_MESSAGE}{topicName};{message};");
@@ -130,11 +147,19 @@ namespace Paycom_Seminar_2020
                 ns.Read(bytesMsgFromServer, 0, 65536);
                 String stringMsgFromServer = System.Text.Encoding.ASCII.GetString(bytesMsgFromServer);
                 serverResponse = stringMsgFromServer.Trim((char) 0);
-                //Console.WriteLine(" >> " + "From server-"+ serverResponse);
             }
             catch(Exception e)
             {
-                Console.WriteLine(e.ToString());
+                String goAwayWarning = e.ToString();
+                try
+                {
+                    closeConnections();
+                }
+                catch(Exception e1)
+                {
+                    String goAwayWarning1 = e1.ToString();
+                }
+                
             }
             
             return serverResponse;

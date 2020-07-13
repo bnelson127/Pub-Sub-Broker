@@ -21,6 +21,8 @@ namespace Paycom_Seminar_2020
                 // Start listening for client requests
                 server.Start();
 
+                Object profileLock = new Object();
+                Object topicLock = new Object();
                 //Enter the listening loop
                 while (true)
                 {
@@ -28,8 +30,7 @@ namespace Paycom_Seminar_2020
 
                     // Perform a blocking call to accept requests.
                     // You could also use server.AcceptSocket() here.
-                    Object profileLock = new Object();
-                    Object topicLock = new Object();
+                    
                     TcpClient client = server.AcceptTcpClient();
                     Console.WriteLine("Connected!");
                     Thread listenThread = new Thread( ()=>handleClient(client, connections, profileLock, topicLock) );

@@ -16,24 +16,36 @@ namespace Paycom_Seminar_2020
             
             int portNum = 9999;
             string hostName = "localhost";
+            try
+            {
+                TcpClient primaryTcpClient = new TcpClient(hostName, portNum);
+                TcpClient secondaryTcpClient = new TcpClient(hostName, portNum);
+                Client client = new Client(primaryTcpClient, secondaryTcpClient);
+                UI ui = new UI(client);
 
-            TcpClient primaryTcpClient = new TcpClient(hostName, portNum);
-            TcpClient secondaryTcpClient = new TcpClient(hostName, portNum);
+                MenuSystem menuSystem = new MenuSystem(ui);
+
+                Thread listenThread = new Thread( ()=>listenForNotifications(secondaryTcpClient, client) );
+                listenThread.Start();
+
+                Thread autoSendThread = new Thread( ()=>autoPublish(client) );
+                autoSendThread.Start();
+
+                menuSystem.start();
+  
+            }
+            catch(Exception e)
+            {
+                String goAwayWarning = e.ToString();
+                Console.WriteLine("A connection could not be made with the server. Please try again later.");
+            }
+            finally
+            {
+                continueRunning = false;
+            }
             
-            Client client = new Client(primaryTcpClient, secondaryTcpClient);
-            UI ui = new UI(client);
-
-            MenuSystem menuSystem = new MenuSystem(ui);
-
-            Thread listenThread = new Thread( ()=>listenForNotifications(secondaryTcpClient, client) );
-            listenThread.Start();
-
-            Thread autoSendThread = new Thread( ()=>autoPublish(client) );
-            autoSendThread.Start();
-
-            menuSystem.start();
-
-            continueRunning = false;
+            
+            
         }
 
         public static void listenForNotifications(TcpClient connection, Client client)
@@ -78,6 +90,9 @@ namespace Paycom_Seminar_2020
                 catch(Exception e)
                 {
                     String goAwayWarning = e.ToString();
+                    Console.WriteLine("Lost connection to the server. Try quitting and then restarting the application.");
+                    continueRunning = false;
+                    client.closeConnections();
                 }
                 
                 
@@ -126,6 +141,9 @@ namespace Paycom_Seminar_2020
                     catch(Exception e)
                     {
                         String goAwayWarning = e.ToString();
+                        Console.WriteLine("Lost connection to the server. Try quitting and then restarting the application.");
+                        continueRunning = false;
+                        client.closeConnections();
                     }
                 }
             }

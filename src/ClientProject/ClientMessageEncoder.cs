@@ -22,6 +22,9 @@ namespace Paycom_Seminar_2020
         public static string ADD_DEFAULT_MESSAGE {get;} = "16";
         public static string DELETE_DEFAULT_MESSAGE {get;} = "17";
         public static string REMOVE_SUBSCRIPTION {get;} = "18";
+        public static string REQUEST_WELCOME_MESSAGE {get;} = "19";
+        public static string SET_WELCOME_MESSAGE {get;} = "20";
+        public static string REQUEST_TOPIC_HISTORY {get;} = "21";
         
     }
 
