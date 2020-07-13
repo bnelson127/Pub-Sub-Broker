@@ -1,6 +1,6 @@
 <topics>
   <topic name="Star Wars">
-    <settings welcomMessage="Welcome to the topic!" defaultMessages="This topic is the best!;" autoSend="false" />
+    <settings welcomMessage="Welcome to the topic!" defaultMessages=";" autoSend="false" />
     <sentMessages />
   </topic>
   <topic name="Ewoks">
@@ -25,7 +25,7 @@
     </sentMessages>
   </topic>
   <topic name="Desks">
-    <settings welcomMessage="Welcome to the topic!" defaultMessages="This topic is the best!;" autoSend="false" />
+    <settings welcomMessage="Welcome to the topic!" defaultMessages=";" autoSend="false" />
     <sentMessages>
       <sentMessage content="Sitting is fun!" timestamp="637300926193949370" />
       <sentMessage content="Does your desk have storage?" timestamp="637301488662368252" />

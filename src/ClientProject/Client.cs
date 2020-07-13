@@ -104,6 +104,11 @@ namespace Paycom_Seminar_2020
             sendServerMessage(ClientMessageEncoder.ADD_SUBSCRIPTION+topicName);
         }
 
+        public void unsubscribeFromTopic(String topicName)
+        {
+            sendServerMessage(ClientMessageEncoder.REMOVE_SUBSCRIPTION+topicName);
+        }
+
         public void publishMessage(String topicName, String message)
         {
             String serverResponse = sendServerMessage($"{ClientMessageEncoder.PUBLISH_MESSAGE}{topicName};{message};");

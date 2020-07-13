@@ -177,6 +177,10 @@ namespace Paycom_Seminar_2020
                 }
                 response = messageCount.ToString();
             }
+            else if (indicator.Equals(ClientMessageDecoder.REMOVE_SUBSCRIPTION))
+            {
+                profReadWrite.removeSubscription(_userProfile.getUsername(), message);
+            }
 
             return response;
         }

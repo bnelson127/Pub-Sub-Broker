@@ -118,6 +118,20 @@ namespace Paycom_Seminar_2020
 
         }
 
+        public void removeSubscription(String username, String topicName)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(_profilesFilePath);
+
+            XmlNode profileNode = getTopNode("profile", xmlDoc, username);
+            XmlNode subscriptionsNode = getSubNode(profileNode, xmlDoc, "subscriptions");
+            XmlNode removedNode = getSubNode(subscriptionsNode, xmlDoc, "subscription", topicName);
+            subscriptionsNode.RemoveChild(removedNode);
+
+            xmlDoc.Save(_profilesFilePath);
+
+        }
+
         public ArrayList getSubscriptions(String username)
         {
             XmlDocument xmlDoc = new XmlDocument();

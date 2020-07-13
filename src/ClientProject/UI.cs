@@ -287,6 +287,28 @@ namespace Paycom_Seminar_2020
                 makeStatement($"Congratualtions! You have successfully subscribed to {topic}");
             }
         }
+
+        public void unsubscribeFromTopic()
+        {
+            String[] myTopics = _client.requestSubscriptionNames();
+            String[] options = new String[myTopics.Length+1];
+            options[0] = "Cancel";
+            for (int i = 0; i<myTopics.Length; i++)
+            {
+                options[i+1] = myTopics[i];
+            }
+            int userResponse = askQuestionMultipleChoice("Select a topic to unsubscribe from or cancel.", options);
+            if (userResponse == 1)
+            {
+                makeStatement("You have canceled the unsubscription.");
+            }
+            else
+            {
+                String topicName = options[userResponse-1];
+                _client.unsubscribeFromTopic(topicName);
+                makeStatement($"You have successfully unsubscribed from '{topicName}'");
+            }
+        }
         private int askQuestionMultipleChoice(String question, String[] options)
         {
             Console.WriteLine();

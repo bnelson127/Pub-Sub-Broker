@@ -21,6 +21,7 @@ namespace Paycom_Seminar_2020
         public static string TOGGLE_AUTO_RUN {get;} = "15";
         public static string ADD_DEFAULT_MESSAGE {get;} = "16";
         public static string DELETE_DEFAULT_MESSAGE {get;} = "17";
+        public static string REMOVE_SUBSCRIPTION {get;} = "18";
     }
 
 }

@@ -77,7 +77,8 @@ namespace Paycom_Seminar_2020
             }
             else if (userChoice.Equals("Unsubscribe from Topic"))
             {
-
+                ui.unsubscribeFromTopic();
+                manageSubscriptions();
             }
         }
 
