@@ -10,6 +10,7 @@ namespace Paycom_Seminar_2020
 {
     class ClientMain
     {
+        public static bool continueRunning = true;
         static void Main(string[] args)
         {
             
@@ -31,11 +32,12 @@ namespace Paycom_Seminar_2020
             autoSendThread.Start();
 
             menuSystem.start();
+
+            continueRunning = false;
         }
 
         public static void listenForNotifications(TcpClient connection, Client client)
         {
-            bool continueRunning = true;
             NetworkStream networkStream = connection.GetStream();
 
             var writer = new StreamWriter(networkStream);
@@ -75,7 +77,7 @@ namespace Paycom_Seminar_2020
                 }
                 catch(Exception e)
                 {
-                    continueRunning = false;
+                    String goAwayWarning = e.ToString();
                 }
                 
                 
@@ -85,29 +87,47 @@ namespace Paycom_Seminar_2020
         public static void autoPublish(Client client)
         {
             Random rand = new Random();
-            while(true)
+            while(continueRunning)
             {
-                Thread.Sleep(20*1000);
-                if (client.getUsername() != null)
+                int sleepSeconds = 20;
+                for (int i = 0; i<sleepSeconds; i++)
                 {
-                    String[] topics = client.requestMyTopicNames();
-                    ArrayList autos = new ArrayList();
-                    foreach (String topic in topics)
+                    if (continueRunning)
                     {
-                        if (client.requestAutoRunStatus(topic))
-                        {
-                            autos.Add(topic);
-                        }
-                    }
-                    String[] autoTopics = Array.ConvertAll(autos.ToArray(), x => x.ToString());
-                    foreach (String topic in autoTopics)
-                    {
-                        String[] defaultMessages = client.requestDefaultMessages(topic);
-                        client.publishMessage(topic, defaultMessages[rand.Next(0,defaultMessages.Length)]);
-                        Console.WriteLine(defaultMessages.Length);
+                        Thread.Sleep(1000);
                     }
                 }
                 
+                if (continueRunning)
+                {
+                    try
+                    {
+                        if (client.getUsername() != null)
+                        {
+                            String[] topics = client.requestMyTopicNames();
+                            ArrayList autos = new ArrayList();
+                            foreach (String topic in topics)
+                            {
+                                if (client.requestAutoRunStatus(topic))
+                                {
+                                    autos.Add(topic);
+                                }
+                            }
+                            String[] autoTopics = Array.ConvertAll(autos.ToArray(), x => x.ToString());
+                            foreach (String topic in autoTopics)
+                            {
+                                String[] defaultMessages = client.requestDefaultMessages(topic);
+                                client.publishMessage(topic, defaultMessages[rand.Next(0,defaultMessages.Length)]);
+                                Console.WriteLine(defaultMessages.Length);
+                            }
+                        }
+
+                    }
+                    catch(Exception e)
+                    {
+                        String goAwayWarning = e.ToString();
+                    }
+                }
             }
         }
     }

@@ -68,10 +68,19 @@ namespace Paycom_Seminar_2020
         public String getTopicToManage()
         {
             String[] topicOptions = _client.requestMyTopicNames();
-            int userResponse = askQuestionMultipleChoice("Which topic would you like to manage?", topicOptions);
-            String topicSelected = topicOptions[userResponse-1];
-            makeStatement($"You have selelcted to manage the topic '{topicSelected}'");
-            return topicSelected;
+            if (topicOptions.Length > 0)
+            {
+                int userResponse = askQuestionMultipleChoice("Which topic would you like to manage?", topicOptions);
+                String topicSelected = topicOptions[userResponse-1];
+                makeStatement($"You have selelcted to manage the topic '{topicSelected}'");
+                return topicSelected;
+            }
+            else
+            {
+                makeStatement("It doesn't look like you own any topics to manage. Why don't you make one?");
+                return null;
+            }
+            
         }
         public void publishMessage(String topicName)
         {

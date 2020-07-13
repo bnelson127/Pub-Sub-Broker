@@ -59,7 +59,15 @@ namespace Paycom_Seminar_2020
             else if (userChoice.Equals("Manage Topic"))
             {
                 String topicSelected = ui.getTopicToManage();
-                manageSingleTopic(topicSelected);
+                if (topicSelected == null)
+                {
+                    manageTopics();
+                }
+                else
+                {
+                    manageSingleTopic(topicSelected);
+                }
+                
             }
         }
 

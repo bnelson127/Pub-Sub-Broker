@@ -26,7 +26,7 @@
   </profile>
   <profile name="Subscriber2">
     <subscriptions>
-      <subscription name="Ewoks" timeJoined="637300725065520439" lastChecked="637301733819066220" />
+      <subscription name="Ewoks" timeJoined="637300725065520439" lastChecked="637301871575392386" />
       <subscription name="Desks" timeJoined="637301404746329927" lastChecked="637301811057971883" />
     </subscriptions>
     <topics>

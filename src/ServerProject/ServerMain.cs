@@ -28,9 +28,11 @@ namespace Paycom_Seminar_2020
 
                     // Perform a blocking call to accept requests.
                     // You could also use server.AcceptSocket() here.
+                    Object profileLock = new Object();
+                    Object topicLock = new Object();
                     TcpClient client = server.AcceptTcpClient();
                     Console.WriteLine("Connected!");
-                    Thread listenThread = new Thread( ()=>handleClient(client, connections) );
+                    Thread listenThread = new Thread( ()=>handleClient(client, connections, profileLock, topicLock) );
                     listenThread.Start();
 
                     
@@ -45,7 +47,7 @@ namespace Paycom_Seminar_2020
             Console.Read();
         }
 
-        public static void handleClient(TcpClient client, ArrayList connections)
+        public static void handleClient(TcpClient client, ArrayList connections, Object profileLock, Object topicLock)
         {
             // Buffer for reading data
             byte[] bytes = new byte[1024];
@@ -53,7 +55,7 @@ namespace Paycom_Seminar_2020
             Console.WriteLine("newThread");
             // Get a stream object for reading and writing
             NetworkStream stream = client.GetStream();
-            Broker broker = new Broker(connections);
+            Broker broker = new Broker(connections, profileLock, topicLock);
             int i;
 
             // Loop to receive all the data sent by the client.
