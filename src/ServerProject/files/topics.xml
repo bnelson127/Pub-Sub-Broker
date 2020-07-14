@@ -31,4 +31,8 @@
       <sentMessage content="Does your desk have storage?" timestamp="637301488662368252" />
     </sentMessages>
   </topic>
+  <topic name="Hugs &amp; Kisses">
+    <settings welcomeMessage="Welcome to the topic!" defaultMessages=";" autoSend="false" />
+    <sentMessages />
+  </topic>
 </topics>

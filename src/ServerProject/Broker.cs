@@ -25,42 +25,42 @@ namespace Paycom_Seminar_2020
             message = message.Substring(2);
             message = message.Trim((char) 0);
 
-            if (indicator.Equals(ClientMessageDecoder.REQUEST_USERNAMES))
+            if (indicator.Equals(CommunicationProtocol.REQUEST_USERNAMES))
             {
                 String[] usernamesArray = profReadWrite.getUsernames();
                 response = prepareStringArray(usernamesArray);
 
             }
-            else if (indicator.Equals(ClientMessageDecoder.LOG_IN))
+            else if (indicator.Equals(CommunicationProtocol.LOG_IN))
             {
                 response = loadProfile(message);
             }
-            else if (indicator.Equals(ClientMessageDecoder.CREATE_PROFILE))
+            else if (indicator.Equals(CommunicationProtocol.CREATE_PROFILE))
             {
                 response = createProfile(message);
             }
-            else if (indicator.Equals(ClientMessageDecoder.CREATE_TOPIC))
+            else if (indicator.Equals(CommunicationProtocol.CREATE_TOPIC))
             {
                 response = _userProfile.addTopic(message);
             }
-            else if (indicator.Equals(ClientMessageDecoder.REQUEST_TOPIC_NAMES))
+            else if (indicator.Equals(CommunicationProtocol.REQUEST_TOPIC_NAMES))
             {
                 String[] topicNames = topReadWrite.getTopicNames();
                 response = prepareStringArray(topicNames)+";";
             }
-            else if (indicator.Equals(ClientMessageDecoder.ADD_SUBSCRIPTION))
+            else if (indicator.Equals(CommunicationProtocol.ADD_SUBSCRIPTION))
             {
                 _userProfile.subscribe(message);
             }
-            else if (indicator.Equals(ClientMessageDecoder.REQUEST_NOT_SUBSCRIBED_TOPIC_NAMES))
+            else if (indicator.Equals(CommunicationProtocol.REQUEST_NOT_SUBSCRIBED_TOPIC_NAMES))
             {
                 response = _userProfile.getNotSubscribedTopicNames();
             }
-            else if (indicator.Equals(ClientMessageDecoder.REQUEST_USERS_TOPIC_NAMES))
+            else if (indicator.Equals(CommunicationProtocol.REQUEST_USERS_TOPIC_NAMES))
             {
                 response = _userProfile.getMyTopicNames();
             }
-            else if (indicator.Equals(ClientMessageDecoder.PUBLISH_MESSAGE))
+            else if (indicator.Equals(CommunicationProtocol.PUBLISH_MESSAGE))
             {
                 String[] names = parseString(message);
                 String topicName = names[0];
@@ -68,39 +68,39 @@ namespace Paycom_Seminar_2020
                 publishMessage(topicName, publishedMessage);
                 
             }
-            else if (indicator.Equals(ClientMessageDecoder.REQUEST_SUBSCRIPTION_NAMES))
+            else if (indicator.Equals(CommunicationProtocol.REQUEST_SUBSCRIPTION_NAMES))
             {
                 response = _userProfile.getSubscriptionNames();
             }
-            else if (indicator.Equals(ClientMessageDecoder.REQUEST_SUBSCRIPTION_MESSAGES))
+            else if (indicator.Equals(CommunicationProtocol.REQUEST_SUBSCRIPTION_MESSAGES))
             {
                 response = _userProfile.getSubscriptionMessages(message);
             }
-            else if (indicator.Equals(ClientMessageDecoder.REQUEST_NEW_MESSAGE_COUNT))
+            else if (indicator.Equals(CommunicationProtocol.REQUEST_NEW_MESSAGE_COUNT))
             {
                 response = _userProfile.getNewMessageCount(message);
             }
-            else if (indicator.Equals(ClientMessageDecoder.REQUEST_AUTO_RUN_STATUS))
+            else if (indicator.Equals(CommunicationProtocol.REQUEST_AUTO_RUN_STATUS))
             {
                 String status = topReadWrite.getAutoRun(message);
                 response = status;
             }
-            else if (indicator.Equals(ClientMessageDecoder.REQUEST_DEFAULT_MESSAGES))
+            else if (indicator.Equals(CommunicationProtocol.REQUEST_DEFAULT_MESSAGES))
             {
                 String status = topReadWrite.getDefaultMessages(message);
                 response = status;
             }
-            else if (indicator.Equals(ClientMessageDecoder.TOGGLE_AUTO_RUN))
+            else if (indicator.Equals(CommunicationProtocol.TOGGLE_AUTO_RUN))
             {
                 String status = topReadWrite.toggleAutoRun(message);
                 response = status;
             }
-            else if (indicator.Equals(ClientMessageDecoder.ADD_DEFAULT_MESSAGE))
+            else if (indicator.Equals(CommunicationProtocol.ADD_DEFAULT_MESSAGE))
             {
                 String[] messages = parseString(message);
                 topReadWrite.addDefaultMessage(messages[0], messages[1]);
             }
-            else if (indicator.Equals(ClientMessageDecoder.DELETE_DEFAULT_MESSAGE))
+            else if (indicator.Equals(CommunicationProtocol.DELETE_DEFAULT_MESSAGE))
             {
                 String[] messages = parseString(message);
                 String topicName = messages[0];
@@ -108,22 +108,22 @@ namespace Paycom_Seminar_2020
                 response = deleteDefaultMessage(topicName, deletedMessage);
                 
             }
-            else if (indicator.Equals(ClientMessageDecoder.REMOVE_SUBSCRIPTION))
+            else if (indicator.Equals(CommunicationProtocol.REMOVE_SUBSCRIPTION))
             {
                 _userProfile.unsubscribe(message);
             }
-            else if (indicator.Equals(ClientMessageDecoder.REQUEST_WELCOME_MESSAGE))
+            else if (indicator.Equals(CommunicationProtocol.REQUEST_WELCOME_MESSAGE))
             {
                 response = topReadWrite.getWelcomeMessage(message);
             }
-            else if (indicator.Equals(ClientMessageDecoder.SET_WELCOME_MESSAGE))
+            else if (indicator.Equals(CommunicationProtocol.SET_WELCOME_MESSAGE))
             {
                 String[] messages = parseString(message);
                 String topicName = messages[0];
                 String welcomeMessage = messages[1];
                 topReadWrite.setWelcomeMessage(topicName, welcomeMessage);
             }
-            else if (indicator.Equals(ClientMessageDecoder.REQUEST_TOPIC_HISTORY))
+            else if (indicator.Equals(CommunicationProtocol.REQUEST_TOPIC_HISTORY))
             {
                 String[] messages = topReadWrite.getTopicMessages(message, 0);
                 messages[0] = message;
@@ -144,11 +144,11 @@ namespace Paycom_Seminar_2020
             {
                 _userProfile = profReadWrite.createNewProfile(username);
                 _userProfile.setWriters(profReadWrite, topReadWrite);
-                responseMessage = ServerMessageEncoder.NO_ACTION_REQUIRED+"Profile successfully created.";
+                responseMessage = CommunicationProtocol.NO_ACTION_REQUIRED+"Profile successfully created.";
             }
             else
             {
-                responseMessage = ServerMessageEncoder.NAME_TAKEN+"Sorry, that username was taken while you were deciding.";
+                responseMessage = CommunicationProtocol.NAME_TAKEN+"Sorry, that username was taken while you were deciding.";
             }
 
             return responseMessage;
@@ -163,11 +163,11 @@ namespace Paycom_Seminar_2020
             {
                 _userProfile = profReadWrite.loadProfile(profileName);
                 _userProfile.setWriters(profReadWrite, topReadWrite);
-                response = ServerMessageEncoder.NO_ACTION_REQUIRED+"Successfully logged in.";
+                response = CommunicationProtocol.NO_ACTION_REQUIRED+"Successfully logged in.";
             }
             else
             {
-                response = ServerMessageEncoder.PROFILE_DELETED;
+                response = CommunicationProtocol.PROFILE_DELETED;
             }
             return response;
         }
@@ -180,7 +180,7 @@ namespace Paycom_Seminar_2020
                 try
                 {
                     NetworkStream currentClient = (NetworkStream) _clientConnections[i];
-                    byte[] msg = System.Text.Encoding.ASCII.GetBytes(ServerMessageEncoder.MESSAGE_NOTIFICATION+topicName);
+                    byte[] msg = System.Text.Encoding.ASCII.GetBytes(CommunicationProtocol.MESSAGE_NOTIFICATION+topicName);
                     currentClient.Write(msg, 0, msg.Length);
                 }
                 catch (Exception e)

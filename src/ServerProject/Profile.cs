@@ -34,12 +34,12 @@ namespace Paycom_Seminar_2020
             if (Array.Find(existingTopicNames, element => element.Equals(topicName))==null)
             {
                 _topReadWrite.createNewTopic(topicName);
-                responseMessage = ServerMessageEncoder.NO_ACTION_REQUIRED+"Topic successfully created.";
+                responseMessage = CommunicationProtocol.NO_ACTION_REQUIRED+"Topic successfully created.";
                 _profReadWrite.addTopic(_username, topicName);
             }
             else
             {
-                responseMessage = ServerMessageEncoder.NAME_TAKEN+"Sorry, that topic name was taken while you were deciding.";
+                responseMessage = CommunicationProtocol.NAME_TAKEN+"Sorry, that topic name was taken while you were deciding.";
             }
 
             return responseMessage;
@@ -113,7 +113,7 @@ namespace Paycom_Seminar_2020
         public String subscribe(String topicName)
         {
             _profReadWrite.addSubscription(_username, topicName);
-            String response = ServerMessageEncoder.NO_ACTION_REQUIRED;
+            String response = CommunicationProtocol.NO_ACTION_REQUIRED;
             return response;
         }
         public void unsubscribe(String topicName)

@@ -22,7 +22,7 @@ namespace Paycom_Seminar_2020
                 if (status.Equals("taken"))
                 {
                     makeStatement("Sorry, but that username is already taken.");
-                    userChoice = ClientMessageEncoder.CREATE_PROFILE+getValidatedString("Please enter your desired username:");
+                    userChoice = CommunicationProtocol.CREATE_PROFILE+getValidatedString("Please enter your desired username:");
                 }
                 else if (status.Equals("deleted"))
                 {
@@ -52,11 +52,11 @@ namespace Paycom_Seminar_2020
 
             if(userAnswer == 1)
             {
-                serverMessage = ClientMessageEncoder.CREATE_PROFILE+getValidatedString("Please enter your desired username:");
+                serverMessage = CommunicationProtocol.CREATE_PROFILE+getValidatedString("Please enter your desired username:");
             }
             else
             {
-                serverMessage += ClientMessageEncoder.LOG_IN;
+                serverMessage += CommunicationProtocol.LOG_IN;
                 serverMessage += options[userAnswer-1];
             }
 
@@ -68,15 +68,15 @@ namespace Paycom_Seminar_2020
             String status = "";
             String serverResponse = _client.sendServerMessage(userChoice);
             String responseID = serverResponse.Substring(0,2);
-            if (responseID.Equals(ServerMessageDecoder.NAME_TAKEN))
+            if (responseID.Equals(CommunicationProtocol.NAME_TAKEN))
             {
                 status = "taken";
             }
-            else if (responseID.Equals(ServerMessageDecoder.PROFILE_DELETED))
+            else if (responseID.Equals(CommunicationProtocol.PROFILE_DELETED))
             {
                 status  = "deleted"; 
             }
-            else if (responseID.Substring(0,2).Equals(ServerMessageDecoder.NO_ACTION_REQUIRED))
+            else if (responseID.Substring(0,2).Equals(CommunicationProtocol.NO_ACTION_REQUIRED))
             {
                 status = "successful";
             }
@@ -151,17 +151,16 @@ namespace Paycom_Seminar_2020
             String topicName = "";
             while (!successful)
             {
-                Console.Write("If you change your mind, type the word 'cancel' to abort. ");
-                topicName = getValidatedString("Please enter the desired name for your topic:");
+                topicName = getValidatedString("Please enter the desired name for your topic. Type 'cancel' to abort:");
                 if (topicName.Equals("cancel"))
                 {
                     successful = true;
                 }
                 else
                 {
-                    String serverMessage = ClientMessageEncoder.CREATE_TOPIC+topicName;
+                    String serverMessage = CommunicationProtocol.CREATE_TOPIC+topicName;
                     String serverResponse = _client.sendServerMessage(serverMessage);
-                    if (serverResponse.Substring(0,2).Equals(ServerMessageDecoder.NAME_TAKEN))
+                    if (serverResponse.Substring(0,2).Equals(CommunicationProtocol.NAME_TAKEN))
                     {
                         makeStatement($"Sorry, but the name '{topicName}' is already taken.");
                     }

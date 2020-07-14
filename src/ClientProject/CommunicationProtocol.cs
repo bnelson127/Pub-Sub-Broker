@@ -1,7 +1,7 @@
 namespace Paycom_Seminar_2020
 {
    
-    static class ClientMessageEncoder
+    static class CommunicationProtocol
     {
         public static string REQUEST_USERNAMES {get;} = "00";
         public static string LOG_IN {get;} = "01";
@@ -25,7 +25,10 @@ namespace Paycom_Seminar_2020
         public static string REQUEST_WELCOME_MESSAGE {get;} = "19";
         public static string SET_WELCOME_MESSAGE {get;} = "20";
         public static string REQUEST_TOPIC_HISTORY {get;} = "21";
-        
+        public static string NO_ACTION_REQUIRED {get;} = "22";
+        public static string NAME_TAKEN {get;} = "23";
+        public static string PROFILE_DELETED {get;} = "24";
+        public static string MESSAGE_NOTIFICATION {get;} = "25";
     }
 
 }

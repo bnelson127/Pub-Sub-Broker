@@ -26,14 +26,16 @@
   </profile>
   <profile name="Subscriber2">
     <subscriptions>
-      <subscription name="Ewoks" timeJoined="637300725065520439" lastChecked="637302700339865892" />
-      <subscription name="Desks" timeJoined="637302411187874735" lastChecked="637302708175647302" />
+      <subscription name="Ewoks" timeJoined="637300725065520439" lastChecked="637302773321560501" />
+      <subscription name="Desks" timeJoined="637302411187874735" lastChecked="637302773291138426" />
     </subscriptions>
     <topics>
     </topics>
   </profile>
   <profile name="PubSubCombo">
     <subscriptions />
-    <topics />
+    <topics>
+      <topic name="Hugs &amp; Kisses" />
+    </topics>
   </profile>
 </profiles>

@@ -76,7 +76,7 @@ namespace Paycom_Seminar_2020
                     Console.WriteLine(String.Format("Received: {0}", data));
 
                     //checks if the new connection is for listening for message updates
-                    if (data.Substring(0,2).Equals(ClientMessageDecoder.MESSAGE_LISTENER_CONNECTION))
+                    if (data.Substring(0,2).Equals(CommunicationProtocol.MESSAGE_LISTENER_CONNECTION))
                     {
                         connections.Add(client.GetStream());
                     }

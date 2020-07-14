@@ -75,7 +75,7 @@ namespace Paycom_Seminar_2020
             NetworkStream networkStream = connection.GetStream();
 
             var writer = new StreamWriter(networkStream);
-            byte[] bytes = Encoding.UTF8.GetBytes(ClientMessageEncoder.MESSAGE_LISTENER_CONNECTION);
+            byte[] bytes = Encoding.UTF8.GetBytes(CommunicationProtocol.MESSAGE_LISTENER_CONNECTION);
             networkStream.Write(bytes, 0, bytes.Length);
 
             while (continueRunning)
@@ -87,7 +87,7 @@ namespace Paycom_Seminar_2020
                     networkStream.Read(bytesMsgFromServer, 0, 1048576);
                     String stringMsgFromServer = System.Text.Encoding.ASCII.GetString(bytesMsgFromServer);
                     String serverResponse = stringMsgFromServer.Trim((char) 0);
-                    if (serverResponse.Substring(0,2).Equals(ServerMessageDecoder.MESSAGE_NOTIFICATION))
+                    if (serverResponse.Substring(0,2).Equals(CommunicationProtocol.MESSAGE_NOTIFICATION))
                     {
                         String topicName = serverResponse.Substring(2);
                         
