@@ -1,3 +1,8 @@
+/*
+This class is responsible for accessing and editing the profile data stored in
+profiles.xml. The class inherits from XMLReaderWriter
+*/
+
 using System;
 using System.Collections;
 using System.Xml;

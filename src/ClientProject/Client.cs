@@ -1,3 +1,7 @@
+/*
+This class is responsible for communicating with the server. It sends data to the
+server and then processes the server's resposne.
+*/
 using System;
 using System.Net.Sockets;
 using System.Text;
@@ -20,7 +24,7 @@ namespace Paycom_Seminar_2020
 
         public String sendServerMessage(String message)
         {
-            String serverResponse = "error";
+            String serverResponse = ";";
             try
             {
                 NetworkStream ns = _primaryTcpClient.GetStream();

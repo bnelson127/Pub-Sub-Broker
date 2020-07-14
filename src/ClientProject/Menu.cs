@@ -1,3 +1,8 @@
+/*
+This class provides basic menu functionality. When the menu is displayed, it shows
+all the options it has been given and then returns the option that the user chose.
+*/
+
 using System;
 
 namespace Paycom_Seminar_2020

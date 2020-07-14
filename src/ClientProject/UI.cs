@@ -1,5 +1,10 @@
+/*
+This monstrosity of a class is responsible for getting inputs from the user
+and then responding to those inputs. If it needs information from the server,
+it uses its client.
+*/
+
 using System;
-using System.Net.Sockets;
 
 namespace Paycom_Seminar_2020
 {
@@ -171,7 +176,15 @@ namespace Paycom_Seminar_2020
                 }
                 
             }
-            makeStatement($"You have succesfully created the topic called '{topicName}'.");
+            if (topicName.Equals("cancel"))
+            {
+                makeStatement("You have canceled the process.");
+            }
+            else
+            {
+                makeStatement($"You have succesfully created the topic called '{topicName}'.");
+            }
+            
 
         }
 

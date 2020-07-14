@@ -1,3 +1,8 @@
+/*
+This class is responsible for accessing and editing the topic data stored in
+topics.xml. The class inherits from XMLReaderWriter.
+*/
+
 using System;
 using System.Xml;
 using System.Collections;

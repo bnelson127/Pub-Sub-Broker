@@ -1,3 +1,10 @@
+/*
+This class is responsible for handling messages that come from the client.
+It receives a message and then puts together a response to send back. If any
+data concerning the user's profile is needed, it calls a method on its instance
+of the Profile class.
+*/
+
 using System;
 using System.Collections;
 using System.Net.Sockets;
@@ -28,7 +35,7 @@ namespace Paycom_Seminar_2020
             if (indicator.Equals(CommunicationProtocol.REQUEST_USERNAMES))
             {
                 String[] usernamesArray = profReadWrite.getUsernames();
-                response = prepareStringArray(usernamesArray);
+                response = prepareStringArray(usernamesArray)+";";
 
             }
             else if (indicator.Equals(CommunicationProtocol.LOG_IN))
@@ -185,7 +192,7 @@ namespace Paycom_Seminar_2020
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.ToString());
+                    String goAwayWarning = e.ToString();
                 }
                 
             }

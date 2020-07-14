@@ -1,4 +1,8 @@
-﻿
+﻿/*
+This contains the main method for the program. It also has the code that listens
+for incoming message updates, and it has the code that automatically publishes
+messages if the user has auto run enabled on any topics.
+*/
 using System;
 using System.Threading;
 using System.Net.Sockets;
@@ -132,7 +136,7 @@ namespace Paycom_Seminar_2020
             Random rand = new Random();
             while(continueRunning)
             {
-                int sleepSeconds = rand.Next(20,60);
+                int sleepSeconds = rand.Next(30,90);
                 for (int i = 0; i<sleepSeconds; i++)
                 {
                     if (continueRunning)
@@ -161,7 +165,6 @@ namespace Paycom_Seminar_2020
                             {
                                 String[] defaultMessages = client.requestDefaultMessages(topic);
                                 client.publishMessage(topic, defaultMessages[rand.Next(0,defaultMessages.Length)]);
-                                Console.WriteLine(defaultMessages.Length);
                             }
                         }
 

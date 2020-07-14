@@ -1,6 +1,10 @@
+/*
+This class stores all of the indicators that the server and client use to
+communicate with one another. 
+*/
+
 namespace Paycom_Seminar_2020
 {
-   
     static class CommunicationProtocol
     {
         public static string REQUEST_USERNAMES {get;} = "00";

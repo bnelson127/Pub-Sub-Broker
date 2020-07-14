@@ -1,3 +1,8 @@
+/*
+This class is responsible for getting user responses from menus and then
+deciding what to do based on that response.
+*/
+
 using System;
 
 namespace Paycom_Seminar_2020

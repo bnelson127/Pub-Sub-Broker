@@ -2,40 +2,45 @@
   <profile name="Publisher1">
     <subscriptions />
     <topics>
-      <topic name="Ewoks" />
-      <topic name="Desks" />
+      <topic name="Star Wars Quotes" />
+      <topic name="Gibberish" />
     </topics>
   </profile>
   <profile name="Publisher2">
     <subscriptions />
     <topics>
+      <topic name="Dad Jokes" />
     </topics>
   </profile>
   <profile name="Publisher3">
     <subscriptions />
     <topics>
+      <topic name="Continent Facts" />
     </topics>
   </profile>
   <profile name="Subscriber1">
     <subscriptions>
-      <subscription name="Ewoks" timeJoined="637300844350456682" lastChecked="637302642861728232" />
+      <subscription name="Star Wars Quotes" timeJoined="637303310747979877" lastChecked="637303329393868491" />
+      <subscription name="Continent Facts" timeJoined="637303310849337988" lastChecked="637303310849338695" />
+      <subscription name="Presidents of the United States of America" timeJoined="637303329230006801" lastChecked="637303343169041027" />
     </subscriptions>
-    <topics>
-      <topic name="Star Wars" />
-    </topics>
+    <topics />
   </profile>
   <profile name="Subscriber2">
     <subscriptions>
-      <subscription name="Ewoks" timeJoined="637300725065520439" lastChecked="637302773321560501" />
-      <subscription name="Desks" timeJoined="637302411187874735" lastChecked="637302773291138426" />
+      <subscription name="Dad Jokes" timeJoined="637303311259983589" lastChecked="637303342158565482" />
+      <subscription name="Star Wars Quotes" timeJoined="637303311669007741" lastChecked="637303342029063854" />
+      <subscription name="Gibberish" timeJoined="637303336274637339" lastChecked="637303336274639595" />
     </subscriptions>
-    <topics>
-    </topics>
+    <topics />
   </profile>
   <profile name="PubSubCombo">
-    <subscriptions />
+    <subscriptions>
+      <subscription name="Continent Facts" timeJoined="637303326544315692" lastChecked="637303326544316799" />
+      <subscription name="Dad Jokes" timeJoined="637303326750903661" lastChecked="637303343007072541" />
+    </subscriptions>
     <topics>
-      <topic name="Hugs &amp; Kisses" />
+      <topic name="Presidents of the United States of America" />
     </topics>
   </profile>
 </profiles>

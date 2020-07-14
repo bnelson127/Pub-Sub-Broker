@@ -1,38 +1,42 @@
 <topics>
-  <topic name="Star Wars">
-    <settings welcomeMessage="Welcome to the topic!" defaultMessages=";" autoSend="false" />
-    <sentMessages />
-  </topic>
-  <topic name="Ewoks">
-    <settings welcomeMessage="Welcome! The force will be with you, always." defaultMessages=";" autoSend="false" />
+  <topic name="Star Wars Quotes">
+    <settings welcomeMessage="Welcome, and may to force be with you." defaultMessages=";&quot;There's always a bigger fish&quot; - Quigon Jinn;&quot;I don't like sand&quot; - Anakin Skywalker;&quot;Master Yoda, you survived&quot; - Darth Sidious;&quot;The force will be with you, always&quot; - Obi Wan Kenobi;&quot;No, I am your father&quot; - Darth Vader;&quot;It's a trap!!!&quot; - Admiral Ackbar;&quot;I will finish what you started, grandfather&quot; - Kylo Wren;&quot;The Rebellion is reborn today, the war is just beginning, and I will not be the last jedi.&quot; - Luke Skywalker;&quot;I am all the Jedi&quot; - Rey;&quot;Rebellions are built on hope&quot; - Jyn Erso;&quot;I've got a bad feeling about this&quot; - Literally every Star Wars character ever;&quot;I am no Jedi&quot; - Ahsoka Tano;&quot;Will someone get this big walking carpet out of my way?&quot; - Leia Organa;" autoSend="true" />
     <sentMessages>
-      <sentMessage content="Furry, Furry, Furry!" timestamp="637300751436454180" />
-      <sentMessage content="Cute!" timestamp="637300790825539747" />
-      <sentMessage content="Nub Nub" timestamp="637300796537073427" />
-      <sentMessage content="SKOWE" timestamp="637300805392983459" />
-      <sentMessage content="Little Bears are cute" timestamp="637300810679174063" />
-      <sentMessage content="Endor" timestamp="637300815965512528" />
-      <sentMessage content="C3PO is a god!" timestamp="637300818984130432" />
-      <sentMessage content="Better than porgs!" timestamp="637301382465969179" />
-      <sentMessage content="Ewoks are the cutest things!" timestamp="637301664369521938" />
-      <sentMessage content="Yay for a cameo in TROS!" timestamp="637301664570670746" />
-      <sentMessage content="Ewoks are the cutest things!" timestamp="637301666173040597" />
-      <sentMessage content="Ewoks are the cutest things!" timestamp="637301667729065348" />
-      <sentMessage content="The Forest Moon!" timestamp="637301729592299625" />
-      <sentMessage content="Emergency manual edit" timestamp="637301732102139647" />
-      <sentMessage content="Emergency manual edit" timestamp="637301733575418006" />
-      <sentMessage content="Emergency manual edit" timestamp="637301733776644409" />
+      <sentMessage content="&quot;It's a trap!!!&quot; - Admiral Ackbar" timestamp="637303340966197235" />
+      <sentMessage content="&quot;Will someone get this big walking carpet out of my way?&quot; - Leia Organa" timestamp="637303341363493978" />
+      <sentMessage content="&quot;I am no Jedi&quot; - Ahsoka Tano" timestamp="637303342166869398" />
     </sentMessages>
   </topic>
-  <topic name="Desks">
-    <settings welcomeMessage="Welcome! Standing is illegal here." defaultMessages=";" autoSend="false" />
+  <topic name="Dad Jokes">
+    <settings welcomeMessage="Welcome to the topic!" defaultMessages=";Justice is a dish best served cold. If it were served warm it would be justwater.;The fattest knight at King Arthur's round table was Sir Cumference. He acquired his size from too much pi.;MOM: &quot;How do I look?&quot; DAD: &quot;With your eyes.&quot;;Why can't you hear a pterodactyl go to the bathroom? Because the pee is silent.;Did you hear the news? FedEx and UPS are merging. They're going to go by the name Fed-Up from now on.;Don't trust atoms. They make up everything!;I told my son I was named after Thomas Jefferson... He said, &quot;But dad, your name is Brian.&quot; I said, &quot;I know, but I was named AFTER Thomas Jefferson.&quot;;Why did the invisble man turn down the job offer? He couldn't see himself doing it.;What did the pirate say on his 80th birthday? AYE MATEY!;CASHIER: &quot;Would you like the milk in a bag, sir?&quot; DAD: &quot;No, just leave it in the carton.&quot;;What's the best part about living in Switzerland? I don't know, but the flag is a big plus.;5/4 of people admit that they're bad with fractions.;Why couldn't the bike stand up by itself? It was two tired.;" autoSend="true" />
     <sentMessages>
-      <sentMessage content="Sitting is fun!" timestamp="637300926193949370" />
-      <sentMessage content="Does your desk have storage?" timestamp="637301488662368252" />
+      <sentMessage content="I told my son I was named after Thomas Jefferson... He said, &quot;But dad, your name is Brian.&quot; I said, &quot;I know, but I was named AFTER Thomas Jefferson.&quot;" timestamp="637303341383320383" />
+      <sentMessage content="Justice is a dish best served cold. If it were served warm it would be justwater." timestamp="637303342155770805" />
+      <sentMessage content="Why can't you hear a pterodactyl go to the bathroom? Because the pee is silent." timestamp="637303343047413197" />
     </sentMessages>
   </topic>
-  <topic name="Hugs &amp; Kisses">
-    <settings welcomeMessage="Welcome to the topic!" defaultMessages=";" autoSend="false" />
-    <sentMessages />
+  <topic name="Continent Facts">
+    <settings welcomeMessage="Welcome, we hope you like continents!" defaultMessages=";The Americas were probably named after Amerigo Vespucci.;Christianity is the largest religion in North America;South America has 12 countries.;Most electricity in South America is generate by hydroelectric power plants.;Egypt has the highest GDP of any country in Africa.;Africa is believed to hold 90% of the world cobalt and platinum.;Europe is the world's second smallest continent;The border between Europe and Asia is usually considered to be the Ural mountains, the Ural river, and the Caspian Sea.;Asia is home to 60% of the world's population.;Asia covers about 30% of the Earth's land area.;Adelaide, Australia is home to the Mighty Black Stump!;Africa, America, Antarctica, Asia, and Australia all start and end with an 'a'.;Antarctica is a cold place.;Antarctica has no sovereign nations.;" autoSend="true" />
+    <sentMessages>
+      <sentMessage content="Egypt has the highest GDP of any country in Africa." timestamp="637303341496972627" />
+      <sentMessage content="Asia covers about 30% of the Earth's land area." timestamp="637303341978887323" />
+      <sentMessage content="South America has 12 countries." timestamp="637303342461179981" />
+      <sentMessage content="Antarctica is a cold place." timestamp="637303342802783495" />
+      <sentMessage content="Asia covers about 30% of the Earth's land area." timestamp="637303343345372697" />
+    </sentMessages>
+  </topic>
+  <topic name="Presidents of the United States of America">
+    <settings welcomeMessage="Welcome, and may God bless America!" defaultMessages=";(1) George Washington;(2) John Adams;(3) Thomas Jefferson;(4) James Madison;(5) James Monroe;(6) John Quincy Adams;(7) Andrew Jackson;(8) Martin Van Buren;(9) William Henry Harrison;(10) John Tyler;(11) James K. Polk;(12) Zachary Taylor;(13) Millard Fillmore;(14) Franklin Pierce;(15) James Buchanan;(16) Abraham Lincoln;(18) Ulysses S. Grant;(17) Andrew Johnson;(19) Rutherford B. Hayes;(20) James A. Garfield;(21) Chester A. Arthur;(22) Grover Cleveland;(23) Benjamin Harrison;(25) William McKinley;(26) Theodore Roosevelt;(27) William Howard Taft;(28) Woodrow Wilson;(29) Warren G. Harding;(30) Calvin Coolidge;(31) Herbert Hoover;(32) Franklin D. Roosevelt;(33) Harry S. Truman;(34) Dwight D. Eisenhower;(35) John F. Kennedy;(36) Lyndon B. Johnson;(37) Richard Nixon;(38) Gerald Ford;(39) Jimmy Carter;(40) Ronald Regan;(41) George H. W. Bush;(42) Bill Clinton;(43) George W. Bush;(44) Barack Obama;(45) Donald Trump;" autoSend="true" />
+    <sentMessages>
+      <sentMessage content="(9) William Henry Harrison" timestamp="637303342021768900" />
+      <sentMessage content="(29) Warren G. Harding" timestamp="637303342653467294" />
+    </sentMessages>
+  </topic>
+  <topic name="Gibberish">
+    <settings welcomeMessage="cipotehtotemoclew" defaultMessages=";ecnetnesasisihttahteesuoynac;hsirebbigyllautcatonsisiht;secapsonhtiwsdrawkcab;aciremafosetatsdetinuehtfostnediserp;pmutskcalbythgimeht;stcaftnenitnoc;hsirebbig;setouqsrawrats;rotcodtsebehtsirotcodhtneteht;reveynapmoctsebehtsimocyap;tfarcenimtuoyrt;" autoSend="true" />
+    <sentMessages>
+      <sentMessage content="rotcodtsebehtsirotcodhtneteht" timestamp="637303340971556347" />
+      <sentMessage content="ecnetnesasisihttahteesuoynac" timestamp="637303341364887389" />
+    </sentMessages>
   </topic>
 </topics>

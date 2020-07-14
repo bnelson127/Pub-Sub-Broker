@@ -1,3 +1,9 @@
+/*
+This class is responsible for getting and processing data that comes from the
+user's profile. If it needs to read in data from profile.xml or topics.xml it
+uses a ProfileReaderWriter or a TopicReaderWriter.
+*/
+
 using System;
 using System.Collections;
 
