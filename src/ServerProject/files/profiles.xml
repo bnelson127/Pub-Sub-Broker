@@ -20,24 +20,24 @@
   </profile>
   <profile name="Subscriber1">
     <subscriptions>
-      <subscription name="Star Wars Quotes" timeJoined="637303310747979877" lastChecked="637303329393868491" />
       <subscription name="Continent Facts" timeJoined="637303310849337988" lastChecked="637303310849338695" />
       <subscription name="Presidents of the United States of America" timeJoined="637303329230006801" lastChecked="637303343169041027" />
+      <subscription name="Star Wars Quotes" timeJoined="637303418413987663" lastChecked="637303418646456326" />
     </subscriptions>
     <topics />
   </profile>
   <profile name="Subscriber2">
     <subscriptions>
-      <subscription name="Dad Jokes" timeJoined="637303311259983589" lastChecked="637303342158565482" />
       <subscription name="Star Wars Quotes" timeJoined="637303311669007741" lastChecked="637303342029063854" />
       <subscription name="Gibberish" timeJoined="637303336274637339" lastChecked="637303336274639595" />
+      <subscription name="Dad Jokes" timeJoined="637303421881447086" lastChecked="637303421993878062" />
     </subscriptions>
     <topics />
   </profile>
   <profile name="PubSubCombo">
     <subscriptions>
-      <subscription name="Continent Facts" timeJoined="637303326544315692" lastChecked="637303326544316799" />
       <subscription name="Dad Jokes" timeJoined="637303326750903661" lastChecked="637303343007072541" />
+      <subscription name="Continent Facts" timeJoined="637303420196766022" lastChecked="637303420196766119" />
     </subscriptions>
     <topics>
       <topic name="Presidents of the United States of America" />

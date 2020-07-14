@@ -165,6 +165,7 @@ namespace Paycom_Seminar_2020
                             {
                                 String[] defaultMessages = client.requestDefaultMessages(topic);
                                 client.publishMessage(topic, defaultMessages[rand.Next(0,defaultMessages.Length)]);
+                                Console.WriteLine($"A message was just automatically published to your topic called '{topic}'.");
                             }
                         }
 
