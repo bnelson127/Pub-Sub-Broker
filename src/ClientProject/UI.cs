@@ -32,11 +32,35 @@ namespace Paycom_Seminar_2020
                 }
                 else if (status.Equals("successful"))
                 {
-                    makeStatement("You have successfully logged in. Welcome!");
+                    makeStatement($"You have successfully logged in as {userChoice.Substring(2)}. Welcome!");
                     _client.setUsername(userChoice.Substring(2));
                     successful = true;
                 }
             }
+        }
+        public String selectProfile(String[] names)
+        {
+            String serverMessage = "";
+
+            String[] options = new String[names.Length+1];
+            options[0] = "Create New Profile";
+            for (int i = 0; i<names.Length; i++)
+            {
+                options[i+1] = names[i];
+            }
+            int userAnswer = askQuestionMultipleChoice("Please choose a profile or create a new one:", options);
+
+            if(userAnswer == 1)
+            {
+                serverMessage = ClientMessageEncoder.CREATE_PROFILE+getValidatedString("Please enter your desired username:");
+            }
+            else
+            {
+                serverMessage += ClientMessageEncoder.LOG_IN;
+                serverMessage += options[userAnswer-1];
+            }
+
+            return serverMessage;
         }
 
         public String checkUsername(String userChoice)
@@ -82,7 +106,6 @@ namespace Paycom_Seminar_2020
             }
             
         }
-
         public void viewTopicHistory(String topicName)
         {
             String[] messages = _client.requestTopicHistory(topicName);
@@ -114,6 +137,7 @@ namespace Paycom_Seminar_2020
             _client.setWelcomeMessage(topicName, newWelcomeMessage);
             makeStatement($"The welcome message for '{topicName}' has been changed.");
         }
+
         public void publishMessage(String topicName)
         {
             String message = askQuestionFreeResponse("What would you like to publish to your subscribers?");
@@ -121,70 +145,6 @@ namespace Paycom_Seminar_2020
             makeStatement("The message has been sent.");
 
         }
-
-        public void viewSubscriptionMessages()
-        {
-            String[] mySubs = _client.requestSubscriptionNames();
-            int[] newMessageCounts = new int[mySubs.Length];
-            for (int i = 0; i<mySubs.Length; i++)
-            {
-                newMessageCounts[i] = _client.requestNewMessageCount(mySubs[i]);
-            }
-
-            String[] menuOptions = new String[mySubs.Length];
-            for (int i = 0; i<mySubs.Length; i++)
-            {
-                menuOptions[i] = $"[{newMessageCounts[i]} new] {mySubs[i]}";
-            }
-
-            if (mySubs.Length == 0)
-            {
-                makeStatement("It doesn't look like you're subscribed to any topics! Go to the Manage Subscriptions menu to subscribe to some!");
-            }
-            else
-            {
-                int userChoice = askQuestionMultipleChoice("From what topic would you like to view messages?", menuOptions);
-                String topicName = mySubs[userChoice-1];
-
-                String title = "MESSAGES FROM "+topicName.ToUpper();
-
-                String[] messages = _client.requestSubscriptionMessages(topicName);
-                String[] combinedMessages = new String[messages.Length/2];
-                for (int i = 0; i<messages.Length; i+=2)
-                {
-                    combinedMessages[i/2] = (messages[i]+": "+messages[i+1]);
-                }
-
-                String postStatement = "These are all the messages you have recieved since joining the topic.";
-
-                printListWithTitle(title, combinedMessages, postStatement);
-            }
-        }
-        public String selectProfile(String[] names)
-        {
-            String serverMessage = "";
-
-            String[] options = new String[names.Length+1];
-            options[0] = "Create New Profile";
-            for (int i = 0; i<names.Length; i++)
-            {
-                options[i+1] = names[i];
-            }
-            int userAnswer = askQuestionMultipleChoice("Please choose a profile or create a new one:", options);
-
-            if(userAnswer == 1)
-            {
-                serverMessage = ClientMessageEncoder.CREATE_PROFILE+getValidatedString("Please enter your desired username:");
-            }
-            else
-            {
-                serverMessage += ClientMessageEncoder.LOG_IN;
-                serverMessage += options[userAnswer-1];
-            }
-
-            return serverMessage;
-        }
-
         public void createNewTopic()
         {
             bool successful = false;
@@ -213,8 +173,23 @@ namespace Paycom_Seminar_2020
                 
             }
             makeStatement($"You have succesfully created the topic called '{topicName}'.");
-            
 
+        }
+
+        public void viewMyTopics()
+        {
+            String[] topics = _client.requestMyTopicNames();
+            if (topics.Length>0)
+            {
+                String title = "MY TOPICS";
+                String postStatement = "These are all the topics that you own.";
+                printListWithTitle(title, topics, postStatement);
+            }
+            else
+            {
+                makeStatement("It doesn't look like you own any topics. You should create one!");
+            }
+            
         }
 
         public void toggleAutoRun(String topicName)
@@ -341,21 +316,43 @@ namespace Paycom_Seminar_2020
             }
             
         }
-
-        public void viewMyTopics()
+        public void viewSubscriptionMessages()
         {
-            String[] topics = _client.requestMyTopicNames();
-            if (topics.Length>0)
+            String[] mySubs = _client.requestSubscriptionNames();
+            int[] newMessageCounts = new int[mySubs.Length];
+            for (int i = 0; i<mySubs.Length; i++)
             {
-                String title = "MY TOPICS";
-                String postStatement = "These are all the topics that you own.";
-                printListWithTitle(title, topics, postStatement);
+                newMessageCounts[i] = _client.requestNewMessageCount(mySubs[i]);
+            }
+
+            String[] menuOptions = new String[mySubs.Length];
+            for (int i = 0; i<mySubs.Length; i++)
+            {
+                menuOptions[i] = $"[{newMessageCounts[i]} new] {mySubs[i]}";
+            }
+
+            if (mySubs.Length == 0)
+            {
+                makeStatement("It doesn't look like you're subscribed to any topics! Go to the Manage Subscriptions menu to subscribe to some!");
             }
             else
             {
-                makeStatement("It doesn't look like you own any topics. You should create one!");
+                int userChoice = askQuestionMultipleChoice("From what topic would you like to view messages?", menuOptions);
+                String topicName = mySubs[userChoice-1];
+
+                String title = "MESSAGES FROM "+topicName.ToUpper();
+
+                String[] messages = _client.requestSubscriptionMessages(topicName);
+                String[] combinedMessages = new String[messages.Length/2];
+                for (int i = 0; i<messages.Length; i+=2)
+                {
+                    combinedMessages[i/2] = (messages[i]+": "+messages[i+1]);
+                }
+
+                String postStatement = "These are all the messages you have recieved since joining the topic.";
+
+                printListWithTitle(title, combinedMessages, postStatement);
             }
-            
         }
         private int askQuestionMultipleChoice(String question, String[] options)
         {
@@ -397,7 +394,7 @@ namespace Paycom_Seminar_2020
             return response;
         }
 
-        public String askQuestionFreeResponse(String question)
+        private String askQuestionFreeResponse(String question)
         {
             String response = null;
 
@@ -412,7 +409,7 @@ namespace Paycom_Seminar_2020
 
             return response;
         }
-        public String getValidatedString(String question)
+        private String getValidatedString(String question)
         {
             String serverMessage = "";
 
@@ -435,7 +432,7 @@ namespace Paycom_Seminar_2020
             return serverMessage;
         }
 
-        public void makeStatement(String statement)
+        private void makeStatement(String statement)
         {
             Console.WriteLine("");
             Console.WriteLine(statement);
@@ -443,7 +440,7 @@ namespace Paycom_Seminar_2020
             Console.ReadLine();
         }
 
-        public void printListWithTitle(String title, String[] list, String postStatement)
+        private void printListWithTitle(String title, String[] list, String postStatement)
         {
             Console.WriteLine("");
             for (int i = 0; i<title.Length; i++)

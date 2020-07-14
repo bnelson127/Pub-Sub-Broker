@@ -61,7 +61,7 @@ namespace Paycom_Seminar_2020
 
                 xmlDoc.Save(_profilesFilePath);
 
-                Profile profile = new Profile(username, new String[0], new String[0]);
+                Profile profile = new Profile(username);
 
                 return profile;
             }
@@ -76,10 +76,7 @@ namespace Paycom_Seminar_2020
 
                 XmlNode profileNode = getTopNode("profile", xmlDoc, username);
 
-                XmlNode subscriptionsNode = profileNode.SelectSingleNode("//subscriptions");
-                XmlNode topicsNode = profileNode.SelectSingleNode("//topics");
-
-                Profile profile = new Profile(profileNode.Attributes["name"].Value, new String[0], new String[0]);
+                Profile profile = new Profile(profileNode.Attributes["name"].Value);
                 return profile;
             }
         }

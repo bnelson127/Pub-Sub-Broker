@@ -7,15 +7,11 @@ namespace Paycom_Seminar_2020
     class Profile
     {
         private String _username;
-        private String[] _subscriptions;
-        private String[] _topics;
         private ProfilesReaderWriter _profReadWrite = null;
         private TopicReaderWriter _topReadWrite = null;
-        public Profile(String username, String[] subscriptions, String[] topics)
+        public Profile(String username)
         {
             _username = username;
-            _subscriptions = subscriptions;
-            _topics = topics;
         }
 
         public void setWriters(ProfilesReaderWriter profReadWrite, TopicReaderWriter topReadWrite)

@@ -90,7 +90,13 @@ namespace Paycom_Seminar_2020
                 catch(Exception e)
                 {
                     String goAwayWarning = e.ToString();
-                    Console.WriteLine("Lost connection to the server. Try quitting and then restarting the application.");
+                    
+                    if (!client.connectionsWereClosed())
+                    {
+                        Console.WriteLine("Lost connection to the server. Try quitting and then restarting the application.");
+                    }
+                    
+                    
                     continueRunning = false;
                     client.closeConnections();
                 }
@@ -141,7 +147,10 @@ namespace Paycom_Seminar_2020
                     catch(Exception e)
                     {
                         String goAwayWarning = e.ToString();
-                        Console.WriteLine("Lost connection to the server. Try quitting and then restarting the application.");
+                        if (!client.connectionsWereClosed())
+                        {
+                            Console.WriteLine("Lost connection to the server. Try quitting and then restarting the application.");
+                        }
                         continueRunning = false;
                         client.closeConnections();
                     }

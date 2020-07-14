@@ -11,17 +11,90 @@ namespace Paycom_Seminar_2020
         private String _username;
         private TcpClient _primaryTcpClient;
         private TcpClient _secondaryTcpClient;
+        private bool _connectionsClosed = false;
         public Client(TcpClient primaryTcpClient, TcpClient secondaryTcpClient)
         {
             _primaryTcpClient = primaryTcpClient;
             _secondaryTcpClient = secondaryTcpClient;
         }
 
+        public String sendServerMessage(String message)
+        {
+            String serverResponse = "error";
+            try
+            {
+                NetworkStream ns = _primaryTcpClient.GetStream();
+
+                var writer = new StreamWriter(ns);
+
+                byte[] bytes = Encoding.UTF8.GetBytes(message);
+                ns.Write(bytes, 0, bytes.Length);
+
+                byte[] bytesMsgFromServer = new byte[65536];
+                ns.Read(bytesMsgFromServer, 0, 65536);
+                String stringMsgFromServer = System.Text.Encoding.ASCII.GetString(bytesMsgFromServer);
+                serverResponse = stringMsgFromServer.Trim((char) 0);
+            }
+            catch(Exception e)
+            {
+                String goAwayWarning = e.ToString();
+            }
+            
+            return serverResponse;
+        }
+
+        public void closeConnections()
+        {
+            _primaryTcpClient.Close();
+            _secondaryTcpClient.Close();
+            _connectionsClosed = true;
+        }
+
+        public bool connectionsWereClosed()
+        {
+            return _connectionsClosed;
+        }
+        public String[] requestSubscriptionNames()
+        {
+            String stringNames = sendServerMessage(ClientMessageEncoder.REQUEST_SUBSCRIPTION_NAMES);
+            String[] arrayNames = parseString(stringNames);
+            return arrayNames;
+        }
+
+        public String[] requestDefaultMessages(String topicName)
+        {
+            String stringMessages = sendServerMessage(ClientMessageEncoder.REQUEST_DEFAULT_MESSAGES+topicName);
+            String[] arrayMessages = parseString(stringMessages);
+            return arrayMessages;
+        }
+
+        public String[] requestMyTopicNames()
+        {
+            String stringNames = sendServerMessage(ClientMessageEncoder.REQUEST_USERS_TOPIC_NAMES);
+            String[] arrayNames = parseString(stringNames);
+            return arrayNames;
+        }
         public String[] requestUsernames()
         {
             String nameString = sendServerMessage(ClientMessageEncoder.REQUEST_USERNAMES);
             String[] names = parseString(nameString);
             return names;
+        }
+
+        public String requestWelcomeMessage(String topicName)
+        {
+            String welcomeMessage = sendServerMessage(ClientMessageEncoder.REQUEST_WELCOME_MESSAGE+topicName);
+            return welcomeMessage;
+        }
+
+        public void publishMessage(String topicName, String message)
+        {
+            String serverResponse = sendServerMessage($"{ClientMessageEncoder.PUBLISH_MESSAGE}{topicName};{message};");
+        }
+
+        public String getUsername()
+        {
+            return _username;
         }
 
         public String[] requestAllTopicNames()
@@ -34,20 +107,6 @@ namespace Paycom_Seminar_2020
         public String[] requestNotYetSubscribedTopicNames()
         {
             String stringNames = sendServerMessage(ClientMessageEncoder.REQUEST_NOT_SUBSCRIBED_TOPIC_NAMES);
-            String[] arrayNames = parseString(stringNames);
-            return arrayNames;
-        }
-
-        public String[] requestMyTopicNames()
-        {
-            String stringNames = sendServerMessage(ClientMessageEncoder.REQUEST_USERS_TOPIC_NAMES);
-            String[] arrayNames = parseString(stringNames);
-            return arrayNames;
-        }
-
-        public String[]  requestSubscriptionNames()
-        {
-            String stringNames = sendServerMessage(ClientMessageEncoder.REQUEST_SUBSCRIPTION_NAMES);
             String[] arrayNames = parseString(stringNames);
             return arrayNames;
         }
@@ -74,13 +133,6 @@ namespace Paycom_Seminar_2020
                 return true;
             }
             return false;
-        }
-
-        public String[] requestDefaultMessages(String topicName)
-        {
-            String stringMessages = sendServerMessage(ClientMessageEncoder.REQUEST_DEFAULT_MESSAGES+topicName);
-            String[] arrayMessages = parseString(stringMessages);
-            return arrayMessages;
         }
 
         public String toggleAutoRun(String topicName)
@@ -115,70 +167,15 @@ namespace Paycom_Seminar_2020
             String[] arrayHistory = parseString(stringHistory);
             return arrayHistory;
         }
-        public String requestWelcomeMessage(String topicName)
-        {
-            String welcomeMessage = sendServerMessage(ClientMessageEncoder.REQUEST_WELCOME_MESSAGE+topicName);
-            return welcomeMessage;
-        }
 
         public void setWelcomeMessage(String topicName, String welcomeMessage)
         {
             sendServerMessage(ClientMessageEncoder.SET_WELCOME_MESSAGE+topicName+";"+welcomeMessage);
         }
 
-        public void publishMessage(String topicName, String message)
-        {
-            String serverResponse = sendServerMessage($"{ClientMessageEncoder.PUBLISH_MESSAGE}{topicName};{message};");
-        }
-
-        public String sendServerMessage(String message)
-        {
-            String serverResponse = "error";
-            try
-            {
-                NetworkStream ns = _primaryTcpClient.GetStream();
-
-                var writer = new StreamWriter(ns);
-
-                byte[] bytes = Encoding.UTF8.GetBytes(message);
-                ns.Write(bytes, 0, bytes.Length);
-
-                byte[] bytesMsgFromServer = new byte[65536];
-                ns.Read(bytesMsgFromServer, 0, 65536);
-                String stringMsgFromServer = System.Text.Encoding.ASCII.GetString(bytesMsgFromServer);
-                serverResponse = stringMsgFromServer.Trim((char) 0);
-            }
-            catch(Exception e)
-            {
-                String goAwayWarning = e.ToString();
-                try
-                {
-                    closeConnections();
-                }
-                catch(Exception e1)
-                {
-                    String goAwayWarning1 = e1.ToString();
-                }
-                
-            }
-            
-            return serverResponse;
-        }
-
         public void setUsername(String username)
         {
             _username = username;
-        }
-
-        public String getUsername()
-        {
-            return _username;
-        }
-
-        public void closeConnections()
-        {
-            _primaryTcpClient.Close();
-            _secondaryTcpClient.Close();
         }
 
         private String[] parseString(String  combinedString)
@@ -210,5 +207,4 @@ namespace Paycom_Seminar_2020
             
         }
     }
-
 }
