@@ -27,7 +27,6 @@ namespace Paycom_Seminar_2020
                 {
                     String username = userNode.Attributes["name"].Value;
                     usernamesList.Add(username);
-                    Console.WriteLine(username);
                 }
 
                 String[] usernamesArray = Array.ConvertAll(usernamesList.ToArray(), x => x.ToString());

@@ -30,8 +30,8 @@ namespace Paycom_Seminar_2020
                 byte[] bytes = Encoding.UTF8.GetBytes(message);
                 ns.Write(bytes, 0, bytes.Length);
 
-                byte[] bytesMsgFromServer = new byte[65536];
-                ns.Read(bytesMsgFromServer, 0, 65536);
+                byte[] bytesMsgFromServer = new byte[1048576];
+                ns.Read(bytesMsgFromServer, 0, 1048576);
                 String stringMsgFromServer = System.Text.Encoding.ASCII.GetString(bytesMsgFromServer);
                 serverResponse = stringMsgFromServer.Trim((char) 0);
             }

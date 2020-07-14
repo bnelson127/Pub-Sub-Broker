@@ -387,7 +387,8 @@ namespace Paycom_Seminar_2020
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("Oops, that's not an option! Try again!");
+                    String goAwayWarning = e.ToString();
+                    Console.WriteLine("Oops, that's not an option! Enter the number of the seleciton you want to make!");
                 }
             }
             

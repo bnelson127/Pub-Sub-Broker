@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.IO;
 using System.Collections;
+using System.Xml;
 
 namespace Paycom_Seminar_2020
 {
@@ -14,11 +15,13 @@ namespace Paycom_Seminar_2020
         static void Main(string[] args)
         {
             
-            int portNum = 9999;
-            string hostName = "localhost";
+            int portNum = loadPortNumber();
+            string hostName = loadIpAddress();
             try
             {
+                //this tcp client is used to send and receive messages for the user
                 TcpClient primaryTcpClient = new TcpClient(hostName, portNum);
+                //this tcp client is only used to listen for message notifications from the server
                 TcpClient secondaryTcpClient = new TcpClient(hostName, portNum);
                 Client client = new Client(primaryTcpClient, secondaryTcpClient);
                 UI ui = new UI(client);
@@ -48,6 +51,25 @@ namespace Paycom_Seminar_2020
             
         }
 
+        public static int loadPortNumber()
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load("files/config.xml");
+            XmlNode portNode = xmlDoc.SelectSingleNode($"//settings/portNumber");
+            String stringPort = portNode.Attributes["value"].Value;
+            int intPort = Convert.ToInt32(stringPort);
+            return intPort;
+        }
+
+        public static String loadIpAddress()
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load("files/config.xml");
+            XmlNode addressNode = xmlDoc.SelectSingleNode($"//settings/ipAddress");
+            String address = addressNode.Attributes["value"].Value;
+            return address;
+        }
+
         public static void listenForNotifications(TcpClient connection, Client client)
         {
             NetworkStream networkStream = connection.GetStream();
@@ -61,8 +83,8 @@ namespace Paycom_Seminar_2020
                 try
                 {
                 
-                    byte[] bytesMsgFromServer = new byte[65536];
-                    networkStream.Read(bytesMsgFromServer, 0, 65536);
+                    byte[] bytesMsgFromServer = new byte[1048576];
+                    networkStream.Read(bytesMsgFromServer, 0, 1048576);
                     String stringMsgFromServer = System.Text.Encoding.ASCII.GetString(bytesMsgFromServer);
                     String serverResponse = stringMsgFromServer.Trim((char) 0);
                     if (serverResponse.Substring(0,2).Equals(ServerMessageDecoder.MESSAGE_NOTIFICATION))
@@ -110,7 +132,7 @@ namespace Paycom_Seminar_2020
             Random rand = new Random();
             while(continueRunning)
             {
-                int sleepSeconds = 20;
+                int sleepSeconds = rand.Next(20,60);
                 for (int i = 0; i<sleepSeconds; i++)
                 {
                     if (continueRunning)

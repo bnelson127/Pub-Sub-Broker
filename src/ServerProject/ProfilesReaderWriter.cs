@@ -28,7 +28,6 @@ namespace Paycom_Seminar_2020
                 {
                     String username = userNode.Attributes["name"].Value;
                     usernamesList.Add(username);
-                    Console.WriteLine(username);
                 }
 
                 String[] usernamesArray = Array.ConvertAll(usernamesList.ToArray(), x => x.ToString());
@@ -166,7 +165,6 @@ namespace Paycom_Seminar_2020
                 {
                     String subName = subscription.Attributes["name"].Value;
                     subNamesList.Add(subName);
-                    Console.WriteLine(subName);
                 }
 
                 return subNamesList;
@@ -189,7 +187,6 @@ namespace Paycom_Seminar_2020
                 {
                     String subName = subscription.Attributes["name"].Value;
                     topNamesList.Add(subName);
-                    Console.WriteLine(subName);
                 }
 
                 return Array.ConvertAll(topNamesList.ToArray(), x => x.ToString());
