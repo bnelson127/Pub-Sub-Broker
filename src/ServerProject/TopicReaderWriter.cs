@@ -44,6 +44,9 @@ namespace Paycom_Seminar_2020
         {
             lock (_topicLock)
             {
+                // This works and looks good. I am wondering if rather than creating an xml structure like this,
+                // you could just create a JSON object on the fly. Something to think about. Basically C# allows
+                // you to convert objects into JSON.
                 XmlDocument xmlDoc = new XmlDocument();
                 xmlDoc.Load(_topicsFilePath);
                 XmlNode rootNode = xmlDoc.SelectSingleNode("topics");

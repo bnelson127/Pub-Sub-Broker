@@ -8,6 +8,7 @@ using System.Xml;
 
 namespace Paycom_Seminar_2020
 {
+    // This is a good, clean class. 
     abstract class XMLReaderWriter
     {
         /*
