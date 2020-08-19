@@ -26,7 +26,7 @@ namespace Paycom_Seminar_2020
             _topReadWrite = topReadWrite;
         }
 
-        public String getUsername()
+        public String getUsername() // I don't think this method is ever used
         {
             return _username;
         }
@@ -57,7 +57,7 @@ namespace Paycom_Seminar_2020
             String[] topicNames = _topReadWrite.getTopicNames();
             ArrayList subNames = _profReadWrite.getSubscriptions(_username);
             ArrayList filteredList = new ArrayList();
-            for (int i = 0; i<topicNames.Length; i++)
+            for (int i = 0; i<topicNames.Length; i++) // good place for a foreach or Linq ForEach
             {
                 if (!subNames.Contains(topicNames[i]))
                 {
@@ -127,10 +127,10 @@ namespace Paycom_Seminar_2020
             _profReadWrite.removeSubscription(_username, topicName);
         }
 
-        private String prepareStringArray(String[] array)
+        private String prepareStringArray(String[] array) // Is there a more descriptive name than array?
         {
             String finished = "";
-            for (int i = 0; i<array.Length; i++)
+            for (int i = 0; i<array.Length; i++) // could be a one-liner, too: array.ForEach(a => finished += a + ";";);
             {
                 finished+=array[i]+";";
             }

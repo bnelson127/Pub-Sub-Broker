@@ -6,16 +6,17 @@ it uses its client.
 
 using System;
 
-namespace Paycom_Seminar_2020
+namespace Paycom_Seminar_2020 // Pascal casing for namespaces as well
 {
     class UI
     {
-        private Client _client = null;
+        // Good use of the _ for private class variable. This can also be made readonly.
+        private readonly Client _client = null; // The null here is redundant. It will be null with just "private Client _client;"
         public UI(Client client)
         {
             _client = client;
         }
-        public void start()
+        public void start() // By convention, C# uses Pascal casing for method names
         {
             String[] names = _client.requestUsernames();
             String userChoice = selectProfile(names);
@@ -70,6 +71,9 @@ namespace Paycom_Seminar_2020
 
         public String checkUsername(String userChoice)
         {
+            // When working with languages like C#, it is considered best practice to use built-in types rather than external classes
+            // when possible. Since this code does not rely on any special functionality in the System.String class, you can just use
+            // the out-of-the-box string type.
             String status = "";
             String serverResponse = _client.sendServerMessage(userChoice);
             String responseID = serverResponse.Substring(0,2);
@@ -109,7 +113,14 @@ namespace Paycom_Seminar_2020
                 makeStatement("It doesn't look like you own any topics to manage. Why don't you make one?");
                 return null;
             }
-            
+
+            // You can remove the else above and just go straight into the last part of the logic here since you
+            // have a return in the if statement.
+            // As a personal opinion, I think that returning nulls is not usually a best practice. I find that when
+            // I want to do it, it's usually a good time to think about a different approach, even if it is just
+            // having a string key that you check for. Again, that is just an opinion, but I don't like to have
+            // nulls flying around.
+
         }
         public void viewTopicHistory(String topicName)
         {
@@ -207,7 +218,7 @@ namespace Paycom_Seminar_2020
         public void toggleAutoRun(String topicName)
         {
             String[] defaultMessages = _client.requestDefaultMessages(topicName);
-            if (defaultMessages.Length>0)
+            if (defaultMessages.Length>0) // according to convention, there should be spaces here: (defaultMessages.Length > 0)
             {
                 String state = _client.toggleAutoRun(topicName);
                 if (state.Equals("true"))
@@ -374,6 +385,7 @@ namespace Paycom_Seminar_2020
             {
                 Console.Write("-");
             }
+            // The above 3 lines can be rewritten as a single line using Linq: question.ForEach(c => Console.Write("-"));
             Console.WriteLine("");
 
             for (int i = 0; i<options.Length; i++)
@@ -399,7 +411,7 @@ namespace Paycom_Seminar_2020
                 }
                 catch (Exception e)
                 {
-                    String goAwayWarning = e.ToString();
+                    String goAwayWarning = e.ToString(); // Probably doesn't need to be assigned since it's never used.
                     Console.WriteLine("Oops, that's not an option! Enter the number of the seleciton you want to make!");
                 }
             }
@@ -409,7 +421,7 @@ namespace Paycom_Seminar_2020
 
         private String askQuestionFreeResponse(String question)
         {
-            String response = null;
+            String response = null; // Response can just be declared below, at Console.ReadLine()
 
             Console.WriteLine(question);
             for (int i = 0; i<question.Length; i++)
@@ -417,7 +429,14 @@ namespace Paycom_Seminar_2020
                 Console.Write("-");
             }
             Console.WriteLine("");
-            
+            // Above you have repeated logic from askQuestionMultipleChoice(). If something is repeated exactly twice,
+            // it's a good idea to split it off into a function. Something like:
+            // private static void PrintDashes(string word)
+            // {
+            //      word.ForEach(c => Console.Write("-");
+            //      Console.WriteLine("");
+            // } 
+
             response = Console.ReadLine();
 
             return response;
@@ -432,6 +451,7 @@ namespace Paycom_Seminar_2020
                 String name = askQuestionFreeResponse(question);
                 if (name.Contains("\\") || name.Contains(";"))
                 {
+                    // Not a big deal, but the $ for string interpolation is not necessary below.
                     Console.Write($"Sorry, but you cannot have a '\\' or a ';' in it. ");
                     question = "Please try again:";
                 }
@@ -447,6 +467,9 @@ namespace Paycom_Seminar_2020
 
         private void makeStatement(String statement)
         {
+            // One alternative to the multiple WriteLines here would be to use an interpolated string, something like:
+            Console.WriteLine($"\n{statement}\nPress ENTER to continue...");
+            // But both approaches work.
             Console.WriteLine("");
             Console.WriteLine(statement);
             Console.WriteLine("Press ENTER to continue...");
@@ -456,6 +479,7 @@ namespace Paycom_Seminar_2020
         private void printListWithTitle(String title, String[] list, String postStatement)
         {
             Console.WriteLine("");
+            // Would reiterate what I said above about encapsulating reused logic into functions
             for (int i = 0; i<title.Length; i++)
             {
                 Console.Write("-");

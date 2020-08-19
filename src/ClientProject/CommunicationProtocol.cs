@@ -5,8 +5,9 @@ communicate with one another.
 
 namespace Paycom_Seminar_2020
 {
-    static class CommunicationProtocol
+    static class CommunicationProtocol // this can be an internal static class
     {
+        // Looks good.
         public static string REQUEST_USERNAMES {get;} = "00";
         public static string LOG_IN {get;} = "01";
         public static string CREATE_PROFILE {get;} = "02";

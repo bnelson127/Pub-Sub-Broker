@@ -35,7 +35,7 @@ namespace Paycom_Seminar_2020
 
             for (int i = 0; i<_options.Length; i++)
             {
-                Console.WriteLine($"[{i+1}]: {_options[i]}");
+                Console.WriteLine($"[{i+1}]: {_options[i]}"); // Good use of string interpolation
             }
 
             bool successful = false;
@@ -47,6 +47,8 @@ namespace Paycom_Seminar_2020
                     intResponse = Convert.ToInt32(Console.ReadLine());
 
                     //validates the response
+                    // Chunks of logic like this are best to be split off in a function with a clear name in my opinion,
+                    // e.g. ValidateResponse()
                     if (intResponse <= 0 || intResponse>_options.Length)
                     {
                         throw new ArgumentException($"{intResponse} is not an integer");

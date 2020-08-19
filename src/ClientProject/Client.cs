@@ -12,6 +12,7 @@ namespace Paycom_Seminar_2020
 {
     class Client
     {
+        // This class is looking good.
         private String _username;
         private TcpClient _primaryTcpClient;
         private TcpClient _secondaryTcpClient;

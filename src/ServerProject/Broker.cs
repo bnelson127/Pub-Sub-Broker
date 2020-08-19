@@ -32,6 +32,8 @@ namespace Paycom_Seminar_2020
             message = message.Substring(2);
             message = message.Trim((char) 0);
 
+            // I am wondering if there is any other way to handle this rather than a large number of if-elses.
+            // Can't think of anything off the top of my head.
             if (indicator.Equals(CommunicationProtocol.REQUEST_USERNAMES))
             {
                 String[] usernamesArray = profReadWrite.getUsernames();
@@ -212,6 +214,9 @@ namespace Paycom_Seminar_2020
                     messageCount++;
                 }
             }
+            // One of the advantages of using lists over arrays is that you can use Linq and other functional features.
+            // The if condition could be added to the foreach: foreach (var msg in arrayMessages.Where(msg => !msg.Equals(message)))
+
             topReadWrite.setDefaultMessages(topicName, newMessages);
             if (messageCount == 0 && topReadWrite.getAutoRun(topicName).Equals("true"))
             {
