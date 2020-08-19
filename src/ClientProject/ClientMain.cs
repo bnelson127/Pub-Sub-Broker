@@ -78,7 +78,7 @@ namespace Paycom_Seminar_2020
         {
             NetworkStream networkStream = connection.GetStream();
 
-            var writer = new StreamWriter(networkStream);
+            var writer = new StreamWriter(networkStream); // I think you can use a discard here, replacing "var writer" with "_"
             byte[] bytes = Encoding.UTF8.GetBytes(CommunicationProtocol.MESSAGE_LISTENER_CONNECTION);
             networkStream.Write(bytes, 0, bytes.Length);
 
@@ -89,6 +89,7 @@ namespace Paycom_Seminar_2020
                 
                     byte[] bytesMsgFromServer = new byte[1048576];
                     networkStream.Read(bytesMsgFromServer, 0, 1048576);
+                    // Since you imported System.Text, it's not necessary to include it in the qualifier below
                     String stringMsgFromServer = System.Text.Encoding.ASCII.GetString(bytesMsgFromServer);
                     String serverResponse = stringMsgFromServer.Trim((char) 0);
                     if (serverResponse.Substring(0,2).Equals(CommunicationProtocol.MESSAGE_NOTIFICATION))
@@ -137,7 +138,7 @@ namespace Paycom_Seminar_2020
             while(continueRunning)
             {
                 int sleepSeconds = rand.Next(30,90);
-                for (int i = 0; i<sleepSeconds; i++)
+                for (int i = 0; i<sleepSeconds; i++) // a good place to use a foreach or Linq ForEach
                 {
                     if (continueRunning)
                     {
@@ -155,6 +156,8 @@ namespace Paycom_Seminar_2020
                             ArrayList autos = new ArrayList();
                             foreach (String topic in topics)
                             {
+                                // This is looking pretty deeply nested. Usually if you are more than 3 layers deep, it's
+                                // a good idea to start separating logic into functions or classes. 
                                 if (client.requestAutoRunStatus(topic))
                                 {
                                     autos.Add(topic);

@@ -9,6 +9,7 @@ namespace Paycom_Seminar_2020
 {
     class MenuSystem
     {
+        // This class is looking quite good, keeping in mind a few of my comments from UI.cs
         private Menu _mainMenu = new Menu("Main Menu", new String[] {"View Subscription Messages", "Manage Subscriptions", "Manage Topics", "Quit"}, false);
         private Menu _manageTopics = new Menu("Manage Topics", new String[] {"View My Topics", "Manage Topic", "Create Topic"}, true);
         private Menu _manageSubscriptions = new Menu("Manage Subscriptions", new String[] {"View Subscriptions", "Subscribe to Topic", "Unsubscribe from Topic"}, true);
